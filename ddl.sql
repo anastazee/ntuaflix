@@ -1,3 +1,6 @@
+CREATE DATABASE IF NOT EXISTS softeng;
+USE softeng;
+
 CREATE TABLE `Contributor` (
     `nconst` char(255) NOT NULL,
     `primaryName` char(255) NOT NULL,
@@ -9,14 +12,14 @@ CREATE TABLE `Contributor` (
 
 CREATE TABLE `Title` (
     `tconst` char(255) NOT NULL,
-    `titleType` char(255) NOT NULL,
-    `primaryTitle` char(255) NOT NULL,
-    `originalTitle` char(255) NOT NULL,
+    `titleType` char(255) ,
+    `primaryTitle` char(255) ,
+    `originalTitle` char(255) ,
     `isAdult` char(255),
-    `startYear` int(10) NOT NULL,
+    `startYear` int(10) ,
     `endYear` int(10),
-    `runtimeMinutes` int(10) NOT NULL,
-    `img_url_asset` char(255) NOT NULL
+    `runtimeMinutes` int(10),
+    `img_url_asset` char(255)
 );
 
 CREATE TABLE `Director` (
@@ -52,9 +55,11 @@ CREATE TABLE `Episode` (
 );
 
 CREATE TABLE `genre` (
-    `genreID` int(10) NOT NULL,
-    `genre` char(255) NOT NULL
+    `genreID` int(10) NOT NULL AUTO_INCREMENT,
+    `genre` char(255) NOT NULL,
+    PRIMARY KEY (`genreID`)
 );
+
 
 CREATE TABLE `Ratings` (
     `Titletconst` char(255) NOT NULL,
@@ -98,9 +103,6 @@ ALTER TABLE `title_principals`
 
 ALTER TABLE `Episode`
     ADD PRIMARY KEY (`tconst`, `parentTconst`);
-
-ALTER TABLE `genre`
-    ADD PRIMARY KEY (`genreID`);
 
 ALTER TABLE `Ratings`
     ADD PRIMARY KEY (`Titletconst`);
