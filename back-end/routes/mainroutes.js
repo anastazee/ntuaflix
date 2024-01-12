@@ -13,6 +13,8 @@ router.get('/:id', sampleController.getSampleById);
 router.post('/:id', sampleController.postSample);
 router.get('/admin/healthcheck', sampleController.getHealthCheck);
 router.post('/admin/upload/titlebasics', upload.single('file'), sampleController.postTitleBasics);
+router.post('/admin/upload/titleakas', upload.single('file'), sampleController.postTitleAkas);
+router.post('/admin/upload/namebasics', upload.single('file'), sampleController.postNameBasics);
 
 module.exports = router;
 

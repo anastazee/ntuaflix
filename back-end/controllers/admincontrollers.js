@@ -1,7 +1,12 @@
 const { pool } = require('../utils/database');
-const { Transform, Readable } = require('stream'); // Add Readable import
-const processLineTitle = require('../middlewares/connections-queries').processLineTitle;
-const getConnectionAsync = require('../middlewares/connections-queries').getConnectionAsync;
+const { Transform, Readable } = require('stream');
+const {
+    getConnectionAsync,
+    processLineTitle,
+    processLineAkas,
+    processLineName,
+} = require('../middlewares/connections-queries');
+
 const mysql = require('mysql2');
 
 exports.getSample = (req, res, next) => {
@@ -40,8 +45,11 @@ exports.getHealthCheck = async (req, res) => {
     }
 };
 
-
 exports.postTitleBasics = async (req, res, next) => {
+    if (!req.file || !req.file.buffer) {
+        return res.status(400).json({ message: 'No file provided' });
+      }
+      
     try {
         const tsvBuffer = req.file.buffer.toString('utf-8');
         let fieldNames = '';
@@ -101,4 +109,123 @@ exports.postTitleBasics = async (req, res, next) => {
     }
 };
 
+exports.postTitleAkas = async (req, res, next) => {
+    try {
+        const tsvBuffer = req.file.buffer.toString('utf-8');
+        let fieldNames = '';
+        const transformStream = new Transform({
+            remainingLine: '', 
+            async transform(chunk, encoding, callback) {
+                const chunkString = chunk.toString();
+                let linesArray = chunkString.split(/\r?\n/);
+                if (!fieldNames) {
+                    fieldNames = linesArray.shift().split('\t');
+                }
+            
+                let firstLine = this.remainingLine ? this.remainingLine + linesArray.shift() : linesArray.shift();
+                let lines = [firstLine, ...linesArray];
+
+                this.remainingLine = lines.pop();
+                
+                console.log('Chunk:', chunkString);
+                console.log('Lines:', lines);
+                console.log('Remaining Line:', this.remainingLine);
+                console.log('Field Names:', fieldNames);
+
+                try {
+                    // Start a connection for adding data line by line
+                    this.connection = await getConnectionAsync(); // Store the connection in the transformStream
+
+                    for (const line of lines) {
+                        await processLineAkas(line, this.connection, fieldNames); // Pass the connection object
+                    }
+
+                    callback();
+                } catch (err) {
+                    console.error('Error in transform:', err);
+                    callback(err);
+                }
+            },
+            flush(callback) {
+                if (this.remainingLine) {
+                    processLineAkas(this.remainingLine, this.connection, fieldNames); // Use the stored connection
+                }
+                this.connection.release();
+                callback();
+            },
+        });
+
+        // Pipe the TSV content through the transform stream
+        const tsvStream = new Readable();
+        tsvStream.push(tsvBuffer);
+        tsvStream.push(null);
+
+        tsvStream.pipe(transformStream).on('finish', () => {
+            res.status(200).json({ message: 'Data TitleAkas added successfully' });
+        });
+    } catch (err) {
+        console.error('Error in postTitleAkas:', err);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+};
+
+exports.postNameBasics = async (req, res, next) => {
+    try {
+        const tsvBuffer = req.file.buffer.toString('utf-8');
+        let fieldNames = '';
+        const transformStream = new Transform({
+            remainingLine: '', 
+            async transform(chunk, encoding, callback) {
+                const chunkString = chunk.toString();
+                let linesArray = chunkString.split(/\r?\n/);
+                if (!fieldNames) {
+                    fieldNames = linesArray.shift().split('\t');
+                }
+            
+                let firstLine = this.remainingLine ? this.remainingLine + linesArray.shift() : linesArray.shift();
+                let lines = [firstLine, ...linesArray];
+
+                this.remainingLine = lines.pop();
+                
+                //console.log('Chunk:', chunkString);
+                //console.log('Lines:', lines);
+                //console.log('Remaining Line:', this.remainingLine);
+                //console.log('Field Names:', fieldNames);
+
+                try {
+                    // Start a connection for adding data line by line
+                    this.connection = await getConnectionAsync(); // Store the connection in the transformStream
+
+                    for (const line of lines) {
+                        await processLineName(line, this.connection, fieldNames); // Pass the connection object
+                    }
+
+                    callback();
+                } catch (err) {
+                    console.error('Error in transform:', err);
+                    callback(err);
+                }
+            },
+            flush(callback) {
+                if (this.remainingLine) {
+                    processLineName(this.remainingLine, this.connection, fieldNames); // Use the stored connection
+                }
+                this.connection.release();
+                callback();
+            },
+        });
+
+        // Pipe the TSV content through the transform stream
+        const tsvStream = new Readable();
+        tsvStream.push(tsvBuffer);
+        tsvStream.push(null);
+
+        tsvStream.pipe(transformStream).on('finish', () => {
+            res.status(200).json({ message: 'Data NameBasics added successfully' });
+        });
+    } catch (err) {
+        console.error('Error in postNameBasics:', err);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+};
 

@@ -3,11 +3,11 @@ USE softeng;
 
 CREATE TABLE `Contributor` (
     `nconst` char(255) NOT NULL,
-    `primaryName` char(255) NOT NULL,
-    `BirthYear` int(10) NOT NULL,
-    `DeathYear` int(10),
-    `primaryProfession` char(255) NOT NULL,
-    `image_url_asset` char(255) NOT NULL 
+    `primaryName` char(255),
+    `BirthYear` varchar(4),
+    `DeathYear` varchar(4),
+    `primaryProfession` char(255),
+    `img_url_asset` char(255)
 );
 
 CREATE TABLE `Title` (
@@ -16,9 +16,9 @@ CREATE TABLE `Title` (
     `primaryTitle` char(255) ,
     `originalTitle` char(255) ,
     `isAdult` char(255),
-    `startYear` int(10) ,
-    `endYear` int(10),
-    `runtimeMinutes` int(10),
+    `startYear` varchar(4),
+    `endYear` varchar(4),
+    `runtimeMinutes` varchar(10),
     `img_url_asset` char(255)
 );
 
@@ -68,13 +68,13 @@ CREATE TABLE `Ratings` (
 );
 
 CREATE TABLE `Akas` (
-    `tconst` char(255) NOT NULL,
+    `titleId` char(255) NOT NULL,
     `ordering` int(10) NOT NULL,
     `title` char(255) NOT NULL,
-    `region` char(255) NOT NULL,
-    `language` char(255) NOT NULL,
-    `types` char(255) NOT NULL,
-    `attribute` char(255) NOT NULL,
+    `region` char(255),
+    `language` char(255),
+    `types` char(255),
+    `attributes` char(255),
     `isOriginalTitle` int(10) NOT NULL
 );
 
@@ -108,7 +108,7 @@ ALTER TABLE `Ratings`
     ADD PRIMARY KEY (`Titletconst`);
 
 ALTER TABLE `Akas`
-    ADD PRIMARY KEY (`tconst`);
+    ADD PRIMARY KEY (`titleId`, `ordering`);
 
 ALTER TABLE `movie_genre` 
     ADD PRIMARY KEY (`Titletconst`, `genreID`);
@@ -155,7 +155,7 @@ ALTER TABLE `Episode`
 
 ALTER TABLE `Akas`
     ADD CONSTRAINT `fk_title_aka` 
-    FOREIGN KEY (`tconst`) 
+    FOREIGN KEY (`titleId`) 
     REFERENCES `Title` (`tconst`);
 
 ALTER TABLE `movie_genre`
