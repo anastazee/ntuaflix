@@ -95,6 +95,11 @@ exports.postTitleBasics = async (req, res, next) => {
             },
         });
 
+        transformStream.on('error',(error) => {
+            console.error('Error occurred in the stream:', error.message);
+            res.status(500).json({ error: 'Internal Server Error' });
+          });
+
         // Pipe the TSV content through the transform stream
         const tsvStream = new Readable();
         tsvStream.push(tsvBuffer);
@@ -155,6 +160,11 @@ exports.postTitleAkas = async (req, res, next) => {
             },
         });
 
+        transformStream.on('error',(error) => {
+            console.error('Error occurred in the stream:', error.message);
+            res.status(500).json({ error: 'Internal Server Error' });
+          });
+
         // Pipe the TSV content through the transform stream
         const tsvStream = new Readable();
         tsvStream.push(tsvBuffer);
@@ -214,17 +224,22 @@ exports.postNameBasics = async (req, res, next) => {
                 callback();
             },
         });
-
+        
+        transformStream.on('error',(error) => {
+            console.error('Error occurred in the stream:', error.message);
+            res.status(500).json({ error: 'Internal Server Error' });
+          });
         // Pipe the TSV content through the transform stream
         const tsvStream = new Readable();
         tsvStream.push(tsvBuffer);
         tsvStream.push(null);
 
+
         tsvStream.pipe(transformStream).on('finish', () => {
             res.status(200).json({ message: 'Data NameBasics added successfully' });
         });
-    } catch (err) {
-        console.error('Error in postNameBasics:', err);
+    } catch (error) {
+        console.error('Error i said error in postNameBasics:', err);
         res.status(500).json({ error: 'Internal Server Error' });
     }
 };

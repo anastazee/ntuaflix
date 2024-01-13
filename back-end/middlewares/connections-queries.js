@@ -96,6 +96,7 @@ exports.processLineTitle = async (line, connection, fieldNames) => {
         console.log('Database query result:', result);
     } catch (err) {
         console.error('Database query error:', err);
+        throw(err);
     }
 };
 
@@ -144,6 +145,7 @@ exports.processLineAkas = async (line, connection, fieldNames) => {
         console.log('Database query result:', result);
     } catch (err) {
         console.error('Database query error:', err);
+        throw(err);
     }
 };
 
@@ -217,6 +219,7 @@ exports.processLineName = async (line, connection, fieldNames) => {
     } catch (err) {
         writeLogToFile('Database query error: ' + err);
         console.error('Database query error:', err);
+        throw(err);
     }
 };
 
