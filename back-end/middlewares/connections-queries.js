@@ -161,6 +161,18 @@ const checkTitleId = async (connection, titleid) => {
     }
 };
 
+const checkCrew = async (connection, id) => {
+    const query = 'SELECT nconst FROM Contributor WHERE nconst = ?';
+    const result = await queryAsync(connection, query, [id]);
+    if (result.length > 0) {
+        // Genre exists, return the existing title_id
+        return result[0].nconst;
+    } else {
+        //ID does not exist, cannot insert
+        return '';
+    }
+};
+
 
 exports.processLineName = async (line, connection, fieldNames) => {
     //console.log('Original Line:', line);
@@ -223,3 +235,144 @@ exports.processLineName = async (line, connection, fieldNames) => {
     }
 };
 
+
+exports.processLineCrew = async (line, connection, fieldNames) => {
+    
+    let values = line.split('\t');
+    let fields = fieldNames.slice();
+    const tconst = values[fields.indexOf('tconst')];
+    let direct = values[fields.indexOf('directors')];
+    let write = values[fields.indexOf('writers')];
+
+    try {
+        const existsTitle = await checkTitleId(connection, tconst.trim());
+        if (existsTitle) {
+            if (direct.length > 8) {
+                const directors = direct.split(',');
+                for (const id of directors) {
+                    const existsCrew = await checkCrew(connection, id.trim());
+                    if (existsCrew) {
+                        const result2 = await queryAsync(
+                            connection,
+                            'INSERT INTO Director (Contributornconst, Titletconst) VALUES (?, ?)',
+                            [id, tconst]
+                        );
+                        writeLogToFile(logFilePath1,'Database query result2: ' + JSON.stringify(result2));
+                    }
+                }
+            }
+            if (write.length > 8) {
+                const writers = write.split(',');
+                for (const id of writers) {
+                    const existsCrew = await checkCrew(connection, id.trim());
+                    if (existsCrew) {
+                    const result2 = await queryAsync(
+                        connection,
+                        'INSERT INTO Writer (Contributornconst, Titletconst) VALUES (?, ?)',
+                        [id, tconst]
+                    );
+                writeLogToFile(logFilePath1,'Database query result2: ' + JSON.stringify(result2));
+                }
+            }
+            }
+        }
+    } catch (err) {
+        writeLogToFile('Database query error: ' + err);
+        console.error('Database query error:', err);
+        throw(err);
+    }
+};
+
+exports.processLineEpisode = async (line, connection, fieldNames) => {
+    
+    let values = line.split('\t');
+    let fields = fieldNames.slice();
+    const tconst = values[fields.indexOf('tconst')];
+    let parent = values[fields.indexOf('parentTconst')];
+    let season = values[fields.indexOf('seasonNumber')];
+    let episode = values[fields.indexOf('episodeNumber')];
+
+    try {
+        const existsTitle = await checkTitleId(connection, tconst.trim());
+        const existsParent = await checkTitleId(connection, parent.trim());
+        if (existsTitle) {
+            
+            season = (season === '\\N') ? null : parseInt(season); // Assuming seasonNumber is an integer
+            episode = (episode === '\\N') ? null : parseInt(episode); // Assuming episodeNumber is an integer
+            const result2 = await queryAsync(
+                connection,
+                'INSERT INTO Episode (tconst, parentTconst, seasonNumber, episodeNumber) VALUES (?, ?, ?, ?)',
+                [tconst, parent, season, episode]
+            );
+            writeLogToFile(logFilePath1,'Database query result2: ' + JSON.stringify(result2));
+
+        }
+    } catch (err) {
+        writeLogToFile('Database query error: ' + err);
+        console.error('Database query error:', err);
+        throw(err);
+    }
+};
+
+
+exports.processLinePrincipals = async (line, connection, fieldNames) => {
+    
+    let values = line.split('\t');
+    let fields = fieldNames.slice();
+    let tconst = values[fields.indexOf('tconst')];
+    let ordering = values[fields.indexOf('ordering')];
+    let nconst = values[fields.indexOf('nconst')];
+    let category = values[fields.indexOf('category')];
+    let job = values[fields.indexOf('job')];
+    let characters = values[fields.indexOf('characters')];
+    let image = values[fields.indexOf('img_url_asset')];
+    
+    try {
+        const existsTitle = await checkTitleId(connection, tconst.trim());
+        const existsPrincipal = await checkCrew(connection, nconst.trim());
+        if (existsTitle && existsPrincipal) {
+            console.log(job, characters, image);
+            job = (job === '\\N') ? null : job; // Assuming seasonNumber is an integer
+            characters = (characters === '\\N') ? null : characters.replace(/^[^a-zA-Z]+|[^a-zA-Z]+$/g, '');
+            ; // Assuming episodeNumber is an integer
+            image = (image === '\\N') ? null : image;
+            console.log(job, characters, image);
+            const result2 = await queryAsync(
+                connection,
+                'INSERT INTO title_principals (Contributornconst, Titletconst, ordering, category, job, characters, img_url_asset) VALUES (?, ?, ?, ?, ?, ?, ?)',
+                [nconst, tconst, ordering, category, job, characters, image]
+            );
+            writeLogToFile(logFilePath1,'Database query result2: ' + JSON.stringify(result2));
+        }
+    } catch (err) {
+        writeLogToFile('Database query error: ' + err);
+        console.error('Database query error:', err);
+        throw(err);
+    }
+};
+
+exports.processLineRatings = async (line, connection, fieldNames) => {
+    let values = line.split('\t');
+    let fields = fieldNames.slice();
+ 
+    const tconst = values[fields.indexOf('tconst')];
+    let rating = values[fields.indexOf('averageRating')];
+    let votes = values[fields.indexOf('numVotes')];
+
+    try {
+        const existsTitle = await checkTitleId(connection, tconst.trim());
+        if (existsTitle) {
+            const result2 = await queryAsync(
+                connection,
+                'INSERT INTO Ratings (Titletconst, averageRating, numVotes) VALUES (?, ?, ?)',
+                [tconst, rating, votes]
+            );
+            writeLogToFile(logFilePath1,'Database query result2: ' + JSON.stringify(result2));
+
+        }
+    } catch (err) {
+        writeLogToFile('Database query error: ' + err);
+        console.error('Database query error:', err);
+        throw(err);
+    }
+};

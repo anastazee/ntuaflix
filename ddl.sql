@@ -42,16 +42,16 @@ CREATE TABLE `title_principals` (
     `Titletconst` char(255) NOT NULL,
     `ordering` int(10) NOT NULL,
     `category` char(255) NOT NULL,
-    `job` char(255) NOT NULL,
-    `characters` char(255) NOT NULL,
-    `img_url_asset` char(255) NOT NULL
+    `job` char(255),
+    `characters` char(255),
+    `img_url_asset` char(255) 
 );
 
 CREATE TABLE `Episode` (
     `tconst` char(255) NOT NULL,
     `parentTconst` char(255) NOT NULL,
-    `seasonNumber` int(10) NOT NULL,
-    `episodeNumber` int(10) NOT NULL
+    `seasonNumber` int(10),
+    `episodeNumber` int(10)
 );
 
 CREATE TABLE `genre` (
@@ -149,9 +149,9 @@ ALTER TABLE `Episode`
     ADD CONSTRAINT `fk_episode` 
     FOREIGN KEY (`tconst`) 
     REFERENCES `Title` (`tconst`),
-    ADD CONSTRAINT `fk_parent` 
-    FOREIGN KEY (`parentTconst`) 
-    REFERENCES `Title` (`tconst`);
+    --ADD CONSTRAINT `fk_parent` 
+    --FOREIGN KEY (`parentTconst`) 
+    --REFERENCES `Title` (`tconst`);
 
 ALTER TABLE `Akas`
     ADD CONSTRAINT `fk_title_aka` 

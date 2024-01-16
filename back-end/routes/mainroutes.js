@@ -15,6 +15,13 @@ router.get('/admin/healthcheck', sampleController.getHealthCheck);
 router.post('/admin/upload/titlebasics', upload.single('file'), sampleController.postTitleBasics);
 router.post('/admin/upload/titleakas', upload.single('file'), sampleController.postTitleAkas);
 router.post('/admin/upload/namebasics', upload.single('file'), sampleController.postNameBasics);
+router.post('/admin/upload/titlecrew', upload.single('file'), sampleController.postTitleCrew);
+router.post('/admin/upload/titleepisode', upload.single('file'), sampleController.postTitleEpisode);
+router.post('/admin/upload/titleprincipals', upload.single('file'), sampleController.postTitlePrincipals);
+router.post('/admin/upload/titleratings', upload.single('file'), sampleController.postTitleRatings);
+
+
+
 
 module.exports = router;
 

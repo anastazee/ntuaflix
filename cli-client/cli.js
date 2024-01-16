@@ -96,7 +96,7 @@ program
 
 program
     .command('newnames')
-    .description('Add new Akas of titles to the Ntuaflix database')
+    .description('Add new Contributors to the Ntuaflix database')
     .requiredOption('--filename <filepath>', 'Path to the file')
     .action(async (options) => {
         try {
@@ -118,6 +118,134 @@ program
             };
 
             const response = await axios.post('http://localhost:9876/admin/upload/namebasics', formData, { headers });
+
+            console.log('Success:', response.data.message);
+        } catch (error) {
+            console.error('Error:', error.message);
+        }
+    });
+
+
+program
+    .command('newcrew')
+    .description('Add new crew members of titles to the Ntuaflix database')
+    .requiredOption('--filename <filepath>', 'Path to the file')
+    .action(async (options) => {
+        try {
+            const { filename } = options;
+
+            // Read the file content
+            const fileContent = fs.readFileSync(filename, 'utf-8');
+            const basename = path.basename(filename);  // Extract the filename from the filepath
+            const formData = new FormData();
+
+            // Append the file with Content-Disposition
+            formData.append('file', fileContent, {
+                filename: basename,
+                contentType: 'text/tab-separated-values',
+            });
+
+            const headers = {
+                'Content-Type': `multipart/form-data; boundary=${formData._boundary}`,
+            };
+
+            const response = await axios.post('http://localhost:9876/admin/upload/titlecrew', formData, { headers });
+
+            console.log('Success:', response.data.message);
+        } catch (error) {
+            console.error('Error:', error.message);
+        }
+    });
+
+
+program
+    .command('newepisode')
+    .description('Add new episode titles to the Ntuaflix database')
+    .requiredOption('--filename <filepath>', 'Path to the file')
+    .action(async (options) => {
+        try {
+            const { filename } = options;
+
+            // Read the file content
+            const fileContent = fs.readFileSync(filename, 'utf-8');
+            const basename = path.basename(filename);  // Extract the filename from the filepath
+            const formData = new FormData();
+
+            // Append the file with Content-Disposition
+            formData.append('file', fileContent, {
+                filename: basename,
+                contentType: 'text/tab-separated-values',
+            });
+
+            const headers = {
+                'Content-Type': `multipart/form-data; boundary=${formData._boundary}`,
+            };
+
+            const response = await axios.post('http://localhost:9876/admin/upload/titleepisode', formData, { headers });
+
+            console.log('Success:', response.data.message);
+        } catch (error) {
+            console.error('Error:', error.message);
+        }
+    });
+
+
+program
+    .command('newprincipals')
+    .description('Add new principals to the Ntuaflix database')
+    .requiredOption('--filename <filepath>', 'Path to the file')
+    .action(async (options) => {
+        try {
+            const { filename } = options;
+
+            // Read the file content
+            const fileContent = fs.readFileSync(filename, 'utf-8');
+            const basename = path.basename(filename);  // Extract the filename from the filepath
+            const formData = new FormData();
+
+            // Append the file with Content-Disposition
+            formData.append('file', fileContent, {
+                filename: basename,
+                contentType: 'text/tab-separated-values',
+            });
+
+            const headers = {
+                'Content-Type': `multipart/form-data; boundary=${formData._boundary}`,
+            };
+
+            const response = await axios.post('http://localhost:9876/admin/upload/titleprincipals', formData, { headers });
+
+            console.log('Success:', response.data.message);
+        } catch (error) {
+            console.error('Error:', error.message);
+        }
+    });
+
+
+program
+    .command('newratings')
+    .description('Add new Akas of titles to the Ntuaflix database')
+    .requiredOption('--filename <filepath>', 'Path to the file')
+    .action(async (options) => {
+        try {
+            const { filename } = options;
+
+            // Read the file content
+            const fileContent = fs.readFileSync(filename, 'utf-8');
+            const basename = path.basename(filename);  // Extract the filename from the filepath
+            const formData = new FormData();
+
+            // Append the file with Content-Disposition
+            formData.append('file', fileContent, {
+                filename: basename,
+                contentType: 'text/tab-separated-values',
+            });
+
+            const headers = {
+                'Content-Type': `multipart/form-data; boundary=${formData._boundary}`,
+            };
+
+            const response = await axios.post('http://localhost:9876/admin/upload/titleratings', formData, { headers });
 
             console.log('Success:', response.data.message);
         } catch (error) {
