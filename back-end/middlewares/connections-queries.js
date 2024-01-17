@@ -376,3 +376,104 @@ exports.processLineRatings = async (line, connection, fieldNames) => {
         throw(err);
     }
 };
+
+exports.getTitleObject = async (connection, titleID) => {
+    const query = `
+        SELECT
+            t.tconst AS titleID,
+            t.titleType,
+            t.primaryTitle AS originalTitle,
+            t.img_url_asset AS titlePoster,
+            t.startYear,
+            t.endYear
+        FROM
+            title t
+        WHERE
+            t.tconst = ?
+    `;
+    
+    const titleResult = await queryAsync(connection, query, [titleID]);
+
+    if (titleResult.length>0) {
+        const titleObject = {
+            titleID: titleResult[0].titleID,
+            type: titleResult[0].titleType,
+            originalTitle: titleResult[0].originalTitle,
+            titlePoster: titleResult[0].titlePoster,
+            startYear: titleResult[0].startYear,
+            endYear: titleResult[0].endYear,
+            genres: await fetchgenres(connection, titleID),
+            titleAkas: await fetchTitleAkas(connection, titleID),
+            principals: await fetchContributors(connection, titleID),
+            rating: await fetchRating(connection, titleID)
+        };
+
+        return titleObject;
+    } else {
+        throw new Error(`Title with ID ${titleID} not found`);
+    }
+};
+
+const fetchgenres = async (connection, titleID) => {
+    const query = `
+        SELECT g.genre
+        FROM genre g
+        JOIN movie_genre mg ON g.genreID = mg.genreID
+        WHERE mg.Titletconst = ?
+    `;
+    
+    const genresResult = await queryAsync(connection, query, [titleID]);
+
+    return genresResult.map(row => row.genre);
+};
+
+const fetchTitleAkas = async (connection, titleID) => {
+    const query = 'SELECT title, region FROM Akas WHERE titleId=?';
+
+    const titleAkasResult = await queryAsync(connection, query, [titleID]);
+
+    return titleAkasResult.map(row => ({
+        akaTitle: row.title,
+        regionAbbrev: row.region
+    }));
+};
+
+const fetchContributors = async (connection, titleID) => {
+    const query = `
+        SELECT
+            tp.Contributornconst AS nameID,
+            c.primaryName AS name,
+            tp.category
+        FROM
+            title_principals tp
+            JOIN Contributor c ON tp.Contributornconst = c.nconst
+        WHERE
+            tp.Titletconst = ?
+    `;
+
+    const contributorsResult = await queryAsync(connection, query, [titleID]);
+
+    return contributorsResult.map(row => ({
+        nameID: row.nameID,
+        name: row.name,
+        category: row.category
+    }));
+};
+
+const fetchRating = async (connection, titleID) => {
+    const query = `SELECT averageRating, numVotes FROM Ratings WHERE Titletconst = ?`;
+
+    const ratingResult = await queryAsync(connection, query, [titleID]);
+
+    if (ratingResult.length>0) {
+        return {
+            avRating: ratingResult[0].averageRating.toString(),
+            nVotes: ratingResult[0].numVotes.toString()
+        };
+    } else {
+        return {
+            avRating: 'N/A',
+            nVotes: '0'
+        };
+    }
+};

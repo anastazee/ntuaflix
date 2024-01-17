@@ -253,5 +253,20 @@ program
         }
     });
 
+program
+    .command('title')
+    .description('Get details for a specific title from the Ntuaflix database')
+    .requiredOption('--titleID <titleID>', 'ID od the title')
+    .action(async (options) => { 
+        try {
+            const titleID = options.titleID;
+            
+            const response = await axios.get(`http://localhost:9876/title/${titleID}`);
+          
+            console.log('Success:', response.data);
+        } catch (error) {
+            console.error('Error:', error.message);
+        }
+    });
 
 program.parse(process.argv);

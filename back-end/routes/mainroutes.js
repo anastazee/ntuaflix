@@ -2,6 +2,7 @@ const express = require('express');
 const multer = require('multer')
 
 const sampleController = require('../controllers/admincontrollers');
+const userController = require('../controllers/usercontrollers');
 
 const router = express.Router();
 const storage = multer.memoryStorage(); // Use memory storage for the uploaded file
@@ -20,8 +21,6 @@ router.post('/admin/upload/titleepisode', upload.single('file'), sampleControlle
 router.post('/admin/upload/titleprincipals', upload.single('file'), sampleController.postTitlePrincipals);
 router.post('/admin/upload/titleratings', upload.single('file'), sampleController.postTitleRatings);
 
-
-
+router.get('/title/:titleID', userController.getTitleRoute);
 
 module.exports = router;
-
