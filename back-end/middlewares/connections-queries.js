@@ -428,7 +428,7 @@ const fetchgenres = async (connection, titleID) => {
 };
 
 const fetchTitleAkas = async (connection, titleID) => {
-    const query = 'SELECT title, region FROM Akas WHERE titleId=?';
+    const query = `SELECT title, region FROM Akas WHERE titleId=?`;
 
     const titleAkasResult = await queryAsync(connection, query, [titleID]);
 
