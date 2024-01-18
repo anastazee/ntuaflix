@@ -22,5 +22,6 @@ router.post('/admin/upload/titleprincipals', upload.single('file'), sampleContro
 router.post('/admin/upload/titleratings', upload.single('file'), sampleController.postTitleRatings);
 
 router.get('/title/:titleID', userController.getTitleRoute);
+router.get('/name/:nameID', userController.getNameRoute);
 
 module.exports = router;

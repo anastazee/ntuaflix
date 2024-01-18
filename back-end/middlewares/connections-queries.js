@@ -432,10 +432,7 @@ const fetchTitleAkas = async (connection, titleID) => {
 
     const titleAkasResult = await queryAsync(connection, query, [titleID]);
 
-    return titleAkasResult.map(row => ({
-        akaTitle: row.title,
-        regionAbbrev: row.region
-    }));
+    return titleAkasResult.map(row => ([row.title, row.region]));
 };
 
 const fetchContributors = async (connection, titleID) => {
@@ -453,11 +450,11 @@ const fetchContributors = async (connection, titleID) => {
 
     const contributorsResult = await queryAsync(connection, query, [titleID]);
 
-    return contributorsResult.map(row => ({
-        nameID: row.nameID,
-        name: row.name,
-        category: row.category
-    }));
+    return contributorsResult.map(row => ([
+        row.nameID,
+        row.name,
+        row.category
+    ]));
 };
 
 const fetchRating = async (connection, titleID) => {
@@ -476,4 +473,58 @@ const fetchRating = async (connection, titleID) => {
             nVotes: '0'
         };
     }
+};
+
+exports.getNameObject = async (connection, nameID) => {
+    const query = `
+        SELECT
+            n.nconst,
+            n.primaryName,
+            n.img_url_asset,
+            n.BirthYear,
+            n.DeathYear,
+            n.primaryProfession
+        FROM
+            Contributor n
+        WHERE
+            n.nconst = ?
+    `;
+    
+    const nameResult = await queryAsync(connection, query, [nameID]);
+
+    if (nameResult.length>0) {
+        const nameObject = {
+            nameID: nameResult[0].nconst,
+            name: nameResult[0].primaryName,
+            namePoster: nameResult[0].img_url_asset,
+            birthYr: nameResult[0].BirthYear,
+            deathYr: nameResult[0].DeathYear,
+            profession: nameResult[0].primaryProfession,
+            nameTitles: await fetchnameTitles(connection, nameID)
+        };
+
+        return nameObject;
+    } else {
+        throw new Error(`Contributor with nameID ${nameID} not found`);
+    }
+};
+
+const fetchnameTitles = async (connection, nameID) => {
+    const query = `
+        SELECT
+            tp.Titletconst AS titleID,
+            tp.category
+        FROM
+            title_principals tp
+            JOIN Contributor c ON tp.Contributornconst = c.nconst
+        WHERE
+            c.nconst = ?
+    `;
+
+    const nameTitleResult = await queryAsync(connection, query, [nameID]);
+
+    return nameTitleResult.map(row => ([
+        row.titleID,
+        row.category
+    ]));
 };

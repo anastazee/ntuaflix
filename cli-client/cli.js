@@ -256,14 +256,49 @@ program
 program
     .command('title')
     .description('Get details for a specific title from the Ntuaflix database')
-    .requiredOption('--titleID <titleID>', 'ID od the title')
+    .requiredOption('--titleID <titleID>', 'ID of the title')
     .action(async (options) => { 
         try {
             const titleID = options.titleID;
             
             const response = await axios.get(`http://localhost:9876/title/${titleID}`);
           
-            console.log('Success:', response.data);
+            const titleObject = response.data.data;
+
+            console.log(`titleID:`, titleObject.titleID);
+            console.log(`type:`, titleObject.type);
+            console.log(`originalTitle:`, titleObject.originalTitle);
+            console.log(`titlePoster:`, titleObject.titlePoster);
+            console.log(`startYear:`, titleObject.startYear);
+            console.log(`endYear:`, titleObject.endYear);
+            console.log(`genres:`, titleObject.genres);
+            console.log(`titleAkas:`, titleObject.titleAkas.map(item => ({ akaTitle: item[0], regionAbbrev: item[1] })));
+            console.log(`principals:`, titleObject.principals.map(item => ({ nameID: item[0], name: item[1], category: item[2] })));
+            console.log(`rating:`, titleObject.rating);
+        } catch (error) {
+            console.error('Error:', error.message);
+        }
+    });
+
+program
+    .command('name')
+    .description('Get details for a specific contributor from the Ntuaflix database')
+    .requiredOption('--nameID <nameID>', 'ID of the name')
+    .action(async (options) => { 
+        try {
+            const nameID = options.nameID;
+            
+            const response = await axios.get(`http://localhost:9876/name/${nameID}`);
+          
+            const nameObject = response.data.data;
+
+            console.log(`nameID:`, nameObject.nameID);
+            console.log(`name:`, nameObject.name);
+            console.log(`namePoster:`, nameObject.namePoster);
+            console.log(`birthYr:`, nameObject.birthYr);
+            console.log(`deathYr:`, nameObject.deathYr);
+            console.log(`profession:`, nameObject.profession);
+            console.log(`nameTitles:`, nameObject.nameTitles.map(item => ({ titleID: item[0], category: item[1] })));
         } catch (error) {
             console.error('Error:', error.message);
         }

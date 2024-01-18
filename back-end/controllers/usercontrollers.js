@@ -3,6 +3,7 @@ const mysql = require('mysql2');
 const {
     getConnectionAsync,
     getTitleObject,
+    getNameObject,
 } = require('../middlewares/connections-queries');
 
 exports.getTitleRoute = async (req, res) => {
@@ -20,6 +21,30 @@ exports.getTitleRoute = async (req, res) => {
                 connection.release();
             } catch (error) {
                 res.status(404).json({ status: 'Failed', data: `Title with ID ${titleID} not found`});
+            }
+        } else {
+            res.status(500).json({ status: 'Failed', data: 'Faulty connection' });
+        }
+    } catch (error) {
+        res.status(500).json({ status: 'Failed', data: 'Error connecting to the database' });
+    }
+};
+
+exports.getNameRoute = async (req, res) => {
+    const nameID = req.params.nameID;
+    
+    try {
+        const connection = await getConnectionAsync();
+        
+        if (connection) {
+            try {
+                const nameObject = await getNameObject(connection, nameID);
+                
+                res.status(200).json({ status: 'OK', data: nameObject});
+
+                connection.release();
+            } catch (error) {
+                res.status(404).json({ status: 'Failed', data: `Contributor with nameID ${nameID} not found`});
             }
         } else {
             res.status(500).json({ status: 'Failed', data: 'Faulty connection' });
