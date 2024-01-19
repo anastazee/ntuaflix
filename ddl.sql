@@ -148,7 +148,7 @@ ALTER TABLE `title_principals`
 ALTER TABLE `Episode`
     ADD CONSTRAINT `fk_episode` 
     FOREIGN KEY (`tconst`) 
-    REFERENCES `Title` (`tconst`),
+    REFERENCES `Title` (`tconst`);
     --ADD CONSTRAINT `fk_parent` 
     --FOREIGN KEY (`parentTconst`) 
     --REFERENCES `Title` (`tconst`);

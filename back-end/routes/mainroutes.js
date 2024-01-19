@@ -10,8 +10,8 @@ const storage = multer.memoryStorage(); // Use memory storage for the uploaded f
 const upload = multer({ storage: storage });
 
 router.get('/', sampleController.getSample);
-router.get('/:id', sampleController.getSampleById);
-router.post('/:id', sampleController.postSample);
+//router.get('/:id', sampleController.getSampleById);
+//router.post('/:id', sampleController.postSample);
 router.get('/admin/healthcheck', sampleController.getHealthCheck);
 router.post('/admin/upload/titlebasics', upload.single('file'), sampleController.postTitleBasics);
 router.post('/admin/upload/titleakas', upload.single('file'), sampleController.postTitleAkas);
@@ -23,5 +23,10 @@ router.post('/admin/upload/titleratings', upload.single('file'), sampleControlle
 
 router.get('/title/:titleID', userController.getTitleRoute);
 router.get('/name/:nameID', userController.getNameRoute);
+router.get('/searchtitle', userController.getSearchTitle);
+router.post('/searchtitle', userController.getSearchTitle);
+router.get('/searchname', userController.getSearchName);
+router.post('/searchname', userController.getSearchName);
+
 
 module.exports = router;

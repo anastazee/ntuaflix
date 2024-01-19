@@ -257,24 +257,49 @@ program
     .command('title')
     .description('Get details for a specific title from the Ntuaflix database')
     .requiredOption('--titleID <titleID>', 'ID of the title')
-    .action(async (options) => { 
+    .action(async (options) => {
         try {
             const titleID = options.titleID;
-            
+
             const response = await axios.get(`http://localhost:9876/title/${titleID}`);
-          
+
             const titleObject = response.data.data;
 
             console.log(`titleID:`, titleObject.titleID);
-            console.log(`type:`, titleObject.type);
-            console.log(`originalTitle:`, titleObject.originalTitle);
-            console.log(`titlePoster:`, titleObject.titlePoster);
-            console.log(`startYear:`, titleObject.startYear);
-            console.log(`endYear:`, titleObject.endYear);
-            console.log(`genres:`, titleObject.genres);
-            console.log(`titleAkas:`, titleObject.titleAkas.map(item => ({ akaTitle: item[0], regionAbbrev: item[1] })));
-            console.log(`principals:`, titleObject.principals.map(item => ({ nameID: item[0], name: item[1], category: item[2] })));
-            console.log(`rating:`, titleObject.rating);
+            console.log(`type:`, titleObject.type || 'N/A');
+            console.log(`originalTitle:`, titleObject.originalTitle || 'N/A');
+            console.log(`titlePoster:`, titleObject.titlePoster || 'N/A');
+            console.log(`startYear:`, titleObject.startYear || 'N/A');
+            console.log(`endYear:`, titleObject.endYear || 'N/A');
+            //console.log(`genres:`, titleObject.genres || 'N/A');
+            console.log('Genres:', titleObject.genres && Array.isArray(titleObject.genres)
+                    ? titleObject.genres.map(obj => obj && obj.genreTitle).filter(Boolean).join(', ')
+                    : 'N/A');
+            //console.log(`titleAkas:`, titleObject.titleAkas.map(item => ({ akaTitle: item[0], regionAbbrev: item[1] })));
+            console.log('Title Akas:');
+                if (titleObject.titleAkas && titleObject.titleAkas.length > 0) {
+                    for (const aka of titleObject.titleAkas) {
+                        console.log(`   aka Title: ${aka.akaTitle || 'N/A'}`);
+                        console.log(`   Region: ${aka.regionAbbrev || 'N/A'}`);
+                        console.log('------------------------');
+                    }
+                }
+            //console.log(`principals:`, titleObject.principals.map(item => ({ nameID: item[0], name: item[1], category: item[2] })));
+            console.log('Principals:');
+                if (titleObject.principals && titleObject.principals.length > 0) {
+                    for (const principal of titleObject.principals) {
+                        console.log(`  ID: ${principal.nameID || 'N/A'}`);
+                        console.log(`  Name: ${principal.name || 'N/A'}`);
+                        console.log(`  Profession: ${principal.category || 'N/A'}`);
+                        console.log('------------------------');
+                    }
+                } else {
+                    console.log('  N/A');
+                }
+            //console.log(`rating:`, titleObject.rating);
+            console.log('Rating:');
+            console.log(`  Average Rating: ${titleObject.rating ? titleObject.rating.avRating : 'N/A'}`);
+            console.log(`  Number of Votes: ${titleObject.rating ? titleObject.rating.nVotes : 'N/A'}`);
         } catch (error) {
             console.error('Error:', error.message);
         }
@@ -284,24 +309,147 @@ program
     .command('name')
     .description('Get details for a specific contributor from the Ntuaflix database')
     .requiredOption('--nameID <nameID>', 'ID of the name')
-    .action(async (options) => { 
+    .action(async (options) => {
         try {
             const nameID = options.nameID;
-            
+
             const response = await axios.get(`http://localhost:9876/name/${nameID}`);
-          
+
             const nameObject = response.data.data;
 
             console.log(`nameID:`, nameObject.nameID);
             console.log(`name:`, nameObject.name);
-            console.log(`namePoster:`, nameObject.namePoster);
-            console.log(`birthYr:`, nameObject.birthYr);
-            console.log(`deathYr:`, nameObject.deathYr);
-            console.log(`profession:`, nameObject.profession);
-            console.log(`nameTitles:`, nameObject.nameTitles.map(item => ({ titleID: item[0], category: item[1] })));
+            console.log(`namePoster:`, nameObject.namePoster|| 'N/A');
+            console.log(`birthYr:`, nameObject.birthYr || 'N/A');
+            console.log(`deathYr:`, nameObject.deathYr || 'N/A');
+            console.log(`profession:`, nameObject.profession || 'N/A');
+            //console.log(`nameTitles:`, nameObject.nameTitles.map(item => ({ titleID: item[0], category: item[1] })));
+            console.log('Name Titles:');
+                if (nameObject.nameTitles && nameObject.nameTitles.length > 0) {
+                    for (const title of nameObject.nameTitles) {
+                        console.log(`   Title ID: ${title.titleID || 'N/A'}`);
+                        console.log(`   Category: ${title.category || 'N/A'}`);
+                        console.log('------------------------');
+                    }
+                } else {
+                    console.log('  N/A');
+                }
         } catch (error) {
             console.error('Error:', error.message);
         }
     });
+
+program
+    .command('searchtitle')
+    .description('Search for a title in the Ntuaflix database that matches parameter')
+    .requiredOption('--titlePart <titlePart>', 'word or consecutive characters to search for')
+    .action(async (options) => {
+        try {
+            const title = options.titlePart;
+
+            const response = await axios.post(`http://localhost:9876/searchtitle`, {
+                "titlePart": title,
+            });
+            const titleObjects = response.data.data;
+            if (response.status==204) {
+                console.log('No title matches your data');
+                return;
+            }
+            //console.log(titleObjects);
+            for (const titleObject of titleObjects) {
+                console.log('Title ID:', titleObject.titleID || 'N/A');
+                console.log('Type:', titleObject.type || 'N/A');
+                console.log('Original Title:', titleObject.originalTitle || 'N/A');
+                console.log('Title Poster:', titleObject.titlePoster || 'N/A');
+                console.log('Start Year:', titleObject.startYear || 'N/A');
+                console.log('End Year:', titleObject.endYear || 'N/A');
+                //console.log('Genres:', titleObject.genres ? titleObject.genres.map(obj => obj.genreTitle).join(', ') : 'N/A');
+                console.log('Genres:', titleObject.genres && Array.isArray(titleObject.genres)
+                    ? titleObject.genres.map(obj => obj && obj.genreTitle).filter(Boolean).join(', ')
+                    : 'N/A');
+
+                // Format Title Akas with spaces
+                console.log('Title Akas:');
+                if (titleObject.titleAkas && titleObject.titleAkas.length > 0) {
+                    for (const aka of titleObject.titleAkas) {
+                        console.log(`   aka Title: ${aka.akaTitle || 'N/A'}`);
+                        console.log(`   Region: ${aka.regionAbbrev || 'N/A'}`);
+                        console.log('------------------------');
+                    }
+                }
+
+                // Format Principals
+                console.log('Principals:');
+                if (titleObject.principals && titleObject.principals.length > 0) {
+                    for (const principal of titleObject.principals) {
+                        console.log(`  ID: ${principal.nameID || 'N/A'}`);
+                        console.log(`  Name: ${principal.name || 'N/A'}`);
+                        console.log(`  Profession: ${principal.category || 'N/A'}`);
+                        console.log('------------------------');
+                    }
+                } else {
+                    console.log('  N/A');
+                }
+
+                // Format the rating information
+                console.log('Rating:');
+                console.log(`  Average Rating: ${titleObject.rating ? titleObject.rating.avRating : 'N/A'}`);
+                console.log(`  Number of Votes: ${titleObject.rating ? titleObject.rating.nVotes : 'N/A'}`);
+
+                console.log('----------------------------------');
+            }
+
+
+
+        }
+        catch (error) {
+            console.error('Error:', error.message);
+        }
+    });
+
+program
+    .command('searchname')
+    .description('Search for an actor in the Ntuaflix database that matches the provided name')
+    .requiredOption('--namePart <namePart>', 'word or consecutive characters to search for')
+    .action(async (options) => {
+        try {
+            const namePart = options.namePart;
+
+            const response = await axios.post(`http://localhost:9876/searchname`, {
+                "namePart": namePart,
+            });
+            const nameObjects = response.data.data;
+            if (response.status==204) {
+                console.log('No contributor matches your data');
+                return;
+            }
+            for (const nameObject of nameObjects) {
+                console.log('Name ID:', nameObject.nameID || 'N/A');
+                console.log('Name:', nameObject.name || 'N/A');
+                console.log('Name Poster:', nameObject.namePoster || 'N/A');
+                console.log('Birth Year:', nameObject.birthYr || 'N/A');
+                console.log('Death Year:', nameObject.deathYr || 'N/A');
+                console.log('Profession:', nameObject.profession || 'N/A');
+
+                // Format Name Titles
+                console.log('Name Titles:');
+                if (nameObject.nameTitles && nameObject.nameTitles.length > 0) {
+                    for (const title of nameObject.nameTitles) {
+                        console.log(`   Title ID: ${title.titleID || 'N/A'}`);
+                        console.log(`   Category: ${title.category || 'N/A'}`);
+                        console.log('------------------------');
+                    }
+                } else {
+                    console.log('  N/A');
+                }
+
+                console.log('----------------------------------');
+            }
+
+        } catch (error) {
+            console.error('Error:', error.message);
+        }
+    });
+
 
 program.parse(process.argv);
