@@ -8,7 +8,7 @@ const path = require('path');
 
 program
     .version('1.0.0')
-    .description('CLI for Your API');
+    .description('CLI for Ntuaflix app');
 
 program
     .command('healthcheck')
@@ -252,6 +252,25 @@ program
             console.error('Error:', error.message);
         }
     });
+
+    program
+    .command('resetall')
+    .description('Delete all data in Ntuaflix database')
+    .action(async (options) => {
+        try {
+            
+            const response = await axios.post('http://localhost:9876/admin/resetall');
+
+            console.log('Success: All data deleted successfully');
+        } catch (error) {
+            if (error.response && error.response.data) {
+                console.error('Error:', error.response.data.status, '\nReason:', error.response.data.reason);
+              } else {
+                console.error('Error:', error.message);
+            }
+        }
+    });
+
 
 program
     .command('title')

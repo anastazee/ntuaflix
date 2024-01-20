@@ -9,6 +9,7 @@ const {
     processLineEpisode,
     processLinePrincipals,
     processLineRatings,
+    processReset,
 } = require('../middlewares/connections-queries');
 
 const mysql = require('mysql2');
@@ -596,5 +597,21 @@ exports.postTitleRatings = async (req, res, next) => {
     } catch (err) {
         console.error('Error in postTitleRatings:', err);
         res.status(500).json({ error: 'Internal Server Error' });
+    }
+};
+
+exports.postResetAll = async (req, res, next) => {
+    try {
+        const connection = await getConnectionAsync()
+
+        await processReset(connection);
+
+        res.status(200).json({ status: 'OK' });
+
+        connection.release();
+    }
+    catch(error) {
+        console.log(error);
+        res.status(500).json({ status: 'failed', reason: error.sqlMessage });
     }
 };

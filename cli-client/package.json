@@ -1,5 +1,5 @@
 {
-    "name": "cli",
+    "name": "se2307",
     "version": "1.0.0",
     "main": "cli.js",
     "license": "MIT",
@@ -9,5 +9,12 @@
     },
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1"
-    }
+    },
+
+    "bin": {
+        "se2307": "./cli.js"
+      }
 }
+
+
+  

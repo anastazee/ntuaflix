@@ -20,6 +20,8 @@ router.post('/admin/upload/titlecrew', upload.single('file'), sampleController.p
 router.post('/admin/upload/titleepisode', upload.single('file'), sampleController.postTitleEpisode);
 router.post('/admin/upload/titleprincipals', upload.single('file'), sampleController.postTitlePrincipals);
 router.post('/admin/upload/titleratings', upload.single('file'), sampleController.postTitleRatings);
+router.post('/admin/resetall', sampleController.postResetAll);
+
 
 router.get('/title/:titleID', userController.getTitleRoute);
 router.get('/name/:nameID', userController.getNameRoute);

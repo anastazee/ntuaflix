@@ -384,6 +384,38 @@ exports.processLineRatings = async (line, connection, fieldNames) => {
     }
 };
 
+exports.processReset = async(connection) => {
+    try {
+        // Get a list of all tables in the database
+        //const tables = await queryAsync(connection, 'SHOW TABLES');
+        //const tableNames = tables.map(table => table[`Tables_in_softeng`]);
+        const tableNames = ['Akas',
+                            'KnownFor',
+                            'Writer',
+                            'Director',
+                            'movie_genre',
+                            'title_principals',
+                            'Episode',
+                            'Ratings',
+                            'Contributor',
+                            'Title',
+                            'genre'
+                            ]
+        // Delete all data from each table
+        for (const tableName of tableNames) {
+          await queryAsync(connection, `DELETE FROM ${tableName}`);
+        }
+    
+        // Commit changes
+        await queryAsync(connection, 'COMMIT');
+    
+        console.log('All data deleted successfully.');
+      } catch (error) {
+        console.error('Error deleting data:', error);
+        throw(error);
+      }
+    };
+
 exports.getTitleObject = async (connection, titleID) => {
     const query = `
         SELECT
