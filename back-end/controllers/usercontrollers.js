@@ -6,6 +6,7 @@ const {
     getNameObject,
     getSearchTitleObjects,
     getSearchNameObjects,
+    getByGenreObjects,
 } = require('../middlewares/connections-queries');
 
 exports.getTitleRoute = async (req, res) => {
@@ -98,8 +99,6 @@ exports.getSearchTitle = async (req, res) => {
     }
 };
 
-
-
 exports.getSearchName = async (req, res) => {
     try {
         let nqueryObject = req.body;
@@ -144,4 +143,47 @@ exports.getSearchName = async (req, res) => {
     }
 };
 
+exports.getByGenre = async (req, res) => {
+    try {
+        let gqueryObject = req.body;
+        if (!gqueryObject || !gqueryObject.genre || !gqueryObject.min) {
+            res.status(400).json({ status: 'Bad Request', message: 'Genre and minimum rating are required parameters' });
+            return;
+        }
+        const qgenre = gqueryObject.genre;
+        const minrating = gqueryObject.min;
+        const yrFrom = gqueryObject.from;
+        const yrTo = gqueryObject.to;
 
+        try {
+            const connection = await getConnectionAsync();
+
+            if (connection) {
+                try {
+                    const titleObjects = await getByGenreObjects(connection, qgenre, minrating, yrFrom, yrTo);
+                    if (titleObjects.length == 0) {
+                        res.status(204).send();
+                        return;
+                    }
+                    res.status(200).json({ status: 'Success', data: titleObjects });
+                } catch (error) {
+                    console.error('Error in getByGenreObjects:', error);
+                    res.status(500).json({ status: 'Internal Server Error', message: 'Error getting matchng TitleObjects' });
+                } finally {
+                    connection.release();
+                }
+            }
+            else {
+                res.status(500).json({ status: 'Internal Server Error', message: 'Unable to establish database connection' });
+            }
+        }
+        catch (error) {
+            console.error('Error getting database connection:', error);
+            res.status(500).json({ status: 'Internal Server Error', message: 'Error getting database connection' });
+        }
+    }
+    catch (error) {
+        console.error('Error parsing request body:', error);
+        res.status(400).json({ status: 'Error', message: 'Invalid request body' });
+    }
+};

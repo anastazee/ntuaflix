@@ -470,5 +470,72 @@ program
         }
     });
 
+program
+    .command('bygenre')
+    .description('Get details for titles with a specific genre and minimun rating from the Ntuaflix database')
+    .requiredOption('--genre <qgenre>', 'Genre of the title')
+    .requiredOption('--min <minrating>', 'Minimum rating of the title')
+    .option('--from <yrFrom>', 'Optional: Release year from')
+    .option('--to <yrTo>', 'Optional: Release year to')
+    .action(async (options) => {
+        try {
+            const qgenre = options.genre;
+            const minrating = options.min;
+            const yrFrom = options.from;
+            const yrTo = options.to;
+
+            const param = {
+                genre: qgenre,
+                min: minrating,
+            };
+              
+            if (yrFrom) {
+                param.from = yrFrom;
+            }
+              
+            if (yrTo) {
+                param.to = yrTo;
+            }
+            
+            const response = await axios.post(`http://localhost:9876/bygenre`, param);
+
+            const titleObjects = response.data.data;
+            for (const titleObject of titleObjects) {
+                console.log(`\nTitle ID:`, titleObject.titleID);
+                console.log(`Type:`, titleObject.type || 'N/A');
+                console.log(`Original Title:`, titleObject.originalTitle || 'N/A');
+                console.log(`Title Poster:`, titleObject.titlePoster || 'N/A');
+                console.log(`Start Year:`, titleObject.startYear || 'N/A');
+                console.log(`End Year:`, titleObject.endYear || 'N/A');
+                console.log('Genres:', titleObject.genres && Array.isArray(titleObject.genres)
+                    ? titleObject.genres.map(obj => obj && obj.genreTitle).filter(Boolean).join(', ')
+                    : 'N/A');
+                console.log('Title Akas:');
+                if (titleObject.titleAkas && titleObject.titleAkas.length > 0) {
+                    for (const aka of titleObject.titleAkas) {
+                        console.log(`   aka Title: ${aka.akaTitle || 'N/A'}`);
+                        console.log(`   Region: ${aka.regionAbbrev || 'N/A'}`);
+                        console.log('------------------------');
+                    }
+                }
+                console.log('Principals:');
+                if (titleObject.principals && titleObject.principals.length > 0) {
+                    for (const principal of titleObject.principals) {
+                        console.log(`  ID: ${principal.nameID || 'N/A'}`);
+                        console.log(`  Name: ${principal.name || 'N/A'}`);
+                        console.log(`  Profession: ${principal.category || 'N/A'}`);
+                        console.log('------------------------');
+                    }
+                } else {
+                    console.log('  N/A');
+                }
+                console.log('Rating:');
+                console.log(`  Average Rating: ${titleObject.rating ? titleObject.rating.avRating : 'N/A'}`);
+                console.log(`  Number of Votes: ${titleObject.rating ? titleObject.rating.nVotes : 'N/A'}`);
+            }
+        } catch (error) {
+            console.error('Error:', error.message);
+        }
+    });
 
 program.parse(process.argv);

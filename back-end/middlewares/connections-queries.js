@@ -178,7 +178,6 @@ const checkCrew = async (connection, id) => {
     }
 };
 
-
 exports.processLineName = async (line, connection, fieldNames) => {
     //console.log('Original Line:', line);
     //console.log('fieldNames:', fieldNames);
@@ -241,7 +240,6 @@ exports.processLineName = async (line, connection, fieldNames) => {
         throw (err);
     }
 };
-
 
 exports.processLineCrew = async (line, connection, fieldNames) => {
 
@@ -320,7 +318,6 @@ exports.processLineEpisode = async (line, connection, fieldNames) => {
         throw (err);
     }
 };
-
 
 exports.processLinePrincipals = async (line, connection, fieldNames) => {
 
@@ -568,8 +565,6 @@ const fetchnameTitles = async (connection, nameID) => {
     }));
 };
 
-
-
 exports.getSearchTitleObjects = async (connection, titlepart) => {
     let returnObjects = [];
     if (titlepart.length > 0) {
@@ -624,7 +619,6 @@ exports.getSearchTitleObjects = async (connection, titlepart) => {
 
 }
 
-
 exports.getSearchNameObjects = async (connection, namepart) => {
     let returnObjects = [];
     if (namepart.length > 0) {
@@ -677,4 +671,122 @@ exports.getSearchNameObjects = async (connection, namepart) => {
         return returnObjects;
     }
 
+}
+
+exports.getByGenreObjects = async (connection, qgenre, minrating, yrFrom, yrTo) => {
+    let titleResults = null;
+    if(!yrFrom && !yrTo) {
+        const query = `
+            SELECT
+                t.tconst AS titleID,
+                t.titleType,
+                t.primaryTitle AS originalTitle,
+                t.img_url_asset AS titlePoster,
+                t.startYear,
+                t.endYear
+            FROM
+                Title t
+            JOIN 
+                movie_genre mg ON t.tconst = mg.Titletconst
+            JOIN
+                genre g ON mg.genreID = g.genreID
+            JOIN
+                Ratings r ON t.tconst = r.Titletconst
+            WHERE
+                g.genre = ? AND r.averageRating >= ?
+        `;
+
+        titleResults = await queryAsync(connection, query, [qgenre, minrating]);
+    } else if(!yrFrom) {
+        const query = `
+            SELECT
+                t.tconst AS titleID,
+                t.titleType,
+                t.primaryTitle AS originalTitle,
+                t.img_url_asset AS titlePoster,
+                t.startYear,
+                t.endYear
+            FROM
+                Title t
+            JOIN 
+                movie_genre mg ON t.tconst = mg.Titletconst
+            JOIN
+                genre g ON mg.genreID = g.genreID
+            JOIN
+                Ratings r ON t.tconst = r.Titletconst
+            WHERE
+                g.genre = ? AND r.averageRating >= ? AND t.startYear <= ?
+        `;
+
+        titleResults = await queryAsync(connection, query, [qgenre, minrating, yrTo]);
+    } else if(!yrTo) {
+        const query = `
+            SELECT
+                t.tconst AS titleID,
+                t.titleType,
+                t.primaryTitle AS originalTitle,
+                t.img_url_asset AS titlePoster,
+                t.startYear,
+                t.endYear
+            FROM
+                Title t
+            JOIN 
+                movie_genre mg ON t.tconst = mg.Titletconst
+            JOIN
+                genre g ON mg.genreID = g.genreID
+            JOIN
+                Ratings r ON t.tconst = r.Titletconst
+            WHERE
+                g.genre = ? AND r.averageRating >= ? AND t.startYear >= ?
+        `;
+
+        titleResults = await queryAsync(connection, query, [qgenre, minrating, yrFrom]);
+    } else {
+        const query = `
+            SELECT
+                t.tconst AS titleID,
+                t.titleType,
+                t.primaryTitle AS originalTitle,
+                t.img_url_asset AS titlePoster,
+                t.startYear,
+                t.endYear
+            FROM
+                Title t
+            JOIN 
+                movie_genre mg ON t.tconst = mg.Titletconst
+            JOIN
+                genre g ON mg.genreID = g.genreID
+            JOIN
+                Ratings r ON t.tconst = r.Titletconst
+            WHERE
+                g.genre = ? AND r.averageRating >= ? AND t.startYear >= ? AND t.startYear <= ?
+        `;
+
+        titleResults = await queryAsync(connection, query, [qgenre, minrating, yrFrom, yrTo]);
+    }
+    
+    const titleObjects = [];
+
+    for (const titleResult of titleResults) {
+        const titleObject = {
+            titleID: titleResult.titleID,
+            type: titleResult.titleType,
+            originalTitle: titleResult.originalTitle,
+            titlePoster: titleResult.titlePoster,
+            startYear: titleResult.startYear,
+            endYear: titleResult.endYear,
+            genres: await fetchgenres(connection, titleResult.titleID),
+            titleAkas: await fetchTitleAkas(connection, titleResult.titleID),
+            principals: await fetchContributors(connection, titleResult.titleID),
+            rating: await fetchRating(connection, titleResult.titleID)
+        };
+
+        titleObjects.push(titleObject);
+    }
+
+    if (titleObjects.length > 0) {
+        return titleObjects;
+    } else {
+        throw new Error(`Titles not found`);
+    }
 }

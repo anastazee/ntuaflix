@@ -29,6 +29,7 @@ router.get('/searchtitle', userController.getSearchTitle);
 router.post('/searchtitle', userController.getSearchTitle);
 router.get('/searchname', userController.getSearchName);
 router.post('/searchname', userController.getSearchName);
-
+router.get('/bygenre', userController.getByGenre);
+router.post('/bygenre', userController.getByGenre);
 
 module.exports = router;
