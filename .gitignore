@@ -2,6 +2,8 @@ back-end/middlewares/logs/*.log
 back-end/node_modules
 cli-client/node_modules
 /node_modules
+front-end/node_modules
+front-end/.next
 
 # https://stackoverflow.com/questions/48524417/should-the-package-lock-json-file-be-added-to-gitignore
 # dont add package-lock files in here
