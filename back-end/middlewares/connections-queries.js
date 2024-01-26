@@ -578,7 +578,7 @@ exports.getSearchTitleObjects = async (connection, titlepart) => {
             t.startYear,
             t.endYear
         FROM
-            title t
+            Title t
         WHERE
             t.primaryTitle LIKE ?`;
         try {

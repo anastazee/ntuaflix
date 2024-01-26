@@ -2,6 +2,7 @@ import React from "react";
 import { Container } from "@mui/material";
 import Header from "../components/header";
 import Head from 'next/head';
+import { useRouter } from "next/router";
 
 const Layout = ({ children }) => {
   return (
@@ -16,6 +17,7 @@ const Layout = ({ children }) => {
 };
 
 export default function MyApp({ Component, pageProps }) {
+  const router = useRouter();
   return (
     <Layout>
       <Component {...pageProps} />
