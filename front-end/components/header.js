@@ -13,7 +13,7 @@ const Header = () => {
     console.log("Search Query:", searchQuery);
     if (selectedOption == 'People')
     router.push({
-      pathname: '/results',
+      pathname: '/find',
       query: { 
         so: "nm",
         q: searchQuery // Adding selectedOption to the query object
@@ -21,7 +21,7 @@ const Header = () => {
     });
     if (selectedOption == 'Titles') 
     router.push({
-      pathname: '/results',
+      pathname: '/find',
       query: { 
         so: "tt",
         q: searchQuery, // Adding selectedOption to the query object
