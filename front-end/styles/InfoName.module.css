@@ -1,0 +1,69 @@
+/* InfoName.module.css */
+
+.infoContainer {
+    display: flex;
+}
+
+.imageContainer {
+    display: flex;
+    /* Make .imageContainer a flex container */
+    flex: 1;
+    margin-right: 20px;
+    /* Adjust the margin between the image and details as needed */
+    margin-bottom: 20px;
+}
+
+.image {
+    max-width: 100%;
+    height: auto;
+    /* Make the image fill the container */
+}
+
+.detailsContainer {
+    flex: 2;
+}
+
+.moviesContainer {
+    overflow-x: auto;
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 10px;
+    /* Adjust the gap as needed */
+    padding: 10px;
+    width: 80vw;
+    /* Take up the whole screen width */
+    justify-content: flex-start;
+    /* Align items to the left */
+}
+
+.scrollContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    justify-content: flex-start;
+    /* Align items to the left */
+    position: relative;
+    /* Set to relative to position the arrows within the container */
+}
+
+.scrollArrow {
+    font-size: 24px;
+    cursor: pointer;
+    background-color: white;
+    border: 1px solid #ddd;
+    padding: 8px;
+    border-radius: 50%;
+}
+
+.scrollArrowLeft {
+    left: 0;
+    /* Align the left arrow to the left */
+}
+
+.scrollArrowRight {
+    right: 0;
+    /* Align the right arrow to the right */
+}
+
+
+/* Add additional styles and adjustments as needed */

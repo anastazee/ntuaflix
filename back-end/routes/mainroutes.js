@@ -3,6 +3,7 @@ const multer = require('multer')
 
 const sampleController = require('../controllers/admincontrollers');
 const userController = require('../controllers/usercontrollers');
+const extraController = require('../controllers/extracontrollers');
 
 const router = express.Router();
 const storage = multer.memoryStorage(); // Use memory storage for the uploaded file
@@ -32,4 +33,6 @@ router.post('/searchname', userController.getSearchName);
 router.get('/bygenre', userController.getByGenre);
 router.post('/bygenre', userController.getByGenre);
 
+router.get('/knownfor/:nameID', extraController.getKnownFor);
+router.get('/principalmovies/:nameID', extraController.getPrincipalMovies);
 module.exports = router;

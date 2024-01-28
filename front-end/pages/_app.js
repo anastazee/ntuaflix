@@ -3,6 +3,7 @@ import { Container } from "@mui/material";
 import Header from "../components/header";
 import Head from 'next/head';
 import { useRouter } from "next/router";
+import '../styles/global.css';
 
 const Layout = ({ children }) => {
   return (

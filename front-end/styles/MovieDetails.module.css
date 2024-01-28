@@ -1,0 +1,45 @@
+/* MovieDetails.module.css */
+
+.container {
+  border: 1px solid #ddd;
+  padding: 10px;
+  margin: 10px;
+  width: 400px;
+  text-decoration: none;
+  color: inherit;
+}
+
+.linkContainer {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  text-decoration: none;
+  color: inherit;
+}
+
+.linkContainer:hover {
+  text-decoration: none;
+}
+
+.textContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
+  text-decoration: none;
+  color: inherit;
+}
+
+.posterContainer {
+  flex-shrink: 0;
+  margin-right: 10px;
+}
+
+.title {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.info {
+  /* Add other styling for additional information */
+}

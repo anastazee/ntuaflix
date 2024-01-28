@@ -1,0 +1,41 @@
+/* PrincipalMoviesList.module.css */
+
+.moviesList {
+    width: 100%;
+    max-width: 600px;
+    font-family: 'Lato', sans-serif;
+  }
+  
+  .movieItem {
+    padding-top: 8px; /* Example padding top */
+  }
+  
+  .movieAvatar {
+    width: 80px;
+    height: 120px;
+    border-radius: 1px;
+    margin-right: 0.5rem;
+  }
+  
+  .movieTitle,
+  .movieYear,
+  .noMoviesText {
+    font-family: 'Lato', sans-serif; /* Set the font family for movie title, year, and no movies text */
+  }
+  
+  .movieTitle {
+    font-size: 18px;
+    font-weight: bold;
+  }
+  
+  .movieYear {
+    display: block;
+    font-size: 14px;
+    font-weight: normal;
+  }
+  
+  .noMoviesText {
+    font-size: 14px;
+    color: #757575; /* Example text color for no movies found */
+  }
+  
