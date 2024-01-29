@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Typography, Divider, Avatar, List, ListItem, ListItemText, ListItemAvatar } from "@mui/material";
 import Link from 'next/link';
+import styles from '../styles/TitleResultsList.module.css';
 
 
 const TitleResultsList = ({ searchResults }) => {
@@ -23,8 +24,9 @@ const TitleResultsList = ({ searchResults }) => {
                         </ListItemAvatar>
                         <ListItemText
                             primary={
-                                <Link href="/info/[nameID]" as={`/info/${dataObj.titleID}`}>
+                                <Link href="/info/[nameID]" as={`/info/${dataObj.titleID}`} style={{ textDecoration: 'none' }}>
                                     <Typography
+                                        className={styles.title}
                                         sx={{
                                             fontSize: '24px', // Set desired font size
                                             fontWeight: 'bold', // Make text bold
@@ -37,6 +39,7 @@ const TitleResultsList = ({ searchResults }) => {
                             secondary={
                                 <React.Fragment>
                                     <Typography
+                                        className={styles.secondary}
                                         sx={{ display: 'block', fontSize: '20px', fontWeight: 'normal' }} // Set desired font size and weight for the year
                                         component="span"
                                         variant="body2"
@@ -48,6 +51,7 @@ const TitleResultsList = ({ searchResults }) => {
                             }
                         />
                         <Typography
+                            className={styles.rating}
                             sx={{ display: 'inline', fontSize: '20px', marginLeft: '1rem' }} // Adjust margin to move rating to the far left
                             component="span"
                             variant="body2"

@@ -4,6 +4,9 @@ import Header from "../components/header";
 import Head from 'next/head';
 import { useRouter } from "next/router";
 import '../styles/global.css';
+import { ThemeProvider } from '@mui/material/styles';
+import theme from '../theme'; // Import your custom theme
+
 
 const Layout = ({ children }) => {
   return (
@@ -20,8 +23,10 @@ const Layout = ({ children }) => {
 export default function MyApp({ Component, pageProps }) {
   const router = useRouter();
   return (
-    <Layout>
-      <Component {...pageProps} />
-    </Layout>
+    <ThemeProvider theme={theme}>
+      <Layout>
+        <Component {...pageProps} />
+      </Layout>
+    </ThemeProvider>
   );
 }

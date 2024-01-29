@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link'; // Import Link from Next.js
 import styles from '../../styles/InfoName.module.css'; // Import the CSS module
-import MovieDetails from '../../components/moviedetails';
+import MovieRow from '../../components/movierow';
 import PrincipalMoviesList from '../../components/principalmovieslist';
 import { Typography, Divider, Box } from '@mui/material';  // Make sure to include Box in the import statement
 
@@ -114,27 +114,8 @@ const InfoName = () => {
       </div>{knownFor.length > 0 && (
         <div>
           <h2>Known For</h2>
-          <div className={styles.scrollContainer}>
-            <div className={styles.scrollArrowLeft} onClick={handleScrollLeft}>
-              &lt;
-            </div>
-            <div className={styles.moviesContainer} ref={containerRef}>
-              {knownFor.map((movie) => (
-                <MovieDetails
-                  key={movie.titleID}
-                  titleID={movie.titleID}
-                  type={movie.type}
-                  originalTitle={movie.originalTitle}
-                  titlePoster={movie.titlePoster}
-                  startYear={movie.startYear}
-                  endYear={movie.endYear}
-                />
-              ))}
-            </div>
-            <div className={styles.scrollArrowRight} onClick={handleScrollRight}>
-              &gt;
-            </div>
-          </div>
+          {/* Replace the existing code with MovieRow */}
+          <MovieRow movies={knownFor} hsleft={handleScrollLeft} hsright={handleScrollRight} containerRef={containerRef} />
         </div>
       )}
 

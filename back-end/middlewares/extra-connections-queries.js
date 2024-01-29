@@ -132,3 +132,101 @@ exports.getPrincipalMovieObjects = async (connection, nameID) => {
     }
 
 }
+
+
+exports.gettop10MovieObjects = async (connection) => {
+    let returnObjects = [];
+    //const query = `SELECT tconst FROM title WHERE primaryTitle LIKE ?`;
+    const query = `
+        SELECT
+            t.tconst AS titleID,
+            t.primaryTitle AS originalTitle,
+            t.img_url_asset AS titlePoster,
+            t.titleType,
+            t.startYear,
+            t.endYear,
+            r.averageRating
+        FROM
+            Title t
+        INNER JOIN Ratings r
+            ON t.tconst = r.Titletconst
+        WHERE t.titleType = "movie"
+        ORDER BY
+            r.averageRating DESC
+        LIMIT 10;`;
+    try {
+        const results = await queryAsync(connection, query, []);
+        try {
+            for (const titleResult of results) {
+                const titleObject = {
+                    titleID: titleResult.titleID,
+                    type: titleResult.titleType,
+                    originalTitle: titleResult.originalTitle,
+                    titlePoster: titleResult.titlePoster,
+                    startYear: titleResult.startYear,
+                    endYear: titleResult.endYear
+                };
+                returnObjects.push(titleObject);
+            }
+        } catch (error) {
+            console.error('Error creating object', error);
+            throw error;
+        }
+
+        return returnObjects;
+    }
+    catch (error) {
+        console.error('Error executing query:', error);
+        throw error;
+    }
+
+}
+
+
+exports.getvotes10MovieObjects = async (connection) => {
+    let returnObjects = [];
+    //const query = `SELECT tconst FROM title WHERE primaryTitle LIKE ?`;
+    const query = `
+        SELECT
+            t.tconst AS titleID,
+            t.primaryTitle AS originalTitle,
+            t.img_url_asset AS titlePoster,
+            t.titleType,
+            t.startYear,
+            t.endYear,
+            r.numVotes
+        FROM
+            Title t
+        INNER JOIN Ratings r
+            ON t.tconst = r.Titletconst
+        WHERE t.titleType = "movie"
+        ORDER BY
+            r.numVotes DESC
+        LIMIT 10;`;
+    try {
+        const results = await queryAsync(connection, query, []);
+        try {
+            for (const titleResult of results) {
+                const titleObject = {
+                    titleID: titleResult.titleID,
+                    type: titleResult.titleType,
+                    originalTitle: titleResult.originalTitle,
+                    titlePoster: titleResult.titlePoster,
+                    startYear: titleResult.startYear,
+                    endYear: titleResult.endYear
+                };
+                returnObjects.push(titleObject);
+            }
+        } catch (error) {
+            console.error('Error creating object', error);
+            throw error;
+        }
+
+        return returnObjects;
+    }
+    catch (error) {
+        console.error('Error executing query:', error);
+        throw error;
+    }
+
+}
