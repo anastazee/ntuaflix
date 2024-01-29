@@ -35,7 +35,7 @@ exports.getKnownForObjects = async (connection, nameID) => {
             t.endYear
         FROM
             Title t
-        INNER JOIN knownfor k
+        INNER JOIN KnownFor k
             ON k.Titletconst = t.tconst
         INNER JOIN Contributor c
             ON c.nconst = k.Contributornconst

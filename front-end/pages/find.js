@@ -1,17 +1,24 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
-import { Typography, Box, Divider, Avatar, List, ListItem, ListItemText, ListItemAvatar } from "@mui/material";
+import { Typography, Box } from "@mui/material";
 import Link from 'next/link';
+import TitleResultsList from "../components/titleresultslist";
+import NameResultsList from "../components/nameresultslist";
 
 const ResultsPage = () => {
 
   const router = useRouter();
-  const [searchResults, setSearchResults] = useState([]);
+  const [searchResults, setSearchResults] = useState(null);
   var searchQuery = router.query["q"];
   var option = router.query["so"];
+  var flag = false;
 
-  console.log(searchQuery);
-  if (option == "nm") {
+  console.log("the query is", searchQuery);
+  //useEffect(() => {
+    //let ignore = false;
+  if (option === "nm") {
+    //useEffect(() => {
+    
     fetch("http://localhost:9876/searchname", {
       method: "POST",
       headers: {
@@ -21,86 +28,31 @@ const ResultsPage = () => {
         namePart: searchQuery
       }),
     })
-      .then((response) => response.json())
+    .then((response) => {
+      if (!response.ok) {
+          throw new Error('Network response was not ok');
+      }
+      console.log(response.status);
+      // Check if response is empty
+      if (response.status === 204) { // 204 No Content status code indicates empty response
+          // Handle empty response here, for example:
+          console.log("got empty");
+          flag = true;
+      } else {
+          return response.json(); // Parse JSON if response is not empty
+      }
+  })
       .then((d) => {
-        setSearchResults(d.data);
+        if (flag) setSearchResults([]);
+        else  setSearchResults(d);
       })
       .catch((error) => {
         console.error("Error:", error);
       });
-    return (
-      <div>
-        <Typography variant="h4" sx={{ marginBottom: '20px' }}>Search '{searchQuery}'</Typography>
-        <Box sx={{ marginTop: '20px', padding: '20px' }}>
-          <Typography variant="h5" sx={{ marginBottom: '20px' }}>Search Results</Typography>
-          { /* <pre>{JSON.stringify(searchResults, null, 2)}</pre> */}
-
-          <List sx={{ width: '100%', maxWidth: 700, bgcolor: 'background.paper' }}>
-            {searchResults.map((dataObj, index) => (
-              <React.Fragment key={index}>
-                <ListItem alignItems="flex-start" sx={{ py: 2 }} key={index}>
-                  <ListItemAvatar>
-                    <Avatar
-                      alt="Remy Sharp"
-                      src={dataObj.namePoster ? dataObj.namePoster.replace("{width_variable}", "w200") : ''}
-                      sx={{
-                        width: '100px', // Set desired width
-                        height: '100px', // Set desired height
-                        borderRadius: '50%', // Make the Avatar circular
-                        marginRight: '1rem' // Add space between the image and the text
-                      }}
-                    />
-                  </ListItemAvatar>
-                  <ListItemText
-                    primary={
-                      <Link href="/info/[nameID]" as={`/info/${dataObj.nameID}`}>
-                        <Typography
-                          sx={{
-                            fontSize: '24px', // Set desired font size
-                            fontWeight: 'bold', // Make text bold
-                            cursor: 'pointer', // Show pointer cursor on hover
-                          }}
-                          component="span"
-                        >
-                          {dataObj.name}
-                        </Typography>
-                      </Link>
-                    }
-                    secondary={
-                      <React.Fragment>
-                        <Typography
-                          sx={{ display: 'block', fontSize: '20px', fontWeight: 'normal' }} // Set desired font size and weight for the year
-                          component="span"
-                          variant="body2"
-                          color="text.primary"
-                        >
-                          {dataObj.profession}
-                        </Typography>
-                      </React.Fragment>
-                    }
-                  />
-                  {/* <Typography
-                    sx={{ display: 'inline', fontSize: '20px', marginLeft: '1rem' }} // Adjust margin to move rating to the far left
-                    component="span"
-                    variant="body2"
-                    color="text.primary"
-                  >
-                    Rating {dataObj.rating.avRating}
-                  </Typography> */}
-
-                </ListItem>
-                {/* Add divider after each list item except the last one */}
-                {index < searchResults.length - 1 && <Divider />}
-              </React.Fragment>
-            ))}
-          </List>
-
-
-        </Box>
-      </div>
-    );
+    console.log (" i am fetching")
   }
-  if (option == "tt") {
+  if (option === "tt") {
+    //useEffect(() => {
     fetch("http://localhost:9876/searchtitle", {
       method: "POST",
       headers: {
@@ -110,87 +62,51 @@ const ResultsPage = () => {
         titlePart: searchQuery
       }),
     })
-      .then((response) => response.json())
+    .then((response) => {
+      if (!response.ok) {
+          throw new Error('Network response was not ok');
+      }
+      console.log(response.status);
+      // Check if response is empty
+      if (response.status === 204) { // 204 No Content status code indicates empty response
+          // Handle empty response here, for example:
+          console.log("got empty");
+          flag = true;
+      } else {
+          return response.json(); // Parse JSON if response is not empty
+      }
+  })
       .then((d) => {
-        setSearchResults(d.data);
+        if (flag) setSearchResults([]);
+        else  setSearchResults(d);
       })
       .catch((error) => {
         console.error("Error:", error);
       });
+     // return () => {
+      //  ignore = true;
+      //}
+    }
+   // }, [searchQuery, option]);
 
 
+    console.log("the result is \n", searchResults);
+    //console.log("the length is ", searchResults.length);
     return (
       <div>
         <Typography variant="h4" sx={{ marginBottom: '20px' }}>Search '{searchQuery}'</Typography>
+        {searchResults !== null ? (
         <Box sx={{ marginTop: '20px', padding: '20px' }}>
           <Typography variant="h5" sx={{ marginBottom: '20px' }}>Search Results</Typography>
-          { /* <pre>{JSON.stringify(searchResults, null, 2)}</pre> */}
-
-          <List sx={{ width: '100%', maxWidth: 900, bgcolor: 'background.paper' }}>
-            {searchResults.map((dataObj, index) => (
-              <React.Fragment key={index}>
-                <ListItem alignItems="flex-start" sx={{ py: 2 }} key={index}>
-                  <ListItemAvatar>
-                    <Avatar
-                      alt="Remy Sharp"
-                      src={dataObj.titlePoster ? dataObj.titlePoster.replace("{width_variable}", "w200") : ''}
-                      sx={{
-                        width: '100px', // Set desired width
-                        height: '148px', // Set desired height
-                        borderRadius: '1px', // Set desired border radius for a rounded rectangle
-                        marginRight: '1rem' // Add space between the image and the text
-                      }}
-                    />
-                  </ListItemAvatar>
-                  <ListItemText
-                    primary={
-                      <Link href="/info/[nameID]" as={`/info/${dataObj.titleID}`}>
-                        <Typography
-                          sx={{
-                            fontSize: '24px', // Set desired font size
-                            fontWeight: 'bold', // Make text bold
-                          }}
-                        >
-                          {dataObj.originalTitle}
-                        </Typography>
-                      </Link>
-                    }
-                    secondary={
-                      <React.Fragment>
-                        <Typography
-                          sx={{ display: 'block', fontSize: '20px', fontWeight: 'normal' }} // Set desired font size and weight for the year
-                          component="span"
-                          variant="body2"
-                          color="text.primary"
-                        >
-                          {dataObj.startYear}
-                        </Typography>
-                      </React.Fragment>
-                    }
-                  />
-                  <Typography
-                    sx={{ display: 'inline', fontSize: '20px', marginLeft: '1rem' }} // Adjust margin to move rating to the far left
-                    component="span"
-                    variant="body2"
-                    color="text.primary"
-                  >
-                    Rating {dataObj.rating.avRating}
-                  </Typography>
-
-                </ListItem>
-                {/* Add divider after each list item except the last one */}
-                {index < searchResults.length - 1 && <Divider />}
-              </React.Fragment>
-            ))}
-          </List>
-
-
-        </Box>
+          {searchResults.length === 0 ? (
+            <Typography variant="body1">No results found.</Typography>
+          ) : (
+            option === "nm" ? <NameResultsList searchResults={searchResults} /> : <TitleResultsList searchResults={searchResults} />
+          )}
+        </Box> )
+        : (<Typography variant="body1">Loading...</Typography>) }
       </div>
-    );
-
-  }
-
+    );    
 };
 
 export default ResultsPage;
