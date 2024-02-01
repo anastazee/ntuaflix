@@ -6,6 +6,11 @@ import styles from '../styles/MovieDetails.module.css';
 
 
 const MovieRow = ({ movies, hsleft, hsright, containerRef }) => {
+    console.log('Value of movies:', movies); // Add this line for debugging
+
+    if (!movies) {
+        return null;
+      }
     return (
         <div className={styles.scrollContainer}>
             <div className={styles.arrowContainer} onClick={hsleft}>
