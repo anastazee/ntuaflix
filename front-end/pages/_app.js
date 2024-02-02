@@ -21,7 +21,7 @@ const Layout = ({ children }) => {
 };
 
 export default function MyApp({ Component, pageProps }) {
-  const router = useRouter();
+  //const router = useRouter();
   return (
     <ThemeProvider theme={theme}>
       <Layout>

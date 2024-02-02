@@ -7,7 +7,7 @@ import styles from '../styles/TitleResultsList.module.css';
 const TitleResultsList = ({ searchResults }) => {
     return (
         <List sx={{ width: '100%', maxWidth: 1000, bgcolor: 'background.paper' }}>
-            {searchResults.data.map((dataObj, index) => (
+            {searchResults.map((dataObj, index) => (
                 <React.Fragment key={index}>
                     <ListItem alignItems="flex-start" sx={{ py: 2 }} key={index}>
                         <ListItemAvatar>
@@ -30,6 +30,7 @@ const TitleResultsList = ({ searchResults }) => {
                                         sx={{
                                             fontSize: '24px', // Set desired font size
                                             fontWeight: 'bold', // Make text bold
+                                            color: 'black',
                                         }}
                                     >
                                         {dataObj.originalTitle}
@@ -62,7 +63,7 @@ const TitleResultsList = ({ searchResults }) => {
 
                     </ListItem>
                     {/* Add divider after each list item except the last one */}
-                    {index < searchResults.data.length - 1 && <Divider />}
+                    {index < searchResults.length - 1 && <Divider />}
                 </React.Fragment>
             ))}
         </List>

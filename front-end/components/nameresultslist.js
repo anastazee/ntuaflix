@@ -5,7 +5,7 @@ import Link from 'next/link';
 const NameResultsList = ({ searchResults }) => {
     return (
         <List sx={{ width: '100%', maxWidth: 700, bgcolor: 'background.paper' }}>
-            {searchResults.data.map((dataObj, index) => (
+            {searchResults.map((dataObj, index) => (
                 <React.Fragment key={index}>
                     <ListItem alignItems="flex-start" sx={{ py: 2 }} key={index}>
                         <ListItemAvatar>
@@ -28,6 +28,7 @@ const NameResultsList = ({ searchResults }) => {
                                             fontSize: '24px', // Set desired font size
                                             fontWeight: 'bold', // Make text bold
                                             cursor: 'pointer', // Show pointer cursor on hover
+                                            color: 'black',
                                         }}
                                         component="span"
                                     >
@@ -50,7 +51,7 @@ const NameResultsList = ({ searchResults }) => {
                         />
                     </ListItem>
                     {/* Add divider after each list item except the last one */}
-                    {index < searchResults.data.length - 1 && <Divider />}
+                    {index < searchResults.length - 1 && <Divider />}
                 </React.Fragment>
             ))}
         </List>

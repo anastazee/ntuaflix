@@ -1,112 +1,164 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
-import { Typography, Box } from "@mui/material";
-import Link from 'next/link';
+import { Typography, Box, Select, MenuItem, FormControl} from "@mui/material";
 import TitleResultsList from "../components/titleresultslist";
 import NameResultsList from "../components/nameresultslist";
 
 const ResultsPage = () => {
 
   const router = useRouter();
+  //const [searchQuery, setSearchQuery] = useState("");
+  //const [option, setOption] = useState("tt");
   const [searchResults, setSearchResults] = useState(null);
+  const [selectedSort, setSelectedSort] = useState("None");
   var searchQuery = router.query["q"];
   var option = router.query["so"];
-  var flag = false;
+  //var flag = false;
+  //setOption(router.query["so"]);
+  //setSearchQuery(router.query["q"]);
+  const [isLoading, setIsLoading] = useState(false); // Add isLoading state
 
   console.log("the query is", searchQuery);
-  //useEffect(() => {
-    //let ignore = false;
-  if (option === "nm") {
-    //useEffect(() => {
-    
-    fetch("http://localhost:9876/searchname", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        namePart: searchQuery
-      }),
-    })
-    .then((response) => {
-      if (!response.ok) {
-          throw new Error('Network response was not ok');
-      }
-      console.log(response.status);
-      // Check if response is empty
-      if (response.status === 204) { // 204 No Content status code indicates empty response
-          // Handle empty response here, for example:
-          console.log("got empty");
-          flag = true;
-      } else {
-          return response.json(); // Parse JSON if response is not empty
-      }
-  })
-      .then((d) => {
-        if (flag) setSearchResults([]);
-        else  setSearchResults(d);
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-      });
-    console.log (" i am fetching")
-  }
-  if (option === "tt") {
-    //useEffect(() => {
-    fetch("http://localhost:9876/searchtitle", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        titlePart: searchQuery
-      }),
-    })
-    .then((response) => {
-      if (!response.ok) {
-          throw new Error('Network response was not ok');
-      }
-      console.log(response.status);
-      // Check if response is empty
-      if (response.status === 204) { // 204 No Content status code indicates empty response
-          // Handle empty response here, for example:
-          console.log("got empty");
-          flag = true;
-      } else {
-          return response.json(); // Parse JSON if response is not empty
-      }
-  })
-      .then((d) => {
-        if (flag) setSearchResults([]);
-        else  setSearchResults(d);
-      })
-      .catch((error) => {
-        console.error("Error:", error);
-      });
-     // return () => {
-      //  ignore = true;
-      //}
-    }
-   // }, [searchQuery, option]);
+  console.log("the option is", option);
+  
+  const handleSortChange = (event) => {
+    setSelectedSort(event.target.value);
+  };
+  
+  const handleNARating = (rating) => {
+    return rating === "N/A" ? 0 : parseFloat(rating);
+  };
 
+  const sortByRating = (a, b) => {
+    // Convert average ratings to numbers for proper comparison
+    const ratingA = handleNARating(a.rating.avRating);
+    const ratingB = handleNARating(b.rating.avRating);
+
+    // Sort in descending order
+    return ratingB - ratingA;
+  };
+
+  const sortByStartYear = (a, b) => {
+    // Handle the case where startYear is null
+    if (a.startYear === null && b.startYear === null) {
+        return 0;
+    } else if (a.startYear === null) {
+        return 1; // Place items with null startYear at the end
+    } else if (b.startYear === null) {
+        return -1; // Place items with null startYear at the end
+    }
+    
+    return parseInt(b.startYear) - parseInt(a.startYear);
+  };
+  useEffect(() => {
+    setIsLoading(true);
+
+    let flag = false;
+
+    //if (router.query["so"] === "nm" || router.query["so"] === "tt") {
+      fetch(
+        option === "tt"
+          ? "http://localhost:9876/searchtitle"
+          : "http://localhost:9876/searchname",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: 
+            option === "tt" 
+          ? JSON.stringify({
+            titlePart: router.query["q"],
+          })
+          : JSON.stringify({
+            namePart: router.query["q"],
+          })
+        }
+      )
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+          if (response.status === 204) {
+            flag = true;
+            return [];
+          } else {
+            return response.json();
+          }
+        })
+        .then((d) => {
+          if (flag) setSearchResults([]);
+          else setSearchResults(d.data);
+          setIsLoading(false);
+        })
+        .catch((error) => {
+          console.error("Error:", error);
+          setIsLoading(false);
+        });
+    //}
+  }, [router.query["q"], router.query["so"]]);
+
+  if (isLoading /*searchResults === null*/) {
+      console.log(" i am fucking null");
+    return (
+    <div style={{ display: 'flex', flexDirection: 'column' }}>
+    <Typography variant="h4" sx={{ marginTop: '15px', marginBottom: '15px' }}>Search '{searchQuery}'</Typography>
+    <Typography variant="body1">Loading...</Typography>
+    </div>
+    );
+  }
+
+  if (!isLoading && searchResults !== null &&  searchResults.length !== 0 && selectedSort !== "None") {
+    if (selectedSort === "Rating") searchResults.sort(sortByRating);
+    if (selectedSort === "Year") searchResults.sort(sortByStartYear);
+
+  }
 
     console.log("the result is \n", searchResults);
     //console.log("the length is ", searchResults.length);
     return (
-      <div>
-        <Typography variant="h4" sx={{ marginBottom: '20px' }}>Search '{searchQuery}'</Typography>
-        {searchResults !== null ? (
-        <Box sx={{ marginTop: '20px', padding: '20px' }}>
-          <Typography variant="h5" sx={{ marginBottom: '20px' }}>Search Results</Typography>
-          {searchResults.length === 0 ? (
-            <Typography variant="body1">No results found.</Typography>
-          ) : (
-            option === "nm" ? <NameResultsList searchResults={searchResults} /> : <TitleResultsList searchResults={searchResults} />
+      <div style={{ display: 'flex', flexDirection: 'column' }}>
+        <Typography variant="h4" sx={{ marginTop: '15px', marginBottom: '15px' }}>Search '{searchQuery}'</Typography>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          
+          {searchResults !== null ? (
+            <Box sx={{ padding: '20px', display: 'flex', alignItems: 'center' }}>
+              <Typography variant="h5" sx={{ marginRight: '100px' }}>Search Results</Typography>
+
+          {option === "tt" && ( 
+            <>
+              <Typography variant="h7" sx={{ marginLeft: '550px' }}>Sort By </Typography>
+              <FormControl variant="standard" sx={{ m: 1, minWidth: 120 }}>
+                <Select
+                  defaultValue={selectedSort}
+                  onChange={handleSortChange}
+                  displayEmpty
+                  size="small"
+                  sx={{ backgroundColor: 'white', color: 'black', marginLeft: '1rem' }}
+                >
+                  <MenuItem value="None">None</MenuItem>
+                  <MenuItem value="Rating">Rating</MenuItem>
+                  <MenuItem value="Year">Year</MenuItem>
+                </Select>
+              </FormControl>
+            </>
           )}
-        </Box> )
-        : (<Typography variant="body1">Loading...</Typography>) }
+            </Box>
+          ) : (
+            <Typography variant="body1">Loading...</Typography>
+          )}
+        </div>
+        <div>
+          {searchResults !== null && (
+            searchResults.length === 0 ? (
+              <Typography variant="body1">No results found.</Typography>
+            ) : (
+              option === "nm" ? <NameResultsList searchResults={searchResults} /> : <TitleResultsList searchResults={searchResults} />
+            )
+          )}
+        </div>
       </div>
-    );    
-};
+    );
+}    
 
 export default ResultsPage;

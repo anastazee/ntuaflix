@@ -46,7 +46,7 @@ const Header = () => {
         </MuiLink>
         <Box sx={{ display: "flex", justifyContent: "center", flexGrow: 1 }}>
         <Select
-            defaultValue={selectedOption}
+            value={selectedOption}
             onChange={handleOptionChange}
             //displayEmpty
             size="small"
