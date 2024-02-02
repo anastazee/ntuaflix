@@ -1,5 +1,5 @@
 const mysql = require('mysql2');
-
+const { convertToCSV } = require('../middlewares/convert-to-csv');
 const {
     getConnectionAsync,
     getTitleObject,
@@ -11,19 +11,28 @@ const {
 
 exports.getTitleRoute = async (req, res) => {
     const titleID = req.params.titleID;
-
-    try {
+    const format = req.query.format || null;
+    if (format && format.toLowerCase() !== 'csv' && format.toLowerCase() !== 'json') {
+        res.status(400).json({ status: 'Bad Request', message: 'format values can be csv or json' })
+    }
+    try {      
         const connection = await getConnectionAsync();
 
         if (connection) {
             try {
                 const titleObject = await getTitleObject(connection, titleID);
-
-                res.status(200).json({ status: 'OK', data: titleObject});
+                if (!format || format.toLowerCase() === 'json') {
+                    res.status(200).json({ status: 'OK', data: titleObject });
+                }
+                else if (format.toLowerCase() === 'csv') {
+                    const csvData = convertToCSV([titleObject]);
+                    res.setHeader('Content-Type', 'text/csv');
+                    res.status(200).send(csvData);
+                }
 
                 connection.release();
             } catch (error) {
-                res.status(404).json({ status: 'Failed', data: `Title with ID ${titleID} not found`});
+                res.status(404).json({ status: 'Failed', data: `Title with ID ${titleID} not found` });
             }
         } else {
             res.status(500).json({ status: 'Failed', data: 'Faulty connection' });
@@ -35,25 +44,35 @@ exports.getTitleRoute = async (req, res) => {
 
 exports.getNameRoute = async (req, res) => {
     const nameID = req.params.nameID;
-
-    try {
+    const format = req.query.format || null;
+    
+    if (format && format.toLowerCase() !== 'csv' && format.toLowerCase() !== 'json') {
+        res.status(400).json({ status: 'Bad Request', message: 'format values can be csv or json' })
+    }
+    try {      
         const connection = await getConnectionAsync();
 
         if (connection) {
             try {
                 const nameObject = await getNameObject(connection, nameID);
-                
-                res.status(200).json({ status: 'OK', data: nameObject});
+                if (!format || format.toLowerCase() === 'json') {
+                    res.status(200).json({ status: 'OK', data: nameObject });
+                }
+                else if (format.toLowerCase() === 'csv') {
+                    const csvData = convertToCSV([nameObject]);
+                    res.setHeader('Content-Type', 'text/csv');
+                    res.status(200).send(csvData);
+                }
 
                 connection.release();
             } catch (error) {
-                res.status(404).json({ status: 'Failed', data: `Contributor with nameID ${nameID} not found`});
+                res.status(404).json({ status: 'Failed', message: `Contributor with nameID ${nameID} not found` });
             }
         } else {
-            res.status(500).json({ status: 'Failed', data: 'Faulty connection' });
+            res.status(500).json({ status: 'Failed', message: 'Faulty connection' });
         }
     } catch (error) {
-        res.status(500).json({ status: 'Failed', data: 'Error connecting to the database' });
+        res.status(500).json({ status: 'Failed', message: 'Error connecting to the database' });
     }
 };
 
@@ -65,7 +84,10 @@ exports.getSearchTitle = async (req, res) => {
             return;
         }
         const titlepart = tqueryObject.titlePart;
-
+        const format = req.query.format || null;
+        if (format && format.toLowerCase() !== 'csv' && format.toLowerCase() !== 'json') {
+            res.status(400).json({ status: 'Bad Request', message: 'format values can be csv or json' })
+        }
         try {
             const connection = await getConnectionAsync();
 
@@ -76,7 +98,13 @@ exports.getSearchTitle = async (req, res) => {
                         res.status(204).send();
                         return;
                     }
-                    res.status(200).json({ status: 'Success', data: titleObjects });
+                    if (!format || format.toLowerCase() === 'json') {
+                        res.status(200).json({ status: 'Success', data: titleObjects });
+                    } else if (format.toLowerCase() === 'csv') {
+                        const csvData = convertToCSV(titleObjects);
+                        res.setHeader('Content-Type', 'text/csv');
+                        res.status(200).send(csvData);
+                    }
                 } catch (error) {
                     console.error('Error in getSearchTitleObjects:', error);
                     res.status(500).json({ status: 'Internal Server Error', message: 'Error getting matchng TitleObjects' });
@@ -107,20 +135,27 @@ exports.getSearchName = async (req, res) => {
             return;
         }
         const namepart = nqueryObject.namePart;
-
+        const format = req.query.format || null;
+        if (format && format.toLowerCase() !== 'csv' && format.toLowerCase() !== 'json') {
+            res.status(400).json({ status: 'Bad Request', message: 'format values can be csv or json' })
+        }
         try {
             const connection = await getConnectionAsync();
 
             if (connection) {
                 try {
                     const nameObjects = await getSearchNameObjects(connection, namepart);
-                    console.log(typeof nameObjects); // Log the type
-                    if (nameObjects && nameObjects.length === 0) {
+                    if (nameObjects.length == 0) {
                         res.status(204).send();
                         return;
                     }
-
-                    res.status(200).json({ status: 'Success', data: nameObjects });
+                    if (!format || format.toLowerCase() === 'json') {
+                        res.status(200).json({ status: 'Success', data: nameObjects });
+                    } else if (format.toLowerCase() === 'csv') {
+                        const csvData = convertToCSV(nameObjects);
+                        res.setHeader('Content-Type', 'text/csv');
+                        res.status(200).send(csvData);
+                    }
                 } catch (error) {
                     console.error('Error in getSearchNameObjects:', error);
                     res.status(500).json({ status: 'Internal Server Error', message: 'Error getting matchng NameObjects' });
@@ -146,14 +181,18 @@ exports.getSearchName = async (req, res) => {
 exports.getByGenre = async (req, res) => {
     try {
         let gqueryObject = req.body;
-        if (!gqueryObject || !gqueryObject.genre || !gqueryObject.min) {
+        if (!gqueryObject || !gqueryObject.qgenre || !gqueryObject.minrating) {
             res.status(400).json({ status: 'Bad Request', message: 'Genre and minimum rating are required parameters' });
             return;
+        }        
+        const format = req.query.format || null;
+        if (format && format.toLowerCase() !== 'csv' && format.toLowerCase() !== 'json') {
+            res.status(400).json({ status: 'Bad Request', message: 'format values can be csv or json' })
         }
-        const qgenre = gqueryObject.genre;
-        const minrating = gqueryObject.min;
-        const yrFrom = gqueryObject.from;
-        const yrTo = gqueryObject.to;
+        const qgenre = gqueryObject.qgenre;
+        const minrating = gqueryObject.minrating;
+        const yrFrom = gqueryObject.yrFrom;
+        const yrTo = gqueryObject.yrTo;
 
         try {
             const connection = await getConnectionAsync();
@@ -165,7 +204,13 @@ exports.getByGenre = async (req, res) => {
                         res.status(204).send();
                         return;
                     }
-                    res.status(200).json({ status: 'Success', data: titleObjects });
+                    if (!format || format.toLowerCase() === 'json') {
+                        res.status(200).json({ status: 'Success', data: titleObjects });
+                    } else if (format.toLowerCase() === 'csv') {
+                        const csvData = convertToCSV(titleObjects);
+                        res.setHeader('Content-Type', 'text/csv');
+                        res.status(200).send(csvData);
+                    }
                 } catch (error) {
                     console.error('Error in getByGenreObjects:', error);
                     res.status(500).json({ status: 'Internal Server Error', message: 'Error getting matchng TitleObjects' });

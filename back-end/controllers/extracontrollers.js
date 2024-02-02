@@ -21,13 +21,13 @@ exports.getKnownFor = async (req, res) => {
 
                 connection.release();
             } catch (error) {
-                res.status(404).json({ status: 'Failed', data: `Error fetching ${nameID} known for movies`});
+                res.status(404).json({ status: 'Failed', message: `Error fetching ${nameID} known for movies`, data: null});
             }
         } else {
-            res.status(500).json({ status: 'Failed', data: 'Faulty connection' });
+            res.status(500).json({ status: 'Failed', message: 'Faulty connection' });
         }
     } catch (error) {
-        res.status(500).json({ status: 'Failed', data: 'Error connecting to the database' });
+        res.status(500).json({ status: 'Failed', message: 'Error connecting to the database', data: null });
     }
 };
 
@@ -46,13 +46,13 @@ exports.getPrincipalMovies = async (req, res) => {
 
                 connection.release();
             } catch (error) {
-                res.status(404).json({ status: 'Failed', data: `Error fetching ${nameID} principal movies`});
+                res.status(404).json({ status: 'Failed', message: `Error fetching ${nameID} principal movies`, data: null});
             }
         } else {
-            res.status(500).json({ status: 'Failed', data: 'Faulty connection' });
+            res.status(500).json({ status: 'Failed', message: 'Faulty connection', data: null });
         }
     } catch (error) {
-        res.status(500).json({ status: 'Failed', data: 'Error connecting to the database' });
+        res.status(500).json({ status: 'Failed', message: 'Error connecting to the database', data: null });
     }
 };
 
@@ -69,13 +69,13 @@ exports.gettop10Movies = async (req, res) => {
 
                 connection.release();
             } catch (error) {
-                res.status(404).json({ status: 'Failed', data: `Error fetching ${nameID} top 10 movies`});
+                res.status(404).json({ status: 'Failed', message: `Error fetching ${nameID} top 10 movies`, data: null});
             }
         } else {
-            res.status(500).json({ status: 'Failed', data: 'Faulty connection' });
+            res.status(500).json({ status: 'Failed', message: 'Faulty connection', data: null });
         }
     } catch (error) {
-        res.status(500).json({ status: 'Failed', data: 'Error connecting wdefeto the database' });
+        res.status(500).json({ status: 'Failed', message: 'Error connecting to the database', data: null});
     }
 };
 
@@ -91,12 +91,12 @@ exports.getvotes10Movies = async (req, res) => {
 
                 connection.release();
             } catch (error) {
-                res.status(404).json({ status: 'Failed', data: `Error fetching ${nameID} top 10 movies`});
+                res.status(404).json({ status: 'Failed', message: `Error fetching ${nameID} top 10 movies`, data: null});
             }
         } else {
-            res.status(500).json({ status: 'Failed', data: 'Faulty connection' });
+            res.status(500).json({ status: 'Failed', message: 'Faulty connection', data: null });
         }
     } catch (error) {
-        res.status(500).json({ status: 'Failed', data: 'Error connecting wdefeto the database' });
+        res.status(500).json({ status: 'Failed', message: 'Error connecting to the database', data: null });
     }
 };

@@ -5,7 +5,7 @@ const axios = require('axios');
 const fs = require('fs');
 const FormData = require('form-data');
 const path = require('path');
-
+const { printTabularCSV } = require('./printTabularCSV');
 program
     .version('1.0.0')
     .description('CLI for Ntuaflix app');
@@ -253,19 +253,19 @@ program
         }
     });
 
-    program
+program
     .command('resetall')
     .description('Delete all data in Ntuaflix database')
     .action(async (options) => {
         try {
-            
+
             const response = await axios.post('http://localhost:9876/admin/resetall');
 
             console.log('Success: All data deleted successfully');
         } catch (error) {
             if (error.response && error.response.data) {
                 console.error('Error:', error.response.data.status, '\nReason:', error.response.data.reason);
-              } else {
+            } else {
                 console.error('Error:', error.message);
             }
         }
@@ -276,26 +276,33 @@ program
     .command('title')
     .description('Get details for a specific title from the Ntuaflix database')
     .requiredOption('--titleID <titleID>', 'ID of the title')
+    .option('--format <format>', 'Type of output (json/csv). Default: json')
     .action(async (options) => {
         try {
             const titleID = options.titleID;
-
-            const response = await axios.get(`http://localhost:9876/title/${titleID}`);
-
+            const format = options.format || '';
+            /*if (format && format.toLowerCase() !== 'csv' && format.toLowerCase() !== 'json') {
+                    console.error('Error: Invalid format type. Please use "json" or "csv".');
+            }*/
+            const response = await axios.get(`http://localhost:9876/title/${titleID}?format=${format}`);
+            if (format.toLowerCase() == 'csv') {
+                console.log("work in progress");
+                    //printTabularCSV(response.data);
+            }
             const titleObject = response.data.data;
-
-            console.log(`titleID:`, titleObject.titleID);
-            console.log(`type:`, titleObject.type || 'N/A');
-            console.log(`originalTitle:`, titleObject.originalTitle || 'N/A');
-            console.log(`titlePoster:`, titleObject.titlePoster || 'N/A');
-            console.log(`startYear:`, titleObject.startYear || 'N/A');
-            console.log(`endYear:`, titleObject.endYear || 'N/A');
-            //console.log(`genres:`, titleObject.genres || 'N/A');
-            console.log('Genres:', titleObject.genres && Array.isArray(titleObject.genres)
+            if (!format || format.toLowerCase() == 'json') {
+                console.log(`titleID:`, titleObject.titleID);
+                console.log(`type:`, titleObject.type || 'N/A');
+                console.log(`originalTitle:`, titleObject.originalTitle || 'N/A');
+                console.log(`titlePoster:`, titleObject.titlePoster || 'N/A');
+                console.log(`startYear:`, titleObject.startYear || 'N/A');
+                console.log(`endYear:`, titleObject.endYear || 'N/A');
+                //console.log(`genres:`, titleObject.genres || 'N/A');
+                console.log('Genres:', titleObject.genres && Array.isArray(titleObject.genres)
                     ? titleObject.genres.map(obj => obj && obj.genreTitle).filter(Boolean).join(', ')
                     : 'N/A');
-            //console.log(`titleAkas:`, titleObject.titleAkas.map(item => ({ akaTitle: item[0], regionAbbrev: item[1] })));
-            console.log('Title Akas:');
+                //console.log(`titleAkas:`, titleObject.titleAkas.map(item => ({ akaTitle: item[0], regionAbbrev: item[1] })));
+                console.log('Title Akas:');
                 if (titleObject.titleAkas && titleObject.titleAkas.length > 0) {
                     for (const aka of titleObject.titleAkas) {
                         console.log(`   aka Title: ${aka.akaTitle || 'N/A'}`);
@@ -303,8 +310,8 @@ program
                         console.log('------------------------');
                     }
                 }
-            //console.log(`principals:`, titleObject.principals.map(item => ({ nameID: item[0], name: item[1], category: item[2] })));
-            console.log('Principals:');
+                //console.log(`principals:`, titleObject.principals.map(item => ({ nameID: item[0], name: item[1], category: item[2] })));
+                console.log('Principals:');
                 if (titleObject.principals && titleObject.principals.length > 0) {
                     for (const principal of titleObject.principals) {
                         console.log(`  ID: ${principal.nameID || 'N/A'}`);
@@ -315,10 +322,11 @@ program
                 } else {
                     console.log('  N/A');
                 }
-            //console.log(`rating:`, titleObject.rating);
-            console.log('Rating:');
-            console.log(`  Average Rating: ${titleObject.rating ? titleObject.rating.avRating : 'N/A'}`);
-            console.log(`  Number of Votes: ${titleObject.rating ? titleObject.rating.nVotes : 'N/A'}`);
+                //console.log(`rating:`, titleObject.rating);
+                console.log('Rating:');
+                console.log(`  Average Rating: ${titleObject.rating ? titleObject.rating.avRating : 'N/A'}`);
+                console.log(`  Number of Votes: ${titleObject.rating ? titleObject.rating.nVotes : 'N/A'}`);
+            } 
         } catch (error) {
             console.error('Error:', error.message);
         }
@@ -338,21 +346,21 @@ program
 
             console.log(`nameID:`, nameObject.nameID);
             console.log(`name:`, nameObject.name);
-            console.log(`namePoster:`, nameObject.namePoster|| 'N/A');
+            console.log(`namePoster:`, nameObject.namePoster || 'N/A');
             console.log(`birthYr:`, nameObject.birthYr || 'N/A');
             console.log(`deathYr:`, nameObject.deathYr || 'N/A');
             console.log(`profession:`, nameObject.profession || 'N/A');
             //console.log(`nameTitles:`, nameObject.nameTitles.map(item => ({ titleID: item[0], category: item[1] })));
             console.log('Name Titles:');
-                if (nameObject.nameTitles && nameObject.nameTitles.length > 0) {
-                    for (const title of nameObject.nameTitles) {
-                        console.log(`   Title ID: ${title.titleID || 'N/A'}`);
-                        console.log(`   Category: ${title.category || 'N/A'}`);
-                        console.log('------------------------');
-                    }
-                } else {
-                    console.log('  N/A');
+            if (nameObject.nameTitles && nameObject.nameTitles.length > 0) {
+                for (const title of nameObject.nameTitles) {
+                    console.log(`   Title ID: ${title.titleID || 'N/A'}`);
+                    console.log(`   Category: ${title.category || 'N/A'}`);
+                    console.log('------------------------');
                 }
+            } else {
+                console.log('  N/A');
+            }
         } catch (error) {
             console.error('Error:', error.message);
         }
@@ -370,7 +378,7 @@ program
                 "titlePart": title,
             });
             const titleObjects = response.data.data;
-            if (response.status==204) {
+            if (response.status == 204) {
                 console.log('No title matches your data');
                 return;
             }
@@ -438,7 +446,7 @@ program
                 "namePart": namePart,
             });
             const nameObjects = response.data.data;
-            if (response.status==204) {
+            if (response.status == 204) {
                 console.log('No contributor matches your data');
                 return;
             }
@@ -485,18 +493,18 @@ program
             const yrTo = options.to;
 
             const param = {
-                genre: qgenre,
-                min: minrating,
+                qgenre: qgenre,
+                minrating: minrating,
             };
-              
+
             if (yrFrom) {
-                param.from = yrFrom;
+                param.yrFrom = yrFrom;
             }
-              
+
             if (yrTo) {
-                param.to = yrTo;
+                param.yrTo = yrTo;
             }
-            
+
             const response = await axios.post(`http://localhost:9876/bygenre`, param);
 
             const titleObjects = response.data.data;
