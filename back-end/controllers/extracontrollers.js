@@ -1,12 +1,15 @@
 const mysql = require('mysql2');
-
 const {
     getKnownForObjects,
     getPrincipalMovieObjects,
     gettop10MovieObjects,
     getvotes10MovieObjects,
+    getDirectorObjects,
+    getWritersObjects,
+    getTitlePrincipalsObjects,
 } = require('../middlewares/extra-connections-queries');
-const {getConnectionAsync} = require('../middlewares/connections-queries')
+const {getConnectionAsync} = require('../middlewares/connections-queries');
+
 exports.getKnownFor = async (req, res) => {
     const nameID = req.params.nameID;
 
@@ -79,6 +82,7 @@ exports.gettop10Movies = async (req, res) => {
     }
 };
 
+
 exports.getvotes10Movies = async (req, res) => {
     try {
         const connection = await getConnectionAsync();
@@ -92,6 +96,81 @@ exports.getvotes10Movies = async (req, res) => {
                 connection.release();
             } catch (error) {
                 res.status(404).json({ status: 'Failed', message: `Error fetching ${nameID} top 10 movies`, data: null});
+            }
+        } else {
+            res.status(500).json({ status: 'Failed', message: 'Faulty connection', data: null });
+        }
+    } catch (error) {
+        res.status(500).json({ status: 'Failed', message: 'Error connecting to the database', data: null });
+    }
+};
+
+
+exports.getDirector = async (req, res) => {
+    const titleID = req.params.titleID;
+
+    try {
+        const connection = await getConnectionAsync();
+
+        if (connection) {
+            try {
+                const directorObjects = await getDirectorObjects(connection, titleID);
+
+                res.status(200).json({ status: 'OK', data: directorObjects});
+
+                connection.release();
+            } catch (error) {
+                res.status(404).json({ status: 'Failed', message: `Error fetching ${titleID} director`, data: null});
+            }
+        } else {
+            res.status(500).json({ status: 'Failed', message: 'Faulty connection', data: null });
+        }
+    } catch (error) {
+        res.status(500).json({ status: 'Failed', message: 'Error connecting to the database', data: null });
+    }
+};
+
+
+exports.getWriters = async (req, res) => {
+    const titleID = req.params.titleID;
+
+    try {
+        const connection = await getConnectionAsync();
+
+        if (connection) {
+            try {
+                const writersObjects = await getWritersObjects(connection, titleID);
+
+                res.status(200).json({ status: 'OK', data: writersObjects});
+
+                connection.release();
+            } catch (error) {
+                res.status(404).json({ status: 'Failed', message: `Error fetching ${titleID} writers`, data: null});
+            }
+        } else {
+            res.status(500).json({ status: 'Failed', message: 'Faulty connection', data: null });
+        }
+    } catch (error) {
+        res.status(500).json({ status: 'Failed', message: 'Error connecting to the database', data: null });
+    }
+};
+
+
+exports.getTitlePrincipals = async (req, res) => {
+    const titleID = req.params.titleID;
+
+    try {
+        const connection = await getConnectionAsync();
+
+        if (connection) {
+            try {
+                const titlePrincipalsObjects = await getTitlePrincipalsObjects(connection, titleID);
+
+                res.status(200).json({ status: 'OK', data: titlePrincipalsObjects});
+
+                connection.release();
+            } catch (error) {
+                res.status(404).json({ status: 'Failed', message: `Error fetching ${titleID} principals`, data: null});
             }
         } else {
             res.status(500).json({ status: 'Failed', message: 'Faulty connection', data: null });

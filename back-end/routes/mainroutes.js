@@ -37,4 +37,7 @@ router.get('/knownfor/:nameID', extraController.getKnownFor);
 router.get('/principalmovies/:nameID', extraController.getPrincipalMovies);
 router.get('/top10movies', extraController.gettop10Movies);
 router.get('/votes10movies', extraController.getvotes10Movies);
+router.get('director/:titleID', extraController.getDirector);
+router.get('writers/:titleID', extraController.getWriters);
+router.get('titlepricipals/:titleID', extraController.getTitlePrincipals);
 module.exports = router;

@@ -411,7 +411,7 @@ exports.processReset = async(connection) => {
         console.error('Error deleting data:', error);
         throw(error);
       }
-    };
+};
 
 exports.getTitleObject = async (connection, titleID) => {
     const query = `
@@ -617,7 +617,7 @@ exports.getSearchTitleObjects = async (connection, titlepart) => {
         return returnObjects;
     }
 
-}
+};
 
 exports.getSearchNameObjects = async (connection, namepart) => {
     let returnObjects = [];
@@ -671,7 +671,7 @@ exports.getSearchNameObjects = async (connection, namepart) => {
         return returnObjects;
     }
 
-}
+};
 
 exports.getByGenreObjects = async (connection, qgenre, minrating, yrFrom, yrTo) => {
     let titleResults = null;
@@ -789,4 +789,4 @@ exports.getByGenreObjects = async (connection, qgenre, minrating, yrFrom, yrTo) 
     } else {
         throw new Error(`Titles not found`);
     }
-}
+};
