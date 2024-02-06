@@ -1,0 +1,39 @@
+/* TitlePrincipalsList.module.css */
+
+.principalsList {
+    width: 100%;
+    max-width: 600px;
+    font-family: 'Lato', sans-serif;
+}
+
+.personItem {
+    padding-top: 8px; /* Example padding top */
+}
+
+.personAvatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    margin-right: 0.5rem;
+}
+
+.personName,
+.personProfession,
+.noPeopleText {
+    font-family: 'Lato', sans-serif; /* Set the font family for name, profession, and no people text */
+}
+
+.personName {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.personProfession {
+    font-size: 14px;
+    font-weight: normal;
+}
+
+.noPeopleText {
+    font-size: 14px;
+    color: #757575; /* Example text color for no people found */
+}

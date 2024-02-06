@@ -24,7 +24,7 @@ const TitleResultsList = ({ searchResults }) => {
                         </ListItemAvatar>
                         <ListItemText
                             primary={
-                                <Link href="/info/[nameID]" as={`/info/${dataObj.titleID}`} style={{ textDecoration: 'none' }}>
+                                <Link href="/info/title/[titleID]" as={`/info/title/${dataObj.titleID}`} style={{ textDecoration: 'none' }}>
                                     <Typography
                                         className={styles.title}
                                         sx={{

@@ -19,7 +19,7 @@ const PrincipalMoviesList = ({ movies }) => {
                             </ListItemAvatar>
                             <ListItemText
                                 primary={
-                                    <Link href="/info/[titleID]" as={`/info/${movie.titleID}`}>
+                                    <Link href="/info/title/[titleID]" as={`/info/title/${movie.titleID}`}>
                                         <Typography className={styles.movieTitle}>
                                             {movie.originalTitle}
                                         </Typography>

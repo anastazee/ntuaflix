@@ -1,0 +1,66 @@
+/* InfoTitle.module.css */
+
+.infoContainer {
+    display: flex;
+}
+
+.imageContainer {
+    display: flex;
+    flex-direction: column; /* Change to column to place title above image */
+    align-items: center; /* Center align items horizontally */
+    margin-right: 20px;
+    margin-bottom: 20px;
+}
+
+.image {
+    max-width: 100%;
+    height: auto;
+}
+
+.title {
+    color: #c1e8f5;
+    margin-top: 10px; /* Adjust margin as needed */
+}
+
+.detailsContainer {
+    flex: 2;
+}
+
+.columnsContainer {
+    display: flex;
+    gap: 20px; /* Adjust the gap as needed */
+}
+
+.leftColumn,
+.rightColumn {
+    flex: 1;
+}
+
+.columnTitle {
+    font-weight: bold;
+    margin-bottom: 10px; /* Adjust margin as needed */
+}
+
+.personContainer {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px; /* Adjust margin as needed */
+}
+
+.personAvatar {
+    width: 50px; /* Adjust the size of the avatar */
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 10px; /* Adjust margin as needed */
+}
+
+.personDetails {
+    flex: 1;
+}
+
+.directorsColumn,
+.writersColumn {
+    flex: 1;
+}
+
+/* Add additional styles and adjustments as needed */

@@ -21,29 +21,6 @@ const queryAsync = (connection, sql, values) => {
 };
 
 
-const fetchContributors = async (connection, titleID) => {
-    const query = `
-        SELECT
-            tp.Contributornconst AS nameID,
-            c.primaryName AS name,
-            tp.category
-        FROM
-            title_principals tp
-            JOIN Contributor c ON tp.Contributornconst = c.nconst
-        WHERE
-            tp.Titletconst = ?
-    `;
-
-    const contributorsResult = await queryAsync(connection, query, [titleID]);
-
-    return contributorsResult.map(row => ({
-        nameID: row.nameID,
-        name: row.name,
-        category: row.category
-    }));
-}
-
-
 exports.getKnownForObjects = async (connection, nameID) => {
     let returnObjects = [];
     if (nameID) {
@@ -272,7 +249,7 @@ exports.getDirectorObjects = async (connection, titleID) => {
         WHERE
             d.Titletconst = ?`;
         try {
-            const results = await queryAsync(connection, query, [`${nameID}`]);
+            const results = await queryAsync(connection, query, [`${titleID}`]);
             try {
                 for (const nameResult of results) {
                     const nameObject = {
@@ -323,7 +300,7 @@ exports.getWritersObjects = async (connection, titleID) => {
         WHERE
             w.Titletconst = ?`;
         try {
-            const results = await queryAsync(connection, query, [`${nameID}`]);
+            const results = await queryAsync(connection, query, [`${titleID}`]);
             try {
                 for (const nameResult of results) {
                     const nameObject = {
@@ -357,11 +334,53 @@ exports.getWritersObjects = async (connection, titleID) => {
 
 
 exports.getTitlePrincipalsObjects = async (connection, titleID) => {
-    const contributors = await fetchContributors(connection, titleID);
+    let returnObjects = [];
+    if (titleID) {
+        const query = `
+        SELECT
+            tp.Contributornconst AS nameID,
+            c.nconst,
+            c.primaryName,
+            c.img_url_asset,
+            c.BirthYear,
+            c.DeathYear,
+            c.primaryProfession,
+            tp.category
+        FROM
+            title_principals tp
+            JOIN Contributor c ON tp.Contributornconst = c.nconst
+        WHERE
+            tp.Titletconst = ? AND tp.category != 'director' AND tp.category != 'writer' 
+        ORDER BY tp.category ASC `;
+        try {
+            const results = await queryAsync(connection, query, [`${titleID}`]);
+            try {
+                for (const nameResult of results) {
+                    const nameObject = {
+                        nameID: nameResult.nconst,
+                        name: nameResult.primaryName,
+                        namePoster: nameResult.img_url_asset,
+                        birthYr: nameResult.BirthYear,
+                        deathYr: nameResult.DeathYear,
+                        profession: nameResult.primaryProfession,
+                        category: nameResult.category
+                    };
+                    returnObjects.push(nameObject);
+                }
+            } catch (error) {
+                console.error('Error creating object', error);
+                throw error;
+            }
 
-    const filteredContributors = contributors.filter(contributor => 
-        contributor.category !== 'director' && contributor.category !== 'writer'
-    );
-
-    return filteredContributors;
+            return returnObjects;
+        }
+        catch (error) {
+            console.error('Error executing query:', error);
+            throw error;
+        }
+    }
+    else {
+        console.warn('titleID is null');
+        return returnObjects;
+    }
 };

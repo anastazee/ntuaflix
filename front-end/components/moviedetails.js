@@ -6,7 +6,7 @@ import styles from '../styles/MovieDetails.module.css';
 const MovieDetails = ({ titleID, type, originalTitle, titlePoster, startYear, endYear }) => {
   return (
     <div className={styles.container}>
-      <Link href={`/info/${titleID}`} passHref style={{ textDecoration: 'none' }}>
+      <Link href={`/info/title/${titleID}`} passHref style={{ textDecoration: 'none' }}>
         <div className={styles.linkContainer}>
           <div className={styles.posterContainer}>
             {titlePoster && (
