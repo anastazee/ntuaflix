@@ -55,8 +55,8 @@ const ResultsPage = () => {
 
     fetch(
        option === "tt"
-         ? "http://localhost:9876/searchtitle"
-         : "http://localhost:9876/searchname",
+         ? "https://localhost:9876/searchtitle"
+         : "https://localhost:9876/searchname",
        {
          method: "POST",
          headers: {

@@ -18,7 +18,7 @@ const InfoTitle = () => {
   useEffect(() => {
     if (titleID) {
       // Fetch data from the API endpoint
-      fetch(`http://localhost:9876/title/${titleID}`, {
+      fetch(`https://localhost:9876/title/${titleID}`, {
         method: 'GET',
       })
         .then((response) => response.json())
@@ -35,7 +35,7 @@ const InfoTitle = () => {
   useEffect(() => {
     if (titleID) {
       // Fetch data from the API endpoint
-      fetch(`http://localhost:9876/titleprincipals/${titleID}`, {
+      fetch(`https://localhost:9876/titleprincipals/${titleID}`, {
         method: 'GET',
       })
         .then((response) => response.json())
@@ -52,7 +52,7 @@ const InfoTitle = () => {
   useEffect(() => {
     if (titleID) {
       // Fetch data from the API endpoint
-      fetch(`http://localhost:9876/director/${titleID}`, {
+      fetch(`https://localhost:9876/director/${titleID}`, {
         method: 'GET',
       })
         .then((response) => response.json())
@@ -69,7 +69,7 @@ const InfoTitle = () => {
   useEffect(() => {
     if (titleID) {
       // Fetch data from the API endpoint
-      fetch(`http://localhost:9876/writers/${titleID}`, {
+      fetch(`https://localhost:9876/writers/${titleID}`, {
         method: 'GET',
       })
         .then((response) => response.json())

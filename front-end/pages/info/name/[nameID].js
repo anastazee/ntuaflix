@@ -3,8 +3,8 @@ import { useRouter } from 'next/router';
 import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link'; // Import Link from Next.js
 import styles from '../../styles/InfoName.module.css'; // Import the CSS module
-import MovieRow from '../../components/movierow';
-import PrincipalMoviesList from '../../components/principalmovieslist';
+import MovieRow from '../../../components/movierow';
+import PrincipalMoviesList from '../../../components/principalmovieslist';
 import { Typography, Divider, Box } from '@mui/material';  // Make sure to include Box in the import statement
 
 
@@ -30,7 +30,7 @@ const InfoName = () => {
   useEffect(() => {
     if (nameID) {
       // Fetch data from the API endpoint
-      fetch(`http://localhost:9876/name/${nameID}`, {
+      fetch(`https://localhost:9876/name/${nameID}`, {
         method: "GET",
       })
         .then((response) => response.json())
@@ -47,7 +47,7 @@ const InfoName = () => {
   useEffect(() => {
     if (nameID) {
       // Fetch data from the API endpoint
-      fetch(`http://localhost:9876/knownfor/${nameID}`, {
+      fetch(`https://localhost:9876/knownfor/${nameID}`, {
         method: "GET",
       })
         .then((response) => response.json())
@@ -64,7 +64,7 @@ const InfoName = () => {
   useEffect(() => {
     if (nameID) {
       // Fetch data from the API endpoint
-      fetch(`http://localhost:9876/principalmovies/${nameID}`, {
+      fetch(`https://localhost:9876/principalmovies/${nameID}`, {
         method: "GET",
       })
         .then((response) => response.json())
