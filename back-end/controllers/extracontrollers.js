@@ -7,6 +7,7 @@ const {
     getDirectorObjects,
     getWritersObjects,
     getTitlePrincipalsObjects,
+    getGenresFromDatabase,
 } = require('../middlewares/extra-connections-queries');
 const {getConnectionAsync} = require('../middlewares/connections-queries');
 
@@ -171,6 +172,28 @@ exports.getTitlePrincipals = async (req, res) => {
                 connection.release();
             } catch (error) {
                 res.status(404).json({ status: 'Failed', message: `Error fetching ${titleID} principals`, data: null});
+            }
+        } else {
+            res.status(500).json({ status: 'Failed', message: 'Faulty connection', data: null });
+        }
+    } catch (error) {
+        res.status(500).json({ status: 'Failed', message: 'Error connecting to the database', data: null });
+    }
+};
+
+exports.getAllGenres = async (req, res) => {
+    try {
+        const connection = await getConnectionAsync();
+
+        if (connection) {
+            try {
+            const genres = await getGenresFromDatabase(connection);
+
+            res.status(200).json({ genres });
+
+            connection.release();
+            } catch (error) {
+                res.status(404).json({ status: 'Failed', message: `Error fetching genres`, data: null});
             }
         } else {
             res.status(500).json({ status: 'Failed', message: 'Faulty connection', data: null });
