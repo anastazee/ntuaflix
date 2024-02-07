@@ -4,6 +4,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link'; // Import Link from Next.js
 import MovieRow from '../components/movierow';
 import { Typography, Divider, Box } from '@mui/material';  // Make sure to include Box in the import statement
+import AlternativeSearchBar from '../components/genresearchbar';
 
 
 function HomePage() {
@@ -55,6 +56,9 @@ function HomePage() {
 
   return (
     <div>
+      <Box sx={{ display: "flex", justifyContent: "center", flexGrow: 1, marginTop: '20px' }}>
+        <AlternativeSearchBar/>
+      </Box>
       <h1>Welcome to Ntuaflix</h1>
       <p>be the nerd you aspire to be</p>
 

@@ -21,7 +21,7 @@ const TitlePrincipalList = ({ principals }) => {
                             </ListItemAvatar>
                             <ListItemText
                                 primary={
-                                    <Link href="/info/[nameID]" as={`/info/${person.nameID}`}>
+                                    <Link href="/info/name/[nameID]" as={`/info/name/${person.nameID}`}>
                                         <Typography className={styles.personName}>
                                             {person.name}
                                         </Typography>

@@ -22,7 +22,7 @@ const NameResultsList = ({ searchResults }) => {
                         </ListItemAvatar>
                         <ListItemText
                             primary={
-                                <Link href="/info/[nameID]" as={`/info/${dataObj.nameID}`}>
+                                <Link href="/info/name/[nameID]" as={`/info/name/${dataObj.nameID}`}>
                                     <Typography
                                         sx={{
                                             fontSize: '24px', // Set desired font size

@@ -384,3 +384,9 @@ exports.getTitlePrincipalsObjects = async (connection, titleID) => {
         return returnObjects;
     }
 };
+
+exports.getGenresFromDatabase = async (connection) => {
+    const query = 'SELECT DISTINCT genre FROM genre ORDER BY genre ASC';
+    const genres = await queryAsync(connection, query);
+    return genres;
+};

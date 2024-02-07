@@ -40,4 +40,5 @@ router.get('/votes10movies', extraController.getvotes10Movies);
 router.get('/director/:titleID', extraController.getDirector);
 router.get('/writers/:titleID', extraController.getWriters);
 router.get('/titleprincipals/:titleID', extraController.getTitlePrincipals);
+router.get('/genres', extraController.getAllGenres);
 module.exports = router;
