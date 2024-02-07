@@ -423,7 +423,7 @@ exports.getTitleObject = async (connection, titleID) => {
             t.startYear,
             t.endYear
         FROM
-            title t
+            Title t
         WHERE
             t.tconst = ?
     `;
