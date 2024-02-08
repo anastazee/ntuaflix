@@ -32,17 +32,49 @@ exports.getSampleById = (req, res, next) => {
 // };
 
 exports.getHealthCheck = async (req, res) => {
+    // #swagger.tags = ['admin']
+    // #swagger.description = 'Check the Health Status of the server.'
     try {
         // Attempt to get a connection from the pool
         const connection = await getConnectionAsync();
 
         // Check if the connection is valid
         if (connection) {
+            /* #swagger.responses[200] = { 
+                    description: 'HealthCheck successful.',
+                    content: {
+        'application/json': {
+            schema: {
+                type: 'object',
+                properties: { status:{type:'string'},
+                    dataconnection: {
+                        type: 'string'
+                    }
+                }
+            }
+        }
+    }
+            } */
             res.status(200).json({ status: 'OK', dataconnection: 'Database connection OK' });
 
             // Release the connection back to the pool
             connection.release();
         } else {
+            /* #swagger.responses[500] = { 
+                    description: 'HealthCheck failed.',
+                    content: {
+        'application/json': {
+            schema: {
+                type: 'object',
+                properties: {status: {type: 'string'},
+                    dataconnection: {
+                        type: 'string'
+                    }
+                }
+            }
+        }
+    }
+            } */
             res.status(500).json({ status: 'Failed', dataconnection: 'Faulty connection' });
         }
     } catch (error) {
@@ -51,6 +83,8 @@ exports.getHealthCheck = async (req, res) => {
 };
 
 exports.postTitleBasics = async (req, res, next) => {
+    // #swagger.tags = ['admin']
+    // #swagger.description = 'Upload Title Basics Information in the ntuaflix db. The tsv input file needs to have the known-to-the-admins format.'
     if (!req.file || !req.file.buffer) {
         return res.status(400).json({ message: 'No file provided' });
       }
@@ -115,7 +149,7 @@ exports.postTitleBasics = async (req, res, next) => {
                 errorMessage = 'Internal Server Error';
             }
         
-            res.status(statusCode).json({ error: errorMessage });
+            res.status(statusCode).json({ message: errorMessage });
         });
 
         // Pipe the TSV content through the transform stream
@@ -128,11 +162,14 @@ exports.postTitleBasics = async (req, res, next) => {
         });
     } catch (err) {
         console.error('Error in postTitleBasics:', err);
-        res.status(500).json({ error: 'Internal Server Error' });
+        res.status(500).json({ message: 'Internal Server Error' });
     }
 };
 
 exports.postTitleAkas = async (req, res, next) => {
+    // #swagger.tags = ['admin']
+    /* #swagger.description = 'Upload Title Akas information in the ntuaflix db. 
+    The tsv input file needs to have the known-to-the-admins format.'*/
     try {
         const tsvBuffer = req.file.buffer.toString('utf-8');
         let fieldNames = '';
@@ -193,7 +230,7 @@ exports.postTitleAkas = async (req, res, next) => {
                 errorMessage = 'Internal Server Error';
             }
         
-            res.status(statusCode).json({ error: errorMessage });
+            res.status(statusCode).json({ message: errorMessage });
         });
 
         // Pipe the TSV content through the transform stream
@@ -206,11 +243,14 @@ exports.postTitleAkas = async (req, res, next) => {
         });
     } catch (err) {
         console.error('Error in postTitleAkas:', err);
-        res.status(500).json({ error: 'Internal Server Error' });
+        res.status(500).json({ message: 'Internal Server Error' });
     }
 };
 
 exports.postNameBasics = async (req, res, next) => {
+    // #swagger.tags = ['admin']
+    /* #swagger.description = 'Upload Name Basics information in the ntuaflix db. 
+    The tsv input file needs to have the known-to-the-admins format.'*/
     try {
         const tsvBuffer = req.file.buffer.toString('utf-8');
         let fieldNames = '';
@@ -271,7 +311,7 @@ exports.postNameBasics = async (req, res, next) => {
                 errorMessage = 'Internal Server Error';
             }
         
-            res.status(statusCode).json({ error: errorMessage });
+            res.status(statusCode).json({ message: errorMessage });
         });
         // Pipe the TSV content through the transform stream
         const tsvStream = new Readable();
@@ -284,11 +324,14 @@ exports.postNameBasics = async (req, res, next) => {
         });
     } catch (error) {
         console.error('Error in postNameBasics:', err);
-        res.status(500).json({ error: 'Internal Server Error' });
+        res.status(500).json({ message: 'Internal Server Error' });
     }
 };
 
 exports.postTitleCrew = async (req, res, next) => {
+    // #swagger.tags = ['admin']
+    /* #swagger.description = 'Upload Title Crew information in the ntuaflix db. 
+    The tsv input file needs to have the known-to-the-admins format.'*/
     try {
         const tsvBuffer = req.file.buffer.toString('utf-8');
         let fieldNames = '';
@@ -349,7 +392,7 @@ exports.postTitleCrew = async (req, res, next) => {
                 errorMessage = 'Internal Server Error';
             }
         
-            res.status(statusCode).json({ error: errorMessage });
+            res.status(statusCode).json({ message: errorMessage });
         });
 
         // Pipe the TSV content through the transform stream
@@ -362,11 +405,14 @@ exports.postTitleCrew = async (req, res, next) => {
         });
     } catch (err) {
         console.error('Error in postTitleCrew:', err);
-        res.status(500).json({ error: 'Internal Server Error' });
+        res.status(500).json({ message: 'Internal Server Error' });
     }
 };
 
 exports.postTitleEpisode = async (req, res, next) => {
+    // #swagger.tags = ['admin']
+    /* #swagger.description = 'Upload Title Episode information in the ntuaflix db. 
+    The tsv input file needs to have the known-to-the-admins format.'*/
     try {
         const tsvBuffer = req.file.buffer.toString('utf-8');
         let fieldNames = '';
@@ -427,7 +473,7 @@ exports.postTitleEpisode = async (req, res, next) => {
                 errorMessage = 'Internal Server Error';
             }
         
-            res.status(statusCode).json({ error: errorMessage });
+            res.status(statusCode).json({ message: errorMessage });
         });
 
         // Pipe the TSV content through the transform stream
@@ -440,11 +486,14 @@ exports.postTitleEpisode = async (req, res, next) => {
         });
     } catch (err) {
         console.error('Error in postTitleEpisode:', err);
-        res.status(500).json({ error: 'Internal Server Error' });
+        res.status(500).json({ message: 'Internal Server Error' });
     }
 };
 
 exports.postTitlePrincipals = async (req, res, next) => {
+    // #swagger.tags = ['admin']
+    /* #swagger.description = 'Upload Title Principals information in the ntuaflix db. 
+    The tsv input file needs to have the known-to-the-admins format.'*/
     try {
         const tsvBuffer = req.file.buffer.toString('utf-8');
         let fieldNames = '';
@@ -505,7 +554,7 @@ exports.postTitlePrincipals = async (req, res, next) => {
                 errorMessage = 'Internal Server Error';
             }
         
-            res.status(statusCode).json({ error: errorMessage });
+            res.status(statusCode).json({ message: errorMessage });
         });
 
         // Pipe the TSV content through the transform stream
@@ -518,11 +567,14 @@ exports.postTitlePrincipals = async (req, res, next) => {
         });
     } catch (err) {
         console.error('Error in postTitlePrincipals:', err);
-        res.status(500).json({ error: 'Internal Server Error' });
+        res.status(500).json({ message: 'Internal Server Error' });
     }
 };
 
 exports.postTitleRatings = async (req, res, next) => {
+    // #swagger.tags = ['admin']
+    /* #swagger.description = 'Upload Title Ratings information in the ntuaflix db. 
+    The tsv input file needs to have the known-to-the-admins format.'*/
     try {
         const tsvBuffer = req.file.buffer.toString('utf-8');
         let fieldNames = '';
@@ -583,7 +635,7 @@ exports.postTitleRatings = async (req, res, next) => {
                 errorMessage = 'Internal Server Error';
             }
         
-            res.status(statusCode).json({ error: errorMessage });
+            res.status(statusCode).json({ message: errorMessage });
         });
 
         // Pipe the TSV content through the transform stream
@@ -596,11 +648,13 @@ exports.postTitleRatings = async (req, res, next) => {
         });
     } catch (err) {
         console.error('Error in postTitleRatings:', err);
-        res.status(500).json({ error: 'Internal Server Error' });
+        res.status(500).json({ message: 'Internal Server Error' });
     }
 };
 
 exports.postResetAll = async (req, res, next) => {
+    // #swagger.tags = ['admin']
+    /* #swagger.description = 'Delete all Ntuaflix database's data.'*/
     try {
         const connection = await getConnectionAsync()
 

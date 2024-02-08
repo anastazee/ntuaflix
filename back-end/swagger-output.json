@@ -1,0 +1,1300 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "Ntuaflix REST API",
+    "description": ""
+  },
+  "servers": [
+    {
+      "url": "https://localhost:9876",
+      "description": ""
+    }
+  ],
+  "tags": [
+    {
+      "name": "admin",
+      "description": "administrator endpoints"
+    },
+    {
+      "name": "user",
+      "description": "user endpoints"
+    }
+  ],
+  "paths": {
+    "/": {
+      "get": {
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "/admin/healthcheck": {
+      "get": {
+        "tags": [
+          "admin"
+        ],
+        "description": "Check the Health Status of the server.",
+        "responses": {
+          "200": {
+            "description": "HealthCheck successful.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string"
+                    },
+                    "dataconnection": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "HealthCheck failed.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string"
+                    },
+                    "dataconnection": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/admin/upload/titlebasics": {
+      "post": {
+        "tags": [
+          "admin"
+        ],
+        "description": "Upload Title Basics Information in the ntuaflix db. The tsv input file needs to have the known-to-the-admins format.",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/admin/upload/titleakas": {
+      "post": {
+        "tags": [
+          "admin"
+        ],
+        "description": "Upload Title Akas information in the ntuaflix db. \r  The tsv input file needs to have the known-to-the-admins format.",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/admin/upload/namebasics": {
+      "post": {
+        "tags": [
+          "admin"
+        ],
+        "description": "Upload Name Basics information in the ntuaflix db. \r  The tsv input file needs to have the known-to-the-admins format.",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/admin/upload/titlecrew": {
+      "post": {
+        "tags": [
+          "admin"
+        ],
+        "description": "Upload Title Crew information in the ntuaflix db. \r  The tsv input file needs to have the known-to-the-admins format.",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/admin/upload/titleepisode": {
+      "post": {
+        "tags": [
+          "admin"
+        ],
+        "description": "Upload Title Episode information in the ntuaflix db. \r  The tsv input file needs to have the known-to-the-admins format.",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/admin/upload/titleprincipals": {
+      "post": {
+        "tags": [
+          "admin"
+        ],
+        "description": "Upload Title Principals information in the ntuaflix db. \r  The tsv input file needs to have the known-to-the-admins format.",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/admin/upload/titleratings": {
+      "post": {
+        "tags": [
+          "admin"
+        ],
+        "description": "Upload Title Ratings information in the ntuaflix db. \r  The tsv input file needs to have the known-to-the-admins format.",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/admin/resetall": {
+      "post": {
+        "tags": [
+          "admin"
+        ],
+        "description": "Delete all Ntuaflix database",
+        "responses": {
+          "default": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/title/{titleID}": {
+      "get": {
+        "tags": [
+          "user"
+        ],
+        "description": "Get information about a specific title.",
+        "parameters": [
+          {
+            "name": "titleID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "format",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success - JSON or CSV",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/titleObject"
+                }
+              },
+              "text/csv": {
+                "schema": {
+                  "type": "string",
+                  "format": "csv"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Wrong format type. Format can only be 'csv' or 'json'.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "There is not a title with the specified titleID",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error. Check the return message.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/name/{nameID}": {
+      "get": {
+        "tags": [
+          "user"
+        ],
+        "description": "Get information about a specific Contributor.",
+        "parameters": [
+          {
+            "name": "nameID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "format",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success - JSON or CSV",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/nameObject"
+                }
+              },
+              "text/csv": {
+                "schema": {
+                  "type": "string",
+                  "format": "csv"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Wrong format type. Format can only be 'csv' or 'json'.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "There is not a contributor with the specified nameID",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error. Check the return message.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/searchtitle": {
+      "get": {
+        "tags": [
+          "user"
+        ],
+        "description": "Search for titles that include 'namePart'.",
+        "parameters": [
+          {
+            "name": "format",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success - JSON or CSV",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/titleObject"
+                  }
+                }
+              },
+              "text/csv": {
+                "schema": {
+                  "type": "string",
+                  "format": "csv"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No title matches the titlePart parameter. No data is returned."
+          },
+          "400": {
+            "description": "Bad Request. Either titlePart is missing from the request body, titlePart is empty or format has a wrong type (different from csv/json). \n   See message for more information.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error. Check the return message.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "titlePart": {
+                    "type": "string",
+                    "example": "titlepart",
+                    "description": "The titlePart is desired to be included in the Original Title of the results."
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "user"
+        ],
+        "description": "Search for titles that include 'namePart'.",
+        "parameters": [
+          {
+            "name": "format",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success - JSON or CSV",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/titleObject"
+                  }
+                }
+              },
+              "text/csv": {
+                "schema": {
+                  "type": "string",
+                  "format": "csv"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No title matches the titlePart parameter. No data is returned."
+          },
+          "400": {
+            "description": "Bad Request. Either titlePart is missing from the request body, titlePart is empty or format has a wrong type (different from csv/json). \n   See message for more information.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error. Check the return message.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "titlePart": {
+                    "type": "string",
+                    "example": "titlepart",
+                    "description": "The titlePart is desired to be included in the Original Title of the results."
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/searchname": {
+      "get": {
+        "tags": [
+          "user"
+        ],
+        "description": "Search for contributors whose name includes 'namePart'.",
+        "parameters": [
+          {
+            "name": "format",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success - JSON or CSV",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/nameObject"
+                  }
+                }
+              },
+              "text/csv": {
+                "schema": {
+                  "type": "string",
+                  "format": "csv"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No contributor matches the namePart parameter. No data is returned."
+          },
+          "400": {
+            "description": "Bad Request. Either namePart is missing from the request body, namePart is empty or format has a wrong type (different from csv/json). \n   See message for more information.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error. Check the return message.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "namePart": {
+                    "type": "string",
+                    "example": "namepart",
+                    "description": "The titlePart is desired to be included in the Original Title of the results."
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "user"
+        ],
+        "description": "Search for contributors whose name includes 'namePart'.",
+        "parameters": [
+          {
+            "name": "format",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success - JSON or CSV",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/nameObject"
+                  }
+                }
+              },
+              "text/csv": {
+                "schema": {
+                  "type": "string",
+                  "format": "csv"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No contributor matches the namePart parameter. No data is returned."
+          },
+          "400": {
+            "description": "Bad Request. Either namePart is missing from the request body, namePart is empty or format has a wrong type (different from csv/json). \n   See message for more information.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error. Check the return message.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "namePart": {
+                    "type": "string",
+                    "example": "namepart",
+                    "description": "The titlePart is desired to be included in the Original Title of the results."
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/bygenre": {
+      "get": {
+        "tags": [
+          "user"
+        ],
+        "description": "Search for titles by genre and more criteria.",
+        "parameters": [
+          {
+            "name": "format",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success - JSON or CSV",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/titleObject"
+                  }
+                }
+              },
+              "text/csv": {
+                "schema": {
+                  "type": "string",
+                  "format": "csv"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No title matches the titlePart parameter. No data is returned."
+          },
+          "400": {
+            "description": "Bad Request.   See message for more information.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error. Check the return message.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "qgenre": {
+                    "example": "any"
+                  },
+                  "minrating": {
+                    "example": "any"
+                  },
+                  "yrFrom": {
+                    "example": "any"
+                  },
+                  "yrTo": {
+                    "example": "any"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "user"
+        ],
+        "description": "Search for titles by genre and more criteria.",
+        "parameters": [
+          {
+            "name": "format",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success - JSON or CSV",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/titleObject"
+                  }
+                }
+              },
+              "text/csv": {
+                "schema": {
+                  "type": "string",
+                  "format": "csv"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "No title matches the titlePart parameter. No data is returned."
+          },
+          "400": {
+            "description": "Bad Request.   See message for more information.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error. Check the return message.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "qgenre": {
+                    "example": "any"
+                  },
+                  "minrating": {
+                    "example": "any"
+                  },
+                  "yrFrom": {
+                    "example": "any"
+                  },
+                  "yrTo": {
+                    "example": "any"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/knownfor/{nameID}": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "nameID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/principalmovies/{nameID}": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "nameID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/top10movies": {
+      "get": {
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/votes10movies": {
+      "get": {
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/director/{titleID}": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "titleID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/writers/{titleID}": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "titleID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/titleprincipals/{titleID}": {
+      "get": {
+        "description": "",
+        "parameters": [
+          {
+            "name": "titleID",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/genres": {
+      "get": {
+        "description": "",
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "titleObject": {
+        "type": "object",
+        "title": "Title Object",
+        "properties": {
+          "titleID": {
+            "type": "string",
+            "description": "Unique identifier for the movie"
+          },
+          "type": {
+            "type": "string",
+            "description": "Type of the title, ex. movie, tvEpisode, short [...]"
+          },
+          "originalTitle": {
+            "type": "string",
+            "description": "Original Title"
+          },
+          "titlePoster": {
+            "type": "string",
+            "description": "URL of the title's poster"
+          },
+          "startYr": {
+            "type": "string",
+            "description": "Year of the first release"
+          },
+          "endYr": {
+            "type": "string",
+            "description": "Year of the last release"
+          },
+          "genres": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "title": "Genre",
+              "properties": {
+                "genreTitle": {
+                  "type": "string",
+                  "description": "Word describing the genre"
+                }
+              }
+            }
+          },
+          "titleAkas": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "title": "Title Aka",
+              "properties": {
+                "akaTitle": {
+                  "type": "string",
+                  "description": "Alternative title for the region"
+                },
+                "regionAbbrev": {
+                  "type": "string",
+                  "description": "Abbreviation of the region"
+                }
+              }
+            }
+          },
+          "principals": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "title": "Principal",
+              "properties": {
+                "nameID": {
+                  "type": "string",
+                  "description": "Unique identifier for the principal"
+                },
+                "name": {
+                  "type": "string",
+                  "description": "The principal's primary name"
+                },
+                "category": {
+                  "type": "string",
+                  "description": "The principal's category of work for the title"
+                }
+              }
+            }
+          },
+          "rating": {
+            "type": "object",
+            "title": "Rating",
+            "properties": {
+              "avRating": {
+                "type": "string",
+                "description": "Average Audience Rating for the title"
+              },
+              "nVotes": {
+                "type": "string",
+                "description": "Number of ratings"
+              }
+            }
+          }
+        },
+        "example": {
+          "titleID": "tt3783958",
+          "type": "movie",
+          "originalTitle": "La La Land",
+          "titlePoster": "https://example.com/lalaland-poster.jpg",
+          "startYr": "2016",
+          "endYr": "2016",
+          "genres": [
+            {
+              "genreTitle": "Musical"
+            },
+            {
+              "genreTitle": "Drama"
+            },
+            {
+              "genreTitle": "Romance"
+            }
+          ],
+          "titleAkas": [
+            {
+              "akaTitle": "La La Land",
+              "regionAbbrev": "US"
+            }
+          ],
+          "principals": [
+            {
+              "nameID": "123",
+              "name": "Ryan Gosling",
+              "category": "Actor"
+            },
+            {
+              "nameID": "456",
+              "name": "Emma Stone",
+              "category": "Actress"
+            }
+          ],
+          "rating": {
+            "avRating": "8.0",
+            "nVotes": "5000"
+          }
+        }
+      },
+      "nameObject": {
+        "type": "object",
+        "properties": {
+          "nameID": {
+            "type": "string",
+            "description": "Unique identifier for the contributor"
+          },
+          "name": {
+            "type": "string",
+            "description": "The contributor's primary name"
+          },
+          "namePoster": {
+            "type": "string",
+            "description": "URL to the contributor's poster image"
+          },
+          "birthYr": {
+            "type": "string",
+            "description": "The birth year of the contributor"
+          },
+          "deathYr": {
+            "type": "string",
+            "description": "The death year of the contributor"
+          },
+          "profession": {
+            "type": "string",
+            "description": "The person's primary profession"
+          },
+          "nameTitles": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "titleID": {
+                  "type": "string",
+                  "description": "Title id of the title"
+                },
+                "category": {
+                  "type": "string",
+                  "description": "Category of Contributor's work in the title"
+                }
+              }
+            },
+            "description": "Titles associated with the contributor"
+          }
+        },
+        "example": {
+          "nameID": "789012",
+          "name": "Keanu Reeves",
+          "namePoster": "https://example.com/keanu-reeves-poster.jpg",
+          "birthYr": "1964",
+          "deathYr": null,
+          "profession": "Actor",
+          "nameTitles": [
+            {
+              "titleID": "tt0133093",
+              "category": "Film",
+              "titleName": "The Matrix"
+            },
+            {
+              "titleID": "tt0473444",
+              "category": "Film",
+              "titleName": "John Wick"
+            }
+          ]
+        }
+      }
+    }
+  }
+}

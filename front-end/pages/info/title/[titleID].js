@@ -24,7 +24,7 @@ const InfoTitle = () => {
         .then((response) => response.json())
         .then((d) => {
           // Set the fetched data to the state
-          setTitleObject(d.data);
+          setTitleObject(d);
         })
         .catch((error) => {
           console.error('Error fetching data:', error);
@@ -84,6 +84,8 @@ const InfoTitle = () => {
   }, [titleID]);
 
   if (!titleObject || !allprincipals || !director || !writers) {
+    if (titleObject) return <div>titleok</div>;
+    else if (allprincipals) return <div>princok</div>; else
     // Data is still being fetched, or there was an error
     return <div>Loading...</div>;
   }

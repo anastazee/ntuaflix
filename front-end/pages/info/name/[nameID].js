@@ -36,7 +36,7 @@ const InfoName = () => {
         .then((response) => response.json())
         .then((d) => {
           // Set the fetched data to the state
-          setNameObject(d.data);
+          setNameObject(d);
         })
         .catch((error) => {
           console.error('Error fetching data:', error);

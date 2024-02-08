@@ -85,7 +85,7 @@ const ResultsPage = () => {
        })
        .then((d) => {
          if (flag) setSearchResults([]);
-         else setSearchResults(d.data);
+         else setSearchResults(d);
          setIsLoading(false);
          
        })

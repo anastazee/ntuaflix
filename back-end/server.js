@@ -5,7 +5,7 @@ const http = require('http');
 const https = require('https');
 
 //const PORT = process.env.PORT || 6789;
-const PORT = process.env.http_PORT || 9876;
+const PORT = process.env.PORT || 9876;
 
 
 const privateKey = fs.readFileSync('./sslcert/server.key');
