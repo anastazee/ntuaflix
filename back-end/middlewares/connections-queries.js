@@ -783,10 +783,12 @@ exports.getByGenreObjects = async (connection, qgenre, minrating, yrFrom, yrTo) 
 
         titleObjects.push(titleObject);
     }
-
+    return titleObjects;
+    /*
     if (titleObjects.length > 0) {
         return titleObjects;
     } else {
         throw new Error(`Titles not found`);
     }
+    */
 };

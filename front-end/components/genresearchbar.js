@@ -17,25 +17,29 @@ const AlternativeSearchBar = () => {
       .then(response => response.json())
       .then(data => setGenres(data.genres))
       .catch(error => console.error('Error fetching genres:', error));
-  }, []);
+    
+      setSelectedGenre(router.query.selectedGenre || "");
+      setMinRating(router.query.minRating || "");
+      setStartYear(router.query.startYear || "");
+      setEndYear(router.query.endYear || "");
+    }, [router.query.selectedGenre, router.query.minRating, router.query.startYear, router.query.endYear]);
 
   const handleSearch = () => {
     // Perform the search with the provided parameters
-    const searchParams = {
-      qgenre: selectedGenre,
-      minrating: minRating,
-      yrFrom: startYear,
-      yrTo: endYear,
-    };
     router.push({
         pathname: '/findbygenre',
-        query: { 
-            qgenre: selectedGenre,
-            minrating: minRating,
-            yrFrom: startYear,
-            yrTo: endYear,
+        query: {
+          selectedGenre,
+          minRating,
+          startYear,
+          endYear,
         },
       });
+    
+    setSelectedGenre("");
+    setMinRating("");
+    setStartYear("");
+    setEndYear("");
   };
 
   return (
@@ -85,7 +89,7 @@ const AlternativeSearchBar = () => {
         onChange={(e) => setEndYear(e.target.value)}
         sx={{ backgroundColor: 'white', marginRight: '8px', borderRadius: '4px', width: '200px' }}
       />
-      <Button variant="contained" onClick={handleSearch}>
+      <Button variant="contained" onClick={() => handleSearch()}>
         Search
       </Button>
     </Box>
