@@ -6,7 +6,7 @@ import { Box, TextField, Select, MenuItem, Button, InputLabel, FormControl } fro
 const AlternativeSearchBar = () => {
   const [genres, setGenres] = useState([]);
   const [selectedGenre, setSelectedGenre] = useState("");
-  const [minRating, setMinRating] = useState("");
+  const [minRating, setMinRating] = useState("0");
   const [startYear, setStartYear] = useState("");
   const [endYear, setEndYear] = useState("");
   const router = useRouter();
@@ -19,7 +19,7 @@ const AlternativeSearchBar = () => {
       .catch(error => console.error('Error fetching genres:', error));
     
       setSelectedGenre(router.query.selectedGenre || "");
-      setMinRating(router.query.minRating || "");
+      setMinRating(router.query.minRating || "0");
       setStartYear(router.query.startYear || "");
       setEndYear(router.query.endYear || "");
     }, [router.query.selectedGenre, router.query.minRating, router.query.startYear, router.query.endYear]);
@@ -37,7 +37,7 @@ const AlternativeSearchBar = () => {
       });
     
     setSelectedGenre("");
-    setMinRating("");
+    setMinRating("0");
     setStartYear("");
     setEndYear("");
   };

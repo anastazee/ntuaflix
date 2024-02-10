@@ -660,7 +660,7 @@ exports.postResetAll = async (req, res, next) => {
 
         await processReset(connection);
 
-        res.status(200).json({ status: 'OK' });
+        res.status(200).json({ status: 'OK', message: 'Data deleted successfully' });
 
         connection.release();
     }
