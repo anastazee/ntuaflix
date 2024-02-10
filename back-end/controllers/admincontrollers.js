@@ -85,10 +85,10 @@ exports.getHealthCheck = async (req, res) => {
 exports.postTitleBasics = async (req, res, next) => {
     // #swagger.tags = ['admin']
     // #swagger.description = 'Upload Title Basics Information in the ntuaflix db. The tsv input file needs to have the known-to-the-admins format.'
-    if (!req.file || !req.file.buffer) {
+    /*if (!req.file || !req.file.buffer) {
         return res.status(400).json({ message: 'No file provided' });
       }
-      
+     */ 
     try {
         const tsvBuffer = req.file.buffer.toString('utf-8');
         let fieldNames = '';
@@ -105,12 +105,12 @@ exports.postTitleBasics = async (req, res, next) => {
                 let lines = [firstLine, ...linesArray];
 
                 this.remainingLine = lines.pop();
-                
+                /*
                 console.log('Chunk:', chunkString);
                 console.log('Lines:', lines);
                 console.log('Remaining Line:', this.remainingLine);
                 console.log('Field Names:', fieldNames);
-
+                */
                 try {
                     // Start a connection for adding data line by line
                     this.connection = await getConnectionAsync(); // Store the connection in the transformStream
@@ -186,12 +186,12 @@ exports.postTitleAkas = async (req, res, next) => {
                 let lines = [firstLine, ...linesArray];
 
                 this.remainingLine = lines.pop();
-                
+                /*
                 console.log('Chunk:', chunkString);
                 console.log('Lines:', lines);
                 console.log('Remaining Line:', this.remainingLine);
                 console.log('Field Names:', fieldNames);
-
+                */
                 try {
                     // Start a connection for adding data line by line
                     this.connection = await getConnectionAsync(); // Store the connection in the transformStream
@@ -348,12 +348,12 @@ exports.postTitleCrew = async (req, res, next) => {
                 let lines = [firstLine, ...linesArray];
 
                 this.remainingLine = lines.pop();
-
+                /*
                 console.log('Chunk:', chunkString);
                 console.log('Lines:', lines);
                 console.log('Remaining Line:', this.remainingLine);
                 console.log('Field Names:', fieldNames);
-
+                */
                 try {
                     // Start a connection for adding data line by line
                     this.connection = await getConnectionAsync(); // Store the connection in the transformStream
@@ -429,12 +429,12 @@ exports.postTitleEpisode = async (req, res, next) => {
                 let lines = [firstLine, ...linesArray];
 
                 this.remainingLine = lines.pop();
-
+                /*
                 console.log('Chunk:', chunkString);
                 console.log('Lines:', lines);
                 console.log('Remaining Line:', this.remainingLine);
                 console.log('Field Names:', fieldNames);
-
+                */
                 try {
                     // Start a connection for adding data line by line
                     this.connection = await getConnectionAsync(); // Store the connection in the transformStream
@@ -510,12 +510,12 @@ exports.postTitlePrincipals = async (req, res, next) => {
                 let lines = [firstLine, ...linesArray];
 
                 this.remainingLine = lines.pop();
-
+                /*
                 console.log('Chunk:', chunkString);
                 console.log('Lines:', lines);
                 console.log('Remaining Line:', this.remainingLine);
                 console.log('Field Names:', fieldNames);
-
+                */
                 try {
                     // Start a connection for adding data line by line
                     this.connection = await getConnectionAsync(); // Store the connection in the transformStream
@@ -591,12 +591,12 @@ exports.postTitleRatings = async (req, res, next) => {
                 let lines = [firstLine, ...linesArray];
 
                 this.remainingLine = lines.pop();
-
+                /*
                 console.log('Chunk:', chunkString);
                 console.log('Lines:', lines);
                 console.log('Remaining Line:', this.remainingLine);
                 console.log('Field Names:', fieldNames);
-
+                */
                 try {
                     // Start a connection for adding data line by line
                     this.connection = await getConnectionAsync(); // Store the connection in the transformStream

@@ -8,6 +8,7 @@ const {
     getSearchNameObjects,
     getByGenreObjects,
 } = require('../middlewares/connections-queries');
+const { isJSON } = require('../utils/isJson');
 
 exports.getTitleRoute = async (req, res) => {
     // #swagger.tags = ['user']
@@ -15,21 +16,21 @@ exports.getTitleRoute = async (req, res) => {
     const titleID = req.params.titleID;
     const format = req.query.format || null;
     if (format && format.toLowerCase() !== 'csv' && format.toLowerCase() !== 'json') {
-    /*#swagger.responses[400] = {
-   description: "Wrong format type. Format can only be 'csv' or 'json'.",
-   content: {
-       'application/json': {
-           schema: {
-               type: 'object',
-               properties: {
-                   message: {
-                       type: 'string'
+        /*#swagger.responses[400] = {
+       description: "Wrong format type. Format can only be 'csv' or 'json'.",
+       content: {
+           'application/json': {
+               schema: {
+                   type: 'object',
+                   properties: {
+                       message: {
+                           type: 'string'
+                       }
                    }
                }
            }
        }
-   }
-   }*/
+       }*/
         res.status(400).json({ message: 'Bad Request. Format values can be csv or json' })
     }
     try {
@@ -67,43 +68,43 @@ exports.getTitleRoute = async (req, res) => {
 
                 connection.release();
             } catch (error) {
-    /*#swagger.responses[404] = {
-    description: 'There is not a title with the specified titleID',
-    content: {
-        'application/json': {
-            schema: {
-                type: 'object',
-                properties: {
-                    message: {
-                        type: 'string'
+                /*#swagger.responses[404] = {
+                description: 'There is not a title with the specified titleID',
+                content: {
+                    'application/json': {
+                        schema: {
+                            type: 'object',
+                            properties: {
+                                message: {
+                                    type: 'string'
+                                }
+                            }
+                        }
                     }
                 }
             }
-        }
-    }
-}
-*/
+            */
                 res.status(404).json({ message: `Title with ID ${titleID} not found` });
             }
         } else {
             res.status(500).json({ message: 'Faulty connection' });
-    /*#swagger.responses[500] = {
-    description: 'Internal Server Error. Check the return message.',
-    content: {
-        'application/json': {
-            schema: {
-                type: 'object',
-                properties: {
-                    message: {
-                        type: 'string'
+            /*#swagger.responses[500] = {
+            description: 'Internal Server Error. Check the return message.',
+            content: {
+                'application/json': {
+                    schema: {
+                        type: 'object',
+                        properties: {
+                            message: {
+                                type: 'string'
+                            }
+                        }
                     }
                 }
             }
         }
-    }
-}
-
-            */
+        
+                    */
         }
     } catch (error) {
         res.status(500).json({ message: 'Error connecting to the database' });
@@ -190,23 +191,23 @@ exports.getNameRoute = async (req, res) => {
                 res.status(404).json({ message: `Contributor with nameID ${nameID} not found` });
             }
         } else {
-    /*#swagger.responses[500] = {
-    description: 'Internal Server Error. Check the return message.',
-    content: {
-        'application/json': {
-            schema: {
-                type: 'object',
-                properties: {
-                    message: {
-                        type: 'string'
+            /*#swagger.responses[500] = {
+            description: 'Internal Server Error. Check the return message.',
+            content: {
+                'application/json': {
+                    schema: {
+                        type: 'object',
+                        properties: {
+                            message: {
+                                type: 'string'
+                            }
+                        }
                     }
                 }
             }
         }
-    }
-}
-
-            */
+        
+                    */
             res.status(500).json({ message: 'Faulty connection' });
         }
     } catch (error) {
@@ -235,24 +236,32 @@ exports.getSearchTitle = async (req, res) => {
 }
 */
     try {
+        const isjson = isJSON(req.body);
+        console.log(isjson);
+        if (!isjson) {
+            res.status(400).json({ message: 'Invalid JSON in the request body' });
+            return;
+        }
         let tqueryObject = req.body;
-        if (!tqueryObject || !tqueryObject.titlePart) {
-    /*#swagger.responses[400] = {
-   description: "Bad Request. Either titlePart is missing from the request body, titlePart is empty or format has a wrong type (different from csv/json).\r\n
-   See message for more information.",
-   content: {
-       'application/json': {
-           schema: {
-               type: 'object',
-               properties: {
-                   message: {
-                       type: 'string'
+        const isSingleKeyTitlepart = (!isjson) ? false : Object.keys(tqueryObject).length === 1 && 'titlePart' in tqueryObject;
+
+        if (!tqueryObject || !tqueryObject.titlePart || !isSingleKeyTitlepart || !isjson) {
+            /*#swagger.responses[400] = {
+           description: "Bad Request. Either titlePart is missing from the request body, titlePart is empty or format has a wrong type (different from csv/json).\r\n
+           See message for more information.",
+           content: {
+               'application/json': {
+                   schema: {
+                       type: 'object',
+                       properties: {
+                           message: {
+                               type: 'string'
+                           }
+                       }
                    }
                }
            }
-       }
-   }
-   }*/
+           }*/
             res.status(400).json({ message: 'Invalid or missing titlePart in the request body' });
             return;
         }
@@ -275,27 +284,27 @@ exports.getSearchTitle = async (req, res) => {
                         return;
                     }
                     if (!format || format.toLowerCase() === 'json') {
-                    /* #swagger.responses[200] = {
-                    description: 'Success - JSON or CSV',
-                    content: {
-                    'application/json': {
-                        schema: {
-                            type: 'array',
-                            items: {
-                            $ref: "#/components/schemas/titleObject"
+                        /* #swagger.responses[200] = {
+                        description: 'Success - JSON or CSV',
+                        content: {
+                        'application/json': {
+                            schema: {
+                                type: 'array',
+                                items: {
+                                $ref: "#/components/schemas/titleObject"
+                                }
+                            }
+                        },
+                        'text/csv': {
+                            schema: {
+                                type: 'string',
+                                format: 'csv'
                             }
                         }
-                    },
-                    'text/csv': {
-                        schema: {
-                            type: 'string',
-                            format: 'csv'
                         }
-                    }
-                    }
-                    }
-
-                } */
+                        }
+    
+                    } */
                         res.status(200).send(titleObjects);
                     } else if (format.toLowerCase() === 'csv') {
                         const csvData = convertToCSV(titleObjects);
@@ -316,23 +325,23 @@ exports.getSearchTitle = async (req, res) => {
             console.error('Error getting database connection:', error);
             res.status(500).json({ message: 'Internal Server Error. Error getting database connection' });
         }
-    /*#swagger.responses[500] = {
-   description: 'Internal Server Error. Check the return message.',
-   content: {
-       'application/json': {
-           schema: {
-               type: 'object',
-               properties: {
-                   message: {
-                       type: 'string'
+        /*#swagger.responses[500] = {
+       description: 'Internal Server Error. Check the return message.',
+       content: {
+           'application/json': {
+               schema: {
+                   type: 'object',
+                   properties: {
+                       message: {
+                           type: 'string'
+                       }
                    }
                }
            }
        }
-   }
-}
-
-           */
+    }
+    
+               */
     }
     catch (error) {
         console.error('Error parsing request body:', error);
@@ -361,24 +370,31 @@ exports.getSearchName = async (req, res) => {
 }
 */
     try {
-        let nqueryObject = req.body;
-    /*#swagger.responses[400] = {
-    description: "Bad Request. Either namePart is missing from the request body, namePart is empty or format has a wrong type (different from csv/json).\r\n
-    See message for more information.",
-    content: {
-        'application/json': {
-            schema: {
-                type: 'object',
-                properties: {
-                    message: {
-                        type: 'string'
+        /*#swagger.responses[400] = {
+        description: "Bad Request. Either namePart is missing from the request body, namePart is empty or format has a wrong type (different from csv/json).\r\n
+        See message for more information.",
+        content: {
+            'application/json': {
+                schema: {
+                    type: 'object',
+                    properties: {
+                        message: {
+                            type: 'string'
+                        }
                     }
                 }
             }
         }
-    }
-    }*/
-        if (!nqueryObject || !nqueryObject.namePart) {
+        }*/const isjson = isJSON(req.body);
+        console.log(isjson);
+        if (!isjson) {
+            res.status(400).json({ message: 'Invalid JSON in the request body' });
+            return;
+        }
+        let nqueryObject = req.body;
+        const isSingleKeyNamepart = (!isjson) ? false : Object.keys(nqueryObject).length === 1 && 'namePart' in nqueryObject;
+
+        if (!nqueryObject || !nqueryObject.namePart || !isSingleKeyNamepart || !isjson) {
             res.status(400).json({ message: 'Bad Request. Invalid or missing namePart in the request body' });
             return;
         }
@@ -433,23 +449,23 @@ exports.getSearchName = async (req, res) => {
                     connection.release();
                 }
             }
-/*#swagger.responses[500] = {
-    description: 'Internal Server Error. Check the return message.',
-    content: {
-        'application/json': {
-            schema: {
-                type: 'object',
-                properties: {
-                    message: {
-                        type: 'string'
+            /*#swagger.responses[500] = {
+                description: 'Internal Server Error. Check the return message.',
+                content: {
+                    'application/json': {
+                        schema: {
+                            type: 'object',
+                            properties: {
+                                message: {
+                                    type: 'string'
+                                }
+                            }
+                        }
                     }
                 }
             }
-        }
-    }
-}
-
-            */
+            
+                        */
             else {
                 res.status(500).json({ message: 'Internal Server Error. Unable to establish database connection' });
             }
@@ -475,16 +491,20 @@ exports.getByGenre = async (req, res) => {
                     "type": "object",
                     "properties": {
                         "qgenre": {
-                            "example": "any"
+                            type: "string",
+                            "example": "Romance"
                         },
                         "minrating": {
-                            "example": "any"
+                            type: "string",
+                            "example": "5.0"
                         },
                         "yrFrom": {
-                            "example": "any"
+                            type: "string",
+                            "example": "1990"
                         },
                         "yrTo": {
-                            "example": "any"
+                            type: "string",
+                            "example": "1998"
                         }
                     }
                 }
@@ -495,22 +515,22 @@ exports.getByGenre = async (req, res) => {
 
     try {
         let gqueryObject = req.body;
-    /*#swagger.responses[400] = {
-    description: "Bad Request.
-    See message for more information.",
-    content: {
-        'application/json': {
-            schema: {
-                type: 'object',
-                properties: {
-                    message: {
-                        type: 'string'
+        /*#swagger.responses[400] = {
+        description: "Bad Request.
+        See message for more information.",
+        content: {
+            'application/json': {
+                schema: {
+                    type: 'object',
+                    properties: {
+                        message: {
+                            type: 'string'
+                        }
                     }
                 }
             }
         }
-    }
-    }*/
+        }*/
         if (!gqueryObject || !gqueryObject.qgenre || !gqueryObject.minrating) {
             res.status(400).json({ message: 'Bad Request. Genre and minimum rating are required parameters' });
             return;
@@ -569,23 +589,23 @@ exports.getByGenre = async (req, res) => {
                     connection.release();
                 }
             }
-/*#swagger.responses[500] = {
-    description: 'Internal Server Error. Check the return message.',
-    content: {
-        'application/json': {
-            schema: {
-                type: 'object',
-                properties: {
-                    message: {
-                        type: 'string'
+            /*#swagger.responses[500] = {
+                description: 'Internal Server Error. Check the return message.',
+                content: {
+                    'application/json': {
+                        schema: {
+                            type: 'object',
+                            properties: {
+                                message: {
+                                    type: 'string'
+                                }
+                            }
+                        }
                     }
                 }
             }
-        }
-    }
-}
-
-            */
+            
+                        */
             else {
                 res.status(500).json({ message: 'Internal Server Error. Unable to establish database connection' });
             }

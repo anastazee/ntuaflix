@@ -802,16 +802,20 @@
                 "type": "object",
                 "properties": {
                   "qgenre": {
-                    "example": "any"
+                    "type": "string",
+                    "example": "Romance"
                   },
                   "minrating": {
-                    "example": "any"
+                    "type": "string",
+                    "example": "5.0"
                   },
                   "yrFrom": {
-                    "example": "any"
+                    "type": "string",
+                    "example": "1990"
                   },
                   "yrTo": {
-                    "example": "any"
+                    "type": "string",
+                    "example": "1998"
                   }
                 }
               }
@@ -894,16 +898,20 @@
                 "type": "object",
                 "properties": {
                   "qgenre": {
-                    "example": "any"
+                    "type": "string",
+                    "example": "Romance"
                   },
                   "minrating": {
-                    "example": "any"
+                    "type": "string",
+                    "example": "5.0"
                   },
                   "yrFrom": {
-                    "example": "any"
+                    "type": "string",
+                    "example": "1990"
                   },
                   "yrTo": {
-                    "example": "any"
+                    "type": "string",
+                    "example": "1998"
                   }
                 }
               }

@@ -41,14 +41,14 @@ const queryAsync = (connection, sql, values) => {
 exports.processLineTitle = async (line, connection, fieldNames) => {
     // Your preprocessing logic for each line goes here
     // Example: Log the original line
-    console.log('Original Line:', line);
-    console.log('fieldNames:', fieldNames);
+    /*console.log('Original Line:', line);
+    console.log('fieldNames:', fieldNames);*/
     // Example: Split the line into values using tabs
     let values = line.split('\t');
     values = values.map(value => (value === '\\N' ? null : value));
 
     // Example: Log the values
-    console.log('Values:', values);
+    //console.log('Values:', values);
     let fields = fieldNames.slice();
     const genresIndex = fieldNames.indexOf('genres');
     let titleId, genresValue;
@@ -59,7 +59,7 @@ exports.processLineTitle = async (line, connection, fieldNames) => {
         fields.splice(genresIndex, 1)[0];
         titleId = values[fields.indexOf('tconst')];
         // Do something with the 'genres' value
-        console.log('Genres Value:', genresValue);
+        //console.log('Genres Value:', genresValue);
     }
     // Execute the query for each line within the transaction
     const placeholders = Array(fields.length).fill('?').join(', ');
@@ -74,7 +74,7 @@ exports.processLineTitle = async (line, connection, fieldNames) => {
         if (result.warningStatus > 0) {
             const warningMessage = `Warning: ${result.warningStatus} ${await getWarningInfo(connection)}`;
             //console.log('Warning:', result.warningStatus, result.info);
-            writeLogToFile(logFilePath3, warningMessage);
+            //writeLogToFile(logFilePath3, warningMessage);
 
         }
         if (genresIndex != -1) {
@@ -92,10 +92,10 @@ exports.processLineTitle = async (line, connection, fieldNames) => {
                         [titleId, genreId]
                     );
 
-                    console.log('Database query result (movie_genre):', result2);
+                    //console.log('Database query result (movie_genre):', result2);
                 }
             }
-            console.log('Database query result:', result);
+            //console.log('Database query result:', result);
         }
     } catch (err) {
         console.error('Database query error:', err);
@@ -120,8 +120,8 @@ const getGenreId = async (connection, genreName) => {
 exports.processLineAkas = async (line, connection, fieldNames) => {
     // Your preprocessing logic for each line goes here
     // Example: Log the original line
-    console.log('Original Line:', line);
-    console.log('fieldNames:', fieldNames);
+    //console.log('Original Line:', line);
+    //console.log('fieldNames:', fieldNames);
 
     // Example: Split the line into values using tabs
     let values = line.split('\t');
@@ -147,7 +147,7 @@ exports.processLineAkas = async (line, connection, fieldNames) => {
 
         }
 
-        console.log('Database query result:', result);
+        //console.log('Database query result:', result);
     } catch (err) {
         console.error('Database query error:', err);
         throw (err);
@@ -262,7 +262,7 @@ exports.processLineCrew = async (line, connection, fieldNames) => {
                             'INSERT INTO Director (Contributornconst, Titletconst) VALUES (?, ?)',
                             [id, tconst]
                         );
-                        writeLogToFile(logFilePath1, 'Database query result2: ' + JSON.stringify(result2));
+                        //writeLogToFile(logFilePath1, 'Database query result2: ' + JSON.stringify(result2));
                     }
                 }
             }
@@ -276,7 +276,7 @@ exports.processLineCrew = async (line, connection, fieldNames) => {
                             'INSERT INTO Writer (Contributornconst, Titletconst) VALUES (?, ?)',
                             [id, tconst]
                         );
-                        writeLogToFile(logFilePath1, 'Database query result2: ' + JSON.stringify(result2));
+                        //writeLogToFile(logFilePath1, 'Database query result2: ' + JSON.stringify(result2));
                     }
                 }
             }
@@ -309,7 +309,7 @@ exports.processLineEpisode = async (line, connection, fieldNames) => {
                 'INSERT INTO Episode (tconst, parentTconst, seasonNumber, episodeNumber) VALUES (?, ?, ?, ?)',
                 [tconst, parent, season, episode]
             );
-            writeLogToFile(logFilePath1, 'Database query result2: ' + JSON.stringify(result2));
+           // writeLogToFile(logFilePath1, 'Database query result2: ' + JSON.stringify(result2));
 
         }
     } catch (err) {
@@ -335,18 +335,18 @@ exports.processLinePrincipals = async (line, connection, fieldNames) => {
         const existsTitle = await checkTitleId(connection, tconst.trim());
         const existsPrincipal = await checkCrew(connection, nconst.trim());
         if (existsTitle && existsPrincipal) {
-            console.log(job, characters, image);
+            //console.log(job, characters, image);
             job = (job === '\\N') ? null : job; // Assuming seasonNumber is an integer
             characters = (characters === '\\N') ? null : characters.replace(/^[^a-zA-Z]+|[^a-zA-Z]+$/g, '');
             ; // Assuming episodeNumber is an integer
             image = (image === '\\N') ? null : image;
-            console.log(job, characters, image);
+            //console.log(job, characters, image);
             const result2 = await queryAsync(
                 connection,
                 'INSERT INTO title_principals (Contributornconst, Titletconst, ordering, category, job, characters, img_url_asset) VALUES (?, ?, ?, ?, ?, ?, ?)',
                 [nconst, tconst, ordering, category, job, characters, image]
             );
-            writeLogToFile(logFilePath1, 'Database query result2: ' + JSON.stringify(result2));
+            //writeLogToFile(logFilePath1, 'Database query result2: ' + JSON.stringify(result2));
         }
     } catch (err) {
         writeLogToFile('Database query error: ' + err);
@@ -371,7 +371,7 @@ exports.processLineRatings = async (line, connection, fieldNames) => {
                 'INSERT INTO Ratings (Titletconst, averageRating, numVotes) VALUES (?, ?, ?)',
                 [tconst, rating, votes]
             );
-            writeLogToFile(logFilePath1, 'Database query result2: ' + JSON.stringify(result2));
+            //writeLogToFile(logFilePath1, 'Database query result2: ' + JSON.stringify(result2));
 
         }
     } catch (err) {
