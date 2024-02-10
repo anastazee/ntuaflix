@@ -63,7 +63,7 @@ CREATE TABLE `genre` (
 
 CREATE TABLE `Ratings` (
     `Titletconst` char(255) NOT NULL,
-    `averageRating` FLOAT NOT NULL,
+    `averageRating` decimal(2,1) NOT NULL,
     `numVotes` int(10) NOT NULL
 );
 
