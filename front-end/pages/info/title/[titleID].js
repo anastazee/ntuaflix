@@ -115,7 +115,7 @@ const InfoTitle = () => {
 
           <p>Type: {titleObject.type}</p>
           <p>
-            Year: {titleObject.startYear} - {titleObject.endYear || 'Present'}
+            Year: {titleObject.startYear} {-titleObject.endYear || ''}
           </p>
           <p>Genres: {titleObject.genres.map((genre) => genre.genreTitle).join(', ')}</p>
 
