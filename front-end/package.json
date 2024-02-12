@@ -5,7 +5,7 @@
   "description": "front-end for ntuaflix",
   "main": "index.js",
   "scripts": {
-    "dev": "next dev --experimental-https"
+    "dev": "next dev --experimental-https --port 3000"
   },
   "dependencies": {
     "@emotion/react": "^11.11.3",

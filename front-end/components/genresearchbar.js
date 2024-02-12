@@ -19,7 +19,7 @@ const AlternativeSearchBar = () => {
       .catch(error => console.error('Error fetching genres:', error));
     
       setSelectedGenre(router.query.selectedGenre || "");
-      setMinRating(router.query.minRating || "0");
+      setMinRating(router.query.minRating || "");
       setStartYear(router.query.startYear || "");
       setEndYear(router.query.endYear || "");
     }, [router.query.selectedGenre, router.query.minRating, router.query.startYear, router.query.endYear]);
@@ -37,7 +37,7 @@ const AlternativeSearchBar = () => {
       });
     
     setSelectedGenre("");
-    setMinRating("0");
+    setMinRating("");
     setStartYear("");
     setEndYear("");
   };

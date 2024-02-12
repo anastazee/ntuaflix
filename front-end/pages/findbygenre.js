@@ -50,7 +50,7 @@ const ResultsPage = () => {
         },
         body: JSON.stringify({
           qgenre: router.query.selectedGenre,
-          minrating: router.query.minRating,
+          minrating: router.query.minRating || "0",
           yrFrom: router.query.startYear,
           yrTo: router.query.endYear,
         }),
