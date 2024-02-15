@@ -19,7 +19,7 @@ try {
         return;
     }
     if (!format || format.toLowerCase() == 'json') 
-    console.log(util.inspect(titleObjects, {depth: null, maxArrayLength: null, maxStringLength: null}));
+    console.log(JSON.stringify(titleObjects, null, 2));
     else
     console.log(titleObjects);
     /*

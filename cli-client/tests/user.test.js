@@ -24,8 +24,12 @@ describe('Title Tests', () => {
         };
 
         await title(options);
+        const expected = { title: 'Fake Title' }; // Define expected JSON object
+        const received = JSON.parse(consoleSpy.mock.calls[0][0]);
+
         expect(axios.get.mock.calls[0][0]).toBe('https://localhost:9876/title/123?format=json');
-        expect(consoleSpy).toHaveBeenCalledWith("{ title: 'Fake Title' }");
+        //expect(consoleSpy).toHaveBeenCalledWith("{ \"title\": \"Fake Title\" }");
+        expect(received).toEqual(expected);
     });
 
     it('should fetch title details in CSV format', async () => {
@@ -72,8 +76,12 @@ describe('Title Tests', () => {
         };
 
         await name(options);
+
+        const expected = { name: 'Fake Name'}
+        const received = JSON.parse(consoleSpy.mock.calls[0][0]);
         expect(axios.get.mock.calls[0][0]).toBe('https://localhost:9876/name/123?format=json');
-        expect(consoleSpy).toHaveBeenCalledWith("{ name: 'Fake Name' }");
+        //expect(consoleSpy).toHaveBeenCalledWith("{ name: 'Fake Name' }");
+        expect(received).toEqual(expected);
     });
 
     it('should fetch name details in CSV format', async () => {
@@ -122,9 +130,13 @@ describe('Title Tests', () => {
             namePart: 'fake'
         };
         await searchname(options); // Pass the requestBody as an argument
+
+        const expected = [{ name: 'Fake Name 1' }, { name: 'Fake Name 2'}];
+        const received = JSON.parse(consoleSpy.mock.calls[0][0]);
+
         expect(axios.get.mock.calls[0][0]).toBe('https://localhost:9876/searchname?format=json'); // Check the URL
         expect(axios.get.mock.calls[0][1].data).toEqual(requestBody); // Check the request body
-        expect(consoleSpy).toHaveBeenCalledWith("[ { name: 'Fake Name 1' }, { name: 'Fake Name 2' } ]");
+        expect(received).toEqual(expected);
     });
 
     it('should fetch nameObjects in CSV format', async () => {
@@ -174,9 +186,11 @@ describe('Title Tests', () => {
             titlePart: 'fake'
         };
         await searchtitle(options); // Pass the requestBody as an argument
+        const expected = [{ title: 'Fake Title 1' }, { title: 'Fake Title 2'}];
+        const received = JSON.parse(consoleSpy.mock.calls[0][0]);
         expect(axios.get.mock.calls[0][0]).toBe('https://localhost:9876/searchtitle?format=json'); // Check the URL
         expect(axios.get.mock.calls[0][1].data).toEqual(requestBody); // Check the request body
-        expect(consoleSpy).toHaveBeenCalledWith("[ { title: 'Fake Title 1' }, { title: 'Fake Title 2' } ]");
+        expect(received).toEqual(expected);
     });
 
     it('should fetch titleObjects in CSV format', async () => {
@@ -233,9 +247,11 @@ describe('Title Tests', () => {
             yrTo: 'z'
         };
         await bygenre(options); // Pass the requestBody as an argument
+        const expected = [{ title: 'Fake Title 1' }, { title: 'Fake Title 2'}];
+        const received = JSON.parse(consoleSpy.mock.calls[0][0]);
         expect(axios.get.mock.calls[0][0]).toBe('https://localhost:9876/bygenre?format=json'); // Check the URL
         expect(axios.get.mock.calls[0][1].data).toEqual(requestBody); // Check the request body
-        expect(consoleSpy).toHaveBeenCalledWith("[ { title: 'Fake Title 1' }, { title: 'Fake Title 2' } ]");
+        expect(received).toEqual(expected);
     });
 
     it('should fetch titleObjects in CSV format (use mandatory parameters', async () => {

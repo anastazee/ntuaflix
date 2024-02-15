@@ -1,7 +1,7 @@
 // AlternativeSearchBar.js
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
-import { Box, TextField, Select, MenuItem, Button, InputLabel, FormControl } from "@mui/material";
+import { Box, TextField, Select, MenuItem, Button, InputLabel, FormControl, Typography } from "@mui/material";
 
 const AlternativeSearchBar = () => {
   const [genres, setGenres] = useState([]);
@@ -9,6 +9,7 @@ const AlternativeSearchBar = () => {
   const [minRating, setMinRating] = useState("0");
   const [startYear, setStartYear] = useState("");
   const [endYear, setEndYear] = useState("");
+  const [genreError, setGenreError] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -26,6 +27,10 @@ const AlternativeSearchBar = () => {
 
   const handleSearch = () => {
     // Perform the search with the provided parameters
+    if (!selectedGenre) {
+      setGenreError(true);
+      return;
+  }
     router.push({
         pathname: '/findbygenre',
         query: {
@@ -43,6 +48,7 @@ const AlternativeSearchBar = () => {
   };
 
   return (
+    <Box sx={{ display: "flex", flexDirection: "column", alignItems: "flex-start" }}>
     <Box sx={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
     <FormControl variant="outlined" size="small" sx={{ backgroundColor: 'white', marginRight: '8px', borderRadius: '4px', width: '200px' }}>
         <InputLabel id="genre-label">Genre</InputLabel>
@@ -51,7 +57,10 @@ const AlternativeSearchBar = () => {
             id="genre-select"
             variant="outlined"
             value={selectedGenre}
-            onChange={(e) => setSelectedGenre(e.target.value)}
+            onChange={(e) => {
+              setSelectedGenre(e.target.value);
+              setGenreError(false);
+            }}
             size="small"
             sx={{ backgroundColor: 'white', marginRight: '8px', width: '200px', color: 'black' }}
         >
@@ -62,6 +71,7 @@ const AlternativeSearchBar = () => {
             ))}
         </Select>
     </FormControl>
+    
       <TextField
         id="minRating"
         label="Min Rating"
@@ -89,10 +99,12 @@ const AlternativeSearchBar = () => {
         onChange={(e) => setEndYear(e.target.value)}
         sx={{ backgroundColor: 'white', marginRight: '8px', borderRadius: '4px', width: '200px' }}
       />
-      <Button variant="contained" onClick={() => handleSearch()}>
+      <Button variant="contained" onClick={() => handleSearch()} style={{ backgroundColor: '#1e849c', color: 'white' }}>
         Search
       </Button>
     </Box>
+    {genreError && <Typography color="error" sx={{ alignSelf: 'flex-start', marginTop: '8px' }}>Please select a genre.</Typography>}
+</Box>
   );
 };
 

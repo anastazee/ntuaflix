@@ -16,7 +16,7 @@ export default async function name(options) {
 
         const nameObject = response.data;
         if (!format || format.toLowerCase() == 'json') 
-            console.log(util.inspect(nameObject, {depth: null, maxArrayLength: null, maxStringLength: null}));
+            console.log(JSON.stringify(nameObject, null, 2));
         else
             console.log(nameObject);
         /*console.log(`nameID:`, nameObject.nameID);

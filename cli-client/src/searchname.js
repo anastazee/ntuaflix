@@ -19,7 +19,7 @@ export default async function searchname(options) {
             return;
         }
         if (!format || format.toLowerCase() == 'json') 
-        console.log(util.inspect(nameObjects, {depth: null, maxArrayLength: null, maxStringLength: null}));
+        console.log(JSON.stringify(nameObjects, null, 2));
         else
         console.log(nameObjects);
 

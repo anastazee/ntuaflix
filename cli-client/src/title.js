@@ -23,7 +23,7 @@ try {
         //console.log("work in progress");
             //printTabularCSV(response.data);
     }
-    else  console.log(util.inspect(titleObject, {depth: null, maxArrayLength: null, maxStringLength: null}));
+    else  console.log(JSON.stringify(titleObject, null, 2));
     
     /*if (!format || format.toLowerCase() == 'json') {
        console.log(`titleID:`, titleObject.titleID);
