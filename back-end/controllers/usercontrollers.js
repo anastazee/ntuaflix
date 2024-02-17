@@ -237,7 +237,7 @@ exports.getSearchTitle = async (req, res) => {
 */
     try {
         const isjson = isJSON(req.body);
-        console.log(isjson);
+        //console.log(isjson);
         if (!isjson) {
             res.status(400).json({ message: 'Invalid JSON in the request body' });
             return;
@@ -386,7 +386,7 @@ exports.getSearchName = async (req, res) => {
             }
         }
         }*/const isjson = isJSON(req.body);
-        console.log(isjson);
+        //console.log(isjson);
         if (!isjson) {
             res.status(400).json({ message: 'Invalid JSON in the request body' });
             return;

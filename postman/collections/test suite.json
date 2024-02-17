@@ -1,10 +1,11 @@
 {
 	"info": {
-		"_postman_id": "d317952b-5f9f-43f3-b48c-07da026a5df0",
+		"_postman_id": "aac8a881-51a3-45e2-9989-5dd9e88f4f2f",
 		"name": "test suite",
 		"description": "# 🚀 Get started here\n\nThis template guides you through CRUD operations (GET, POST, PUT, DELETE), variables, and tests.\n\n## 🔖 **How to use this template**\n\n#### **Step 1: Send requests**\n\nRESTful APIs allow you to perform CRUD operations using the POST, GET, PUT, and DELETE HTTP methods.\n\nThis collection contains each of these [request](https://learning.postman.com/docs/sending-requests/requests/) types. Open each request and click \"Send\" to see what happens.\n\n#### **Step 2: View responses**\n\nObserve the response tab for status code (200 OK), response time, and size.\n\n#### **Step 3: Send new Body data**\n\nUpdate or add new data in \"Body\" in the POST request. Typically, Body data is also used in PUT request.\n\n``` json\n{\n    \"name\": \"Add your name in the body\"\n}\n\n ```\n\n#### **Step 4: Update the variable**\n\nVariables enable you to store and reuse values in Postman. We have created a [variable](https://learning.postman.com/docs/sending-requests/variables/) called `base_url` with the sample request [https://postman-api-learner.glitch.me](https://postman-api-learner.glitch.me). Replace it with your API endpoint to customize this collection.\n\n#### **Step 5: Add tests in the \"Tests\" tab**\n\nTests help you confirm that your API is working as expected. You can write test scripts in JavaScript and view the output in the \"Test Results\" tab.\n\n<img src=\"https://content.pstmn.io/b5f280a7-4b09-48ec-857f-0a7ed99d7ef8/U2NyZWVuc2hvdCAyMDIzLTAzLTI3IGF0IDkuNDcuMjggUE0ucG5n\">\n\n## 💪 Pro tips\n\n- Use folders to group related requests and organize the collection.\n- Add more [scripts](https://learning.postman.com/docs/writing-scripts/intro-to-scripts/) in \"Tests\" to verify if the API works as expected and execute workflows.\n    \n\n## 💡Related templates\n\n[API testing basics](https://go.postman.co/redirect/workspace?type=personal&collectionTemplateId=e9a37a28-055b-49cd-8c7e-97494a21eb54&sourceTemplateId=ddb19591-3097-41cf-82af-c84273e56719)  \n[API documentation](https://go.postman.co/redirect/workspace?type=personal&collectionTemplateId=e9c28f47-1253-44af-a2f3-20dce4da1f18&sourceTemplateId=ddb19591-3097-41cf-82af-c84273e56719)  \n[Authorization methods](https://go.postman.co/redirect/workspace?type=personal&collectionTemplateId=31a9a6ed-4cdf-4ced-984c-d12c9aec1c27&sourceTemplateId=ddb19591-3097-41cf-82af-c84273e56719)",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_uid": "32284378-d317952b-5f9f-43f3-b48c-07da026a5df0"
+		"_exporter_id": "32284378",
+		"_collection_link": "https://lively-comet-65414.postman.co/workspace/lively-comet-65414-Workspace~49bea6aa-dc3e-4190-8fb2-cd855ebddf40/collection/32284378-aac8a881-51a3-45e2-9989-5dd9e88f4f2f?action=share&source=collection_link&creator=32284378"
 	},
 	"item": [
 		{
@@ -16,7 +17,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "bf16ad60-c3bb-49cd-806e-74b74d0e9364",
 								"exec": [
 									"\r",
 									"pm.test(\"Response status code is 200\", function () {\r",
@@ -54,10 +54,6 @@
 							}
 						}
 					],
-					"id": "7c4f3df8-05b3-4b7e-b67a-ffbe37cf76c8",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
 					"request": {
 						"method": "GET",
 						"header": [],
@@ -82,7 +78,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "1314738e-7742-477b-afed-c78783ac6534",
 								"exec": [
 									"",
 									"pm.test(\"Response status code is 200\", function () {",
@@ -120,10 +115,6 @@
 							}
 						}
 					],
-					"id": "59b5c2e5-b65e-4643-bd0b-5cda89a01a37",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
 					"request": {
 						"method": "POST",
 						"header": [],
@@ -148,8 +139,10 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "6b3d0f93-9282-4e7a-bfdd-53f2a3e0cd95",
 								"exec": [
+									"pm.test(\"Response status code is 200\", function () {\r",
+									"    pm.expect(pm.response.code).to.equal(200);\r",
+									"});\r",
 									"\r",
 									"pm.test(\"Response content type is application/json\", function () {\r",
 									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
@@ -178,9 +171,7 @@
 							}
 						}
 					],
-					"id": "99fa266d-6862-4272-ace5-be916a398e16",
 					"protocolProfileBehavior": {
-						"disableBodyPruning": true,
 						"disabledSystemHeaders": {}
 					},
 					"request": {
@@ -218,7 +209,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "037ed739-033b-41df-9cbc-756a326a6a3a",
 								"exec": [
 									"pm.test(\"Response status code is 200\", function () {\r",
 									"    pm.expect(pm.response.code).to.equal(200);\r",
@@ -249,9 +239,7 @@
 							}
 						}
 					],
-					"id": "cb3fa5ef-5e02-4b34-9e61-daadfb13ca69",
 					"protocolProfileBehavior": {
-						"disableBodyPruning": true,
 						"disabledSystemHeaders": {}
 					},
 					"request": {
@@ -289,8 +277,10 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "b61c977a-714b-4896-b416-50f0a8e12139",
 								"exec": [
+									"pm.test(\"Response status code is 200\", function () {\r",
+									"    pm.expect(pm.response.code).to.equal(200);\r",
+									"});\r",
 									"\r",
 									"pm.test(\"Response content type is application/json\", function () {\r",
 									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
@@ -315,9 +305,7 @@
 							}
 						}
 					],
-					"id": "629cf499-022c-45e7-be9a-5a197b652050",
 					"protocolProfileBehavior": {
-						"disableBodyPruning": true,
 						"disabledSystemHeaders": {}
 					},
 					"request": {
@@ -355,8 +343,10 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "6cc6fa4b-66f2-4704-968a-2304cc2c2dc0",
 								"exec": [
+									"pm.test(\"Response status code is 200\", function () {\r",
+									"    pm.expect(pm.response.code).to.equal(200);\r",
+									"});\r",
 									"\r",
 									"pm.test(\"Response content type is application/json\", function () {\r",
 									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
@@ -381,9 +371,7 @@
 							}
 						}
 					],
-					"id": "8a2aab46-b32e-41c7-81d7-834f2c544d48",
 					"protocolProfileBehavior": {
-						"disableBodyPruning": true,
 						"disabledSystemHeaders": {}
 					},
 					"request": {
@@ -421,8 +409,10 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "f785ae57-3487-4845-b253-3b560c9233ec",
 								"exec": [
+									"pm.test(\"Response status code is 200\", function () {\r",
+									"    pm.expect(pm.response.code).to.equal(200);\r",
+									"});\r",
 									"\r",
 									"pm.test(\"Response content type is application/json\", function () {\r",
 									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
@@ -447,9 +437,7 @@
 							}
 						}
 					],
-					"id": "2e355643-4153-4ab5-b36a-a53b3cb4286c",
 					"protocolProfileBehavior": {
-						"disableBodyPruning": true,
 						"disabledSystemHeaders": {}
 					},
 					"request": {
@@ -487,9 +475,10 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "a9cad183-2e5c-4072-b965-d27db8b31371",
 								"exec": [
-									"\r",
+									"pm.test(\"Response status code is 200\", function () {\r",
+									"    pm.expect(pm.response.code).to.equal(200);\r",
+									"});\r",
 									"pm.test(\"Response content type is application/json\", function () {\r",
 									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
 									"});\r",
@@ -513,9 +502,7 @@
 							}
 						}
 					],
-					"id": "21fd18b1-d022-442b-81c3-5c5f2b2603c3",
 					"protocolProfileBehavior": {
-						"disableBodyPruning": true,
 						"disabledSystemHeaders": {}
 					},
 					"request": {
@@ -549,9 +536,38 @@
 				},
 				{
 					"name": "titleratings",
-					"id": "287ec038-d201-41de-b8a8-f256a0940697",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response status code is 200\", function () {\r",
+									"    pm.expect(pm.response.code).to.equal(200);\r",
+									"});\r",
+									"pm.test(\"Response content type is application/json\", function () {\r",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Response message is not empty\", function () {\r",
+									"  const responseData = pm.response.json();\r",
+									"  \r",
+									"  pm.expect(responseData.message).to.exist.and.to.not.be.empty;\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.test(\"Validate the structure of the response JSON\", function () {\r",
+									"    const responseData = pm.response.json();\r",
+									"    \r",
+									"    pm.expect(responseData).to.be.an('object');\r",
+									"    pm.expect(responseData.message).to.exist.and.to.be.a('string');\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"protocolProfileBehavior": {
-						"disableBodyPruning": true,
 						"disabledSystemHeaders": {}
 					},
 					"request": {
@@ -583,8 +599,7 @@
 					},
 					"response": []
 				}
-			],
-			"id": "47c1e315-5df2-4fec-a7cf-4cb4ecf1ba19"
+			]
 		},
 		{
 			"name": "title",
@@ -595,7 +610,6 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "327939e4-4546-483e-9646-c6f08ed710ab",
 								"exec": [
 									"pm.collectionVariables.set(\"base_url\", \"http://localhost:9876\");\r",
 									"base_url = pm.collectionVariables.get(\"base_url\");"
@@ -606,7 +620,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "da444572-5a3b-4867-b47d-aae407810d9c",
 								"exec": [
 									"pm.test(\"Status code is 200\", () => {\r",
 									"    pm.expect(pm.response.code).to.eql(200);\r",
@@ -728,10 +741,6 @@
 							}
 						}
 					],
-					"id": "6c835a40-6f79-4340-8ea5-2fd4551ffc58",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
 					"request": {
 						"method": "GET",
 						"header": [],
@@ -756,7 +765,6 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "a0fe41eb-32d7-41df-a2a1-ce9379e82f24",
 								"exec": [
 									"pm.collectionVariables.set(\"base_url\", \"http://localhost:9876\");\r",
 									"base_url = pm.collectionVariables.get(\"base_url\");\r",
@@ -854,7 +862,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "7018ee86-3e39-48bf-96f0-97510ec52a5c",
 								"exec": [
 									"pm.test(\"Status code is 200\", () => {",
 									"    pm.expect(pm.response.code).to.eql(200);",
@@ -1063,10 +1070,6 @@
 							}
 						}
 					],
-					"id": "c7afc9fb-49b1-4e35-a759-1419df203e11",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
 					"request": {
 						"method": "GET",
 						"header": [],
@@ -1098,7 +1101,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "25ee696b-f36d-4796-b22c-b0c74f2ffb68",
 								"exec": [
 									"pm.test(\"Status code is 200\", () => {\r",
 									"    pm.expect(pm.response.code).to.eql(200);\r",
@@ -1180,7 +1182,6 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "030b3fb5-cd2e-4e5b-9e24-dd382b76c3c7",
 								"exec": [
 									"pm.collectionVariables.set(\"base_url\", \"http://localhost:9876\");\r",
 									"base_url = pm.collectionVariables.get(\"base_url\");"
@@ -1189,10 +1190,6 @@
 							}
 						}
 					],
-					"id": "6c53ff5f-d457-46e8-a0b9-e747eae86c5b",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
 					"request": {
 						"method": "GET",
 						"header": [],
@@ -1223,7 +1220,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "8aaa2d0d-b827-47ca-8a42-29e0f324ffd6",
 								"exec": [
 									"pm.test(\"Status code is 404\", () => {\r",
 									"    pm.expect(pm.response.code).to.eql(404);\r",
@@ -1240,7 +1236,6 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "8c2a6208-ea9c-4c27-89e2-ef77306502ea",
 								"exec": [
 									"pm.collectionVariables.set(\"base_url\", \"http://localhost:9876\");\r",
 									"base_url = pm.collectionVariables.get(\"base_url\");"
@@ -1249,10 +1244,6 @@
 							}
 						}
 					],
-					"id": "a87a67c4-1973-4e0f-91d9-84f574c40f33",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
 					"request": {
 						"method": "GET",
 						"header": [],
@@ -1277,7 +1268,6 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "b479043e-fb33-493d-9190-7baa09d26567",
 								"exec": [
 									"pm.collectionVariables.set(\"base_url\", \"http://localhost:9876\");\r",
 									"base_url = pm.collectionVariables.get(\"base_url\");"
@@ -1288,7 +1278,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "f98dd6e3-9d79-451e-b74f-2129cbdb6107",
 								"exec": [
 									"pm.test(\"Status code is 400\", () => {\r",
 									"    pm.expect(pm.response.code).to.eql(400);\r",
@@ -1327,10 +1316,6 @@
 							}
 						}
 					],
-					"id": "b6357cd8-2437-4b4d-8498-069ef4aa0a68",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
 					"request": {
 						"method": "GET",
 						"header": [],
@@ -1356,7 +1341,6 @@
 					"response": []
 				}
 			],
-			"id": "2aec1af9-e387-41b7-b9b2-062647384539",
 			"description": "A folder of tests on the **/title** endpoint. The possible responses being checked are **200 OK**, **400 Bad Request** and **404 Not Found**. There are also several tests concerning the value of the optional parameter format."
 		},
 		{
@@ -1368,7 +1352,6 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "facebf67-d375-4020-b58c-468848a0c72c",
 								"exec": [
 									"pm.collectionVariables.set(\"base_url\", \"http://localhost:9876\");\r",
 									"base_url = pm.collectionVariables.get(\"base_url\");"
@@ -1379,7 +1362,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "8523236e-25c1-49f7-a7d2-099ac0bce49d",
 								"exec": [
 									"pm.test(\"Status code is 200\", () => {\r",
 									"    pm.expect(pm.response.code).to.eql(200);\r",
@@ -1433,10 +1415,6 @@
 							}
 						}
 					],
-					"id": "c8afd896-7aff-4ba4-b2ca-5c59fc51a085",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
 					"request": {
 						"method": "GET",
 						"header": [],
@@ -1461,7 +1439,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "eb33fcdb-351e-4182-b42c-74b7b7ea33a5",
 								"exec": [
 									"pm.test(\"Status code is 200\", () => {\r",
 									"    pm.expect(pm.response.code).to.eql(200);\r",
@@ -1518,10 +1495,6 @@
 							}
 						}
 					],
-					"id": "1378b917-b3d6-4c6b-875b-3bdd2a520c3b",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
 					"request": {
 						"method": "GET",
 						"header": [],
@@ -1552,7 +1525,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "62be68f6-d5d6-48d9-9577-c7582a6dbc92",
 								"exec": [
 									"pm.test(\"Status code is 200\", () => {\r",
 									"    pm.expect(pm.response.code).to.eql(200);\r",
@@ -1612,10 +1584,6 @@
 							}
 						}
 					],
-					"id": "6c835b17-5da4-451b-93f2-ad84ea6594d3",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
 					"request": {
 						"method": "GET",
 						"header": [],
@@ -1646,7 +1614,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "61beb97a-d209-4c41-be36-384ffb845944",
 								"exec": [
 									"\r",
 									"pm.test(\"Status code is 404\", () => {\r",
@@ -1660,10 +1627,6 @@
 							}
 						}
 					],
-					"id": "8d515230-a37c-403f-b22c-7383265e7a7d",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
 					"request": {
 						"method": "GET",
 						"header": [],
@@ -1688,7 +1651,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "c7218d70-cce5-455c-b710-00aed2269ee7",
 								"exec": [
 									"pm.test(\"Status code is 400\", () => {\r",
 									"    pm.expect(pm.response.code).to.eql(400);\r",
@@ -1727,10 +1689,6 @@
 							}
 						}
 					],
-					"id": "23b5ccc6-feed-44d5-b47a-a042d5a48e8f",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
 					"request": {
 						"method": "GET",
 						"header": [],
@@ -1757,7 +1715,6 @@
 					"response": []
 				}
 			],
-			"id": "76089236-46cb-4380-b174-19ec8d435ee5",
 			"description": "A folder of tests on the **/name** endpoint. The possible responses being checked are **200 OK**, **400 Bad Request** and **404 Not Found**. There are also several tests concerning the value of the optional parameter format."
 		},
 		{
@@ -1769,7 +1726,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "446903c4-9e27-4451-9cb6-8b670ad920ae",
 								"exec": [
 									"pm.test(\"Response is 200 OK\", function () {\r",
 									"    pm.expect(pm.response.code).to.eql(200);\r",
@@ -1815,7 +1771,6 @@
 							}
 						}
 					],
-					"id": "099be8b0-5ae4-481e-a9fb-ee5e59cf4175",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -1851,7 +1806,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "fb30cbf8-96e5-4e19-9ad0-647338531ac0",
 								"exec": [
 									"pm.test(\"Response is 200 OK\", function () {\r",
 									"    pm.expect(pm.response.code).to.eql(200);\r",
@@ -2276,7 +2230,6 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "f92017fb-db93-4ba0-912b-b7bc30a408aa",
 								"exec": [
 									""
 								],
@@ -2284,7 +2237,6 @@
 							}
 						}
 					],
-					"id": "fa2cda66-ea72-4a40-b28d-84eb3810688f",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -2327,7 +2279,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "27dfe296-5e0d-40f4-8f01-67029fd0a41e",
 								"exec": [
 									"pm.test(\"Status code is 200\", () => {\r",
 									"    pm.expect(pm.response.code).to.eql(200);\r",
@@ -2506,7 +2457,6 @@
 							}
 						}
 					],
-					"id": "07bb2978-d334-4535-98f3-23ca11cb2a4d",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -2548,7 +2498,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "b2c19cd4-731a-403c-9b83-51ef8a39712f",
 								"exec": [
 									"pm.test('Response code should be 204', function () {\r",
 									"    pm.expect(pm.response.code).to.eql(204);\r",
@@ -2564,7 +2513,6 @@
 							}
 						}
 					],
-					"id": "c9234de7-983e-4665-8564-164a33e5642c",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -2601,7 +2549,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "05ea961e-02be-41f9-b346-5b118780f4a7",
 								"exec": [
 									"pm.test(\"Response is 400 Bad Request\", function () {\r",
 									"    pm.expect(pm.response.code).to.eql(400);\r",
@@ -2640,7 +2587,6 @@
 							}
 						}
 					],
-					"id": "e65a57ce-0114-46ec-a951-7741e726f2c3",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -2676,7 +2622,6 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "c2f78f01-b3fc-4d3b-8179-c272a5216dd3",
 								"exec": [
 									""
 								],
@@ -2686,7 +2631,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "2c9bd79e-99c4-489c-a310-778e86351e7c",
 								"exec": [
 									"pm.test(\"Response is 400 Bad Request\", function () {\r",
 									"    pm.expect(pm.response.code).to.eql(400);\r",
@@ -2725,7 +2669,6 @@
 							}
 						}
 					],
-					"id": "7b681fd3-6cec-4f94-af4c-10ef9a291329",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -2755,8 +2698,7 @@
 					},
 					"response": []
 				}
-			],
-			"id": "85252675-7112-44b6-9634-360f17b9edfa"
+			]
 		},
 		{
 			"name": "searchname",
@@ -2767,7 +2709,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "446903c4-9e27-4451-9cb6-8b670ad920ae",
 								"exec": [
 									"pm.test(\"Response is 200 OK\", function () {\r",
 									"    pm.expect(pm.response.code).to.eql(200);\r",
@@ -2836,7 +2777,6 @@
 							}
 						}
 					],
-					"id": "a746a876-5447-4079-a5a1-981a9926b9f3",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -2872,7 +2812,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "fb30cbf8-96e5-4e19-9ad0-647338531ac0",
 								"exec": [
 									"//Fixed ReferenceError: utils is not defined\r",
 									"pm.test(\"Response is 200 OK\", function () {\r",
@@ -3062,7 +3001,6 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "f92017fb-db93-4ba0-912b-b7bc30a408aa",
 								"exec": [
 									""
 								],
@@ -3070,7 +3008,6 @@
 							}
 						}
 					],
-					"id": "583a8402-e53d-4532-b8d2-90fc0678a714",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -3113,7 +3050,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "27dfe296-5e0d-40f4-8f01-67029fd0a41e",
 								"exec": [
 									"pm.test(\"Status code is 200\", () => {\r",
 									"    pm.expect(pm.response.code).to.eql(200);\r",
@@ -3246,7 +3182,6 @@
 							}
 						}
 					],
-					"id": "27aef00f-90f4-4d9a-86a2-369592f16e8b",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -3288,7 +3223,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "b2c19cd4-731a-403c-9b83-51ef8a39712f",
 								"exec": [
 									"pm.test('Response code should be 204', function () {\r",
 									"    pm.expect(pm.response.code).to.eql(204);\r",
@@ -3304,7 +3238,6 @@
 							}
 						}
 					],
-					"id": "405f35c9-fbf3-4de2-904c-4c9b273fc8a5",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -3341,7 +3274,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "05ea961e-02be-41f9-b346-5b118780f4a7",
 								"exec": [
 									"pm.test(\"Response is 400 Bad Request\", function () {\r",
 									"    pm.expect(pm.response.code).to.eql(400);\r",
@@ -3380,7 +3312,6 @@
 							}
 						}
 					],
-					"id": "ba4f8e8b-fddc-4a61-a082-a3a04c5a9129",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -3416,7 +3347,6 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "c2f78f01-b3fc-4d3b-8179-c272a5216dd3",
 								"exec": [
 									""
 								],
@@ -3426,7 +3356,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "2c9bd79e-99c4-489c-a310-778e86351e7c",
 								"exec": [
 									"pm.test(\"Response is 400 Bad Request\", function () {\r",
 									"    pm.expect(pm.response.code).to.eql(400);\r",
@@ -3465,7 +3394,6 @@
 							}
 						}
 					],
-					"id": "2c98dae8-6f88-44f3-81f9-cd66d6310efb",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -3495,8 +3423,7 @@
 					},
 					"response": []
 				}
-			],
-			"id": "e9da8dff-77f5-41b2-a0d8-d678e0446467"
+			]
 		},
 		{
 			"name": "bygenre",
@@ -3507,7 +3434,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "446903c4-9e27-4451-9cb6-8b670ad920ae",
 								"exec": [
 									"pm.test(\"Response is 200 OK\", function () {\r",
 									"    pm.expect(pm.response.code).to.eql(200);\r",
@@ -3875,7 +3801,6 @@
 							}
 						}
 					],
-					"id": "ee355c99-8fab-410e-9ba0-4097ae69c327",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -3911,7 +3836,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "fb30cbf8-96e5-4e19-9ad0-647338531ac0",
 								"exec": [
 									"pm.test(\"Response is 200 OK\", function () {\r",
 									"    pm.expect(pm.response.code).to.eql(200);\r",
@@ -4221,7 +4145,6 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "f92017fb-db93-4ba0-912b-b7bc30a408aa",
 								"exec": [
 									""
 								],
@@ -4229,7 +4152,6 @@
 							}
 						}
 					],
-					"id": "e7462376-1137-4fc4-a74c-0ab38d3e0f57",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -4272,7 +4194,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "fb30cbf8-96e5-4e19-9ad0-647338531ac0",
 								"exec": [
 									"pm.test(\"Response is 200 OK\", function () {\r",
 									"    pm.expect(pm.response.code).to.eql(200);\r",
@@ -4519,7 +4440,6 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "f92017fb-db93-4ba0-912b-b7bc30a408aa",
 								"exec": [
 									""
 								],
@@ -4527,7 +4447,6 @@
 							}
 						}
 					],
-					"id": "419dfd62-463a-4b83-a6d0-204c17851a54",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -4570,7 +4489,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "fb30cbf8-96e5-4e19-9ad0-647338531ac0",
 								"exec": [
 									"pm.test(\"Response is 200 OK\", function () {\r",
 									"    pm.expect(pm.response.code).to.eql(200);\r",
@@ -4799,7 +4717,6 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "f92017fb-db93-4ba0-912b-b7bc30a408aa",
 								"exec": [
 									""
 								],
@@ -4807,7 +4724,6 @@
 							}
 						}
 					],
-					"id": "072ed99b-d60c-41f4-ae07-455859433aa7",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -4850,7 +4766,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "fb30cbf8-96e5-4e19-9ad0-647338531ac0",
 								"exec": [
 									"pm.test(\"Response is 200 OK\", function () {\r",
 									"    pm.expect(pm.response.code).to.eql(200);\r",
@@ -5139,7 +5054,6 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "f92017fb-db93-4ba0-912b-b7bc30a408aa",
 								"exec": [
 									""
 								],
@@ -5147,7 +5061,6 @@
 							}
 						}
 					],
-					"id": "5024ff9a-32b7-47ae-a530-873423ae57b1",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -5190,7 +5103,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "27dfe296-5e0d-40f4-8f01-67029fd0a41e",
 								"exec": [
 									"pm.test(\"Status code is 200\", () => {\r",
 									"    pm.expect(pm.response.code).to.eql(200);\r",
@@ -5519,7 +5431,6 @@
 							}
 						}
 					],
-					"id": "ca14f5bd-8d8c-42ce-b2b6-a68056c6cc25",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -5561,7 +5472,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "b2c19cd4-731a-403c-9b83-51ef8a39712f",
 								"exec": [
 									"pm.test('Response code should be 204', function () {\r",
 									"    pm.expect(pm.response.code).to.eql(204);\r",
@@ -5577,7 +5487,6 @@
 							}
 						}
 					],
-					"id": "91b3ef91-68c3-4e8e-99e1-59347776e283",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -5614,7 +5523,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "05ea961e-02be-41f9-b346-5b118780f4a7",
 								"exec": [
 									"pm.test(\"Response is 400 Bad Request\", function () {\r",
 									"    pm.expect(pm.response.code).to.eql(400);\r",
@@ -5653,7 +5561,6 @@
 							}
 						}
 					],
-					"id": "90c32854-530f-44c2-9d7d-90341bf8c7af",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -5689,7 +5596,6 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "c2f78f01-b3fc-4d3b-8179-c272a5216dd3",
 								"exec": [
 									""
 								],
@@ -5699,7 +5605,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "2c9bd79e-99c4-489c-a310-778e86351e7c",
 								"exec": [
 									"pm.test(\"Response is 400 Bad Request\", function () {\r",
 									"    pm.expect(pm.response.code).to.eql(400);\r",
@@ -5738,7 +5643,6 @@
 							}
 						}
 					],
-					"id": "13cdf4ad-c2f6-45b2-9ae5-16264cafcc98",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -5774,7 +5678,6 @@
 						{
 							"listen": "prerequest",
 							"script": {
-								"id": "c2f78f01-b3fc-4d3b-8179-c272a5216dd3",
 								"exec": [
 									""
 								],
@@ -5784,7 +5687,6 @@
 						{
 							"listen": "test",
 							"script": {
-								"id": "2c9bd79e-99c4-489c-a310-778e86351e7c",
 								"exec": [
 									"pm.test(\"Response is 400 Bad Request\", function () {\r",
 									"    pm.expect(pm.response.code).to.eql(400);\r",
@@ -5823,7 +5725,6 @@
 							}
 						}
 					],
-					"id": "7a28beee-1c48-413d-a8cb-5b9b62eb03df",
 					"protocolProfileBehavior": {
 						"disableBodyPruning": true
 					},
@@ -5853,15 +5754,13 @@
 					},
 					"response": []
 				}
-			],
-			"id": "cafd0f34-8b8f-4ccc-b2e2-a0ac187b1d3c"
+			]
 		}
 	],
 	"event": [
 		{
 			"listen": "prerequest",
 			"script": {
-				"id": "5e293113-1f05-4d69-9c03-f580d3fcccc5",
 				"type": "text/javascript",
 				"exec": [
 					"utils = {",
@@ -6032,7 +5931,6 @@
 		{
 			"listen": "test",
 			"script": {
-				"id": "4a4f19c4-c287-46f8-be11-43aa1f43262a",
 				"type": "text/javascript",
 				"exec": [
 					""
@@ -6042,12 +5940,10 @@
 	],
 	"variable": [
 		{
-			"id": "29fc429e-626f-4b4d-b294-de8b6998920e",
 			"key": "id",
 			"value": "1"
 		},
 		{
-			"id": "77e01b0f-952f-46f4-8e99-60662fc1e717",
 			"key": "base_url",
 			"value": "https://postman-rest-api-learner.glitch.me/"
 		}
