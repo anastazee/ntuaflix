@@ -57,11 +57,15 @@ function HomePage() {
   return (
     <div>
       <Box sx={{ display: "flex", justifyContent: "center", flexGrow: 1, marginTop: '20px' }}>
-        <AlternativeSearchBar/>
+        
       </Box>
       <h1>Welcome to Ntuaflix</h1>
       <p>be the nerd you aspire to be</p>
-
+      <div style={{ display: 'flex', justifyContent: 'center' }}>
+    <div style={{ display: 'center' }}>
+      <AlternativeSearchBar />
+    </div>
+  </div>
       <div className={styles.textcontainer}>
         <h2>Top Rated Movies</h2>
         {top10movies && (

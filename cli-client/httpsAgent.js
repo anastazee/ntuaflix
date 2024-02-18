@@ -19,9 +19,9 @@ const pathname = url.pathname;
 const isWindows = process.platform === 'win32';
 const __dirname = isWindows ? path.dirname(pathname.replace(/^\//, '')) : path.dirname(pathname);
 
-const certPath = path.join(__dirname, '../../softeng23-07/back-end/sslcert/server.crt');
-const keyPath = path.join(__dirname, '../../softeng23-07/back-end/sslcert/server.key');
-const caPath = path.join(__dirname, '../../softeng23-07/back-end/sslcert/rootCA.pem');
+const certPath = path.join(__dirname, '../../softeng23-07/sslcert/server.crt');
+const keyPath = path.join(__dirname, '../../softeng23-07/sslcert/server.key');
+const caPath = path.join(__dirname, '../../softeng23-07/sslcert/rootCA.pem');
 
 
 // const url = new URL(import.meta.url);

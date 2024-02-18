@@ -4,7 +4,7 @@ cli-client/node_modules
 /node_modules
 front-end/node_modules
 front-end/.next
-back-end/sslcert/*
+sslcert/
 front-end/certificates
 .postman
 .vscode
