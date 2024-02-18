@@ -24,7 +24,7 @@ try {
         'Content-Type': `multipart/form-data; boundary=${formData._boundary}`,
     };
 
-    const response = await axios.post('https://localhost:9876/admin/upload/titleprincipals', formData, {
+    const response = await axios.post('https://localhost:9876/ntuaflix_api/admin/upload/titleprincipals', formData, {
         headers: headers,
         httpsAgent: httpsAgent
     });

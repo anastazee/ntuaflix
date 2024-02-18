@@ -5,7 +5,7 @@ import httpsAgent from '../httpsAgent.js';
 
 export default async function resetall(){
     try {
-        const response = await axios.post('https://localhost:9876/admin/resetall', {}, {
+        const response = await axios.post('https://localhost:9876/ntuaflix_api/admin/resetall', {}, {
             httpsAgent: httpsAgent
         });
         const output = response.data.message;

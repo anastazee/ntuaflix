@@ -14,7 +14,7 @@ try {
     /*if (format && format.toLowerCase() !== 'csv' && format.toLowerCase() !== 'json') {
             console.error('Error: Invalid format type. Please use "json" or "csv".');
     }*/
-    const response = await axios.get(`https://localhost:9876/title/${titleID}?format=${format}`, {
+    const response = await axios.get(`https://localhost:9876/ntuaflix_api/title/${titleID}?format=${format}`, {
         httpsAgent: httpsAgent});
     
     const titleObject = response.data;

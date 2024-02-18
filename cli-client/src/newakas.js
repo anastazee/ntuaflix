@@ -24,7 +24,7 @@ export default async function newakas(options){
             'Content-Type': `multipart/form-data; boundary=${formData._boundary}`,
         };
 
-        const response = await axios.post('https://localhost:9876/admin/upload/titleakas', formData, {
+        const response = await axios.post('https://localhost:9876/ntuaflix_api/admin/upload/titleakas', formData, {
             headers: headers,
             httpsAgent: httpsAgent
         });

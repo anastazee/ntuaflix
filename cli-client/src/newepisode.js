@@ -24,7 +24,7 @@ export default async function newepisode(options){
             'Content-Type': `multipart/form-data; boundary=${formData._boundary}`,
         };
 
-        const response = await axios.post('https://localhost:9876/admin/upload/titleepisode', formData, {
+        const response = await axios.post('https://localhost:9876/ntuaflix_api/admin/upload/titleepisode', formData, {
             headers: headers,
             httpsAgent: httpsAgent
         });

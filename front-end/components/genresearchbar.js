@@ -14,7 +14,7 @@ const AlternativeSearchBar = () => {
 
   useEffect(() => {
     // Fetch genres from the server and set them in the state
-    fetch(`https://localhost:9876/genres`)
+    fetch(`https://localhost:9876/ntuaflix_api/genres`)
       .then(response => response.json())
       .then(data => setGenres(data.genres))
       .catch(error => console.error('Error fetching genres:', error));

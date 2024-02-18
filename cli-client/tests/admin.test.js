@@ -67,7 +67,7 @@ describe('newtitles', () => {
     // Mock axios.post
     axios.post.mockResolvedValueOnce(responseMock);
     await newtitles(options);
-    expect(axios.post.mock.calls[0][0]).toBe('https://localhost:9876/admin/upload/titlebasics');
+    expect(axios.post.mock.calls[0][0]).toBe('https://localhost:9876/ntuaflix_api/admin/upload/titlebasics');
     expect(newtitles(options)).resolves.not.toThrow();
   });
 
@@ -102,7 +102,7 @@ describe('newnames', () => {
       // Mock axios.post
       axios.post.mockResolvedValueOnce(responseMock);
       await newnames(options);
-      expect(axios.post.mock.calls[0][0]).toBe('https://localhost:9876/admin/upload/namebasics');
+      expect(axios.post.mock.calls[0][0]).toBe('https://localhost:9876/ntuaflix_api/admin/upload/namebasics');
       expect(newnames(options)).resolves.not.toThrow();
     });
   
@@ -137,7 +137,7 @@ describe('newakas', () => {
       // Mock axios.post
       axios.post.mockResolvedValueOnce(responseMock);
       await newakas(options);
-      expect(axios.post.mock.calls[0][0]).toBe('https://localhost:9876/admin/upload/titleakas');
+      expect(axios.post.mock.calls[0][0]).toBe('https://localhost:9876/ntuaflix_api/admin/upload/titleakas');
       expect(newakas(options)).resolves.not.toThrow();
     });
   
@@ -172,7 +172,7 @@ describe('newakas', () => {
       // Mock axios.post
       axios.post.mockResolvedValueOnce(responseMock);
       await newcrew(options);
-      expect(axios.post.mock.calls[0][0]).toBe('https://localhost:9876/admin/upload/titlecrew');
+      expect(axios.post.mock.calls[0][0]).toBe('https://localhost:9876/ntuaflix_api/admin/upload/titlecrew');
       expect(newcrew(options)).resolves.not.toThrow();
     });
   
@@ -207,7 +207,7 @@ describe('newepisode', () => {
       // Mock axios.post
       axios.post.mockResolvedValueOnce(responseMock);
       await newepisode(options);
-      expect(axios.post.mock.calls[0][0]).toBe('https://localhost:9876/admin/upload/titleepisode');
+      expect(axios.post.mock.calls[0][0]).toBe('https://localhost:9876/ntuaflix_api/admin/upload/titleepisode');
       expect(newepisode(options)).resolves.not.toThrow();
     });
   
@@ -242,7 +242,7 @@ describe('newepisode', () => {
       // Mock axios.post
       axios.post.mockResolvedValueOnce(responseMock);
       await newprincipals(options);
-      expect(axios.post.mock.calls[0][0]).toBe('https://localhost:9876/admin/upload/titleprincipals');
+      expect(axios.post.mock.calls[0][0]).toBe('https://localhost:9876/ntuaflix_api/admin/upload/titleprincipals');
       expect(newprincipals(options)).resolves.not.toThrow();
     });
   
@@ -277,7 +277,7 @@ describe('newepisode', () => {
       // Mock axios.post
       axios.post.mockResolvedValueOnce(responseMock);
       await newratings(options);
-      expect(axios.post.mock.calls[0][0]).toBe('https://localhost:9876/admin/upload/titleratings');
+      expect(axios.post.mock.calls[0][0]).toBe('https://localhost:9876/ntuaflix_api/admin/upload/titleratings');
       expect(newratings(options)).resolves.not.toThrow();
     });
   

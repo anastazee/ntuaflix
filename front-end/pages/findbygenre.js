@@ -43,7 +43,7 @@ const ResultsPage = () => {
     setIsLoading(true);
 
     try {
-      const response = await fetch('https://localhost:9876/bygenre', {
+      const response = await fetch('https://localhost:9876/ntuaflix_api/bygenre', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

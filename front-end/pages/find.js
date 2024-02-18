@@ -55,8 +55,8 @@ const ResultsPage = () => {
 
     fetch(
        option === "tt"
-         ? "https://localhost:9876/searchtitle"
-         : "https://localhost:9876/searchname",
+         ? "https://localhost:9876/ntuaflix_api/searchtitle"
+         : "https://localhost:9876/ntuaflix_api/searchname",
        {
          method: "POST",
          headers: {

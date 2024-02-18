@@ -27,7 +27,7 @@ describe('Title Tests', () => {
         const expected = { title: 'Fake Title' }; // Define expected JSON object
         const received = JSON.parse(consoleSpy.mock.calls[0][0]);
 
-        expect(axios.get.mock.calls[0][0]).toBe('https://localhost:9876/title/123?format=json');
+        expect(axios.get.mock.calls[0][0]).toBe('https://localhost:9876/ntuaflix_api/title/123?format=json');
         //expect(consoleSpy).toHaveBeenCalledWith("{ \"title\": \"Fake Title\" }");
         expect(received).toEqual(expected);
     });
@@ -43,7 +43,7 @@ describe('Title Tests', () => {
 
         await title(options);
 
-        expect(axios.get.mock.calls[0][0]).toBe('https://localhost:9876/title/456?format=csv');
+        expect(axios.get.mock.calls[0][0]).toBe('https://localhost:9876/ntuaflix_api/title/456?format=csv');
         expect(consoleSpy).toHaveBeenCalledWith("CSV data");
     });
 
@@ -79,7 +79,7 @@ describe('Title Tests', () => {
 
         const expected = { name: 'Fake Name'}
         const received = JSON.parse(consoleSpy.mock.calls[0][0]);
-        expect(axios.get.mock.calls[0][0]).toBe('https://localhost:9876/name/123?format=json');
+        expect(axios.get.mock.calls[0][0]).toBe('https://localhost:9876/ntuaflix_api/name/123?format=json');
         //expect(consoleSpy).toHaveBeenCalledWith("{ name: 'Fake Name' }");
         expect(received).toEqual(expected);
     });
@@ -95,7 +95,7 @@ describe('Title Tests', () => {
 
         await name(options);
 
-        expect(axios.get.mock.calls[0][0]).toBe('https://localhost:9876/name/456?format=csv');
+        expect(axios.get.mock.calls[0][0]).toBe('https://localhost:9876/ntuaflix_api/name/456?format=csv');
         expect(consoleSpy).toHaveBeenCalledWith("CSV data");
     });
 
@@ -134,7 +134,7 @@ describe('Title Tests', () => {
         const expected = [{ name: 'Fake Name 1' }, { name: 'Fake Name 2'}];
         const received = JSON.parse(consoleSpy.mock.calls[0][0]);
 
-        expect(axios.get.mock.calls[0][0]).toBe('https://localhost:9876/searchname?format=json'); // Check the URL
+        expect(axios.get.mock.calls[0][0]).toBe('https://localhost:9876/ntuaflix_api/searchname?format=json'); // Check the URL
         expect(axios.get.mock.calls[0][1].data).toEqual(requestBody); // Check the request body
         expect(received).toEqual(expected);
     });
@@ -151,7 +151,7 @@ describe('Title Tests', () => {
             namePart: 'fake'
         };
         await searchname(options); // Pass the requestBody as an argument
-        expect(axios.get.mock.calls[0][0]).toBe('https://localhost:9876/searchname?format=csv'); // Check the URL
+        expect(axios.get.mock.calls[0][0]).toBe('https://localhost:9876/ntuaflix_api/searchname?format=csv'); // Check the URL
         expect(axios.get.mock.calls[0][1].data).toEqual(requestBody);
         expect(consoleSpy).toHaveBeenCalledWith("CSV data");
     });
@@ -188,7 +188,7 @@ describe('Title Tests', () => {
         await searchtitle(options); // Pass the requestBody as an argument
         const expected = [{ title: 'Fake Title 1' }, { title: 'Fake Title 2'}];
         const received = JSON.parse(consoleSpy.mock.calls[0][0]);
-        expect(axios.get.mock.calls[0][0]).toBe('https://localhost:9876/searchtitle?format=json'); // Check the URL
+        expect(axios.get.mock.calls[0][0]).toBe('https://localhost:9876/ntuaflix_api/searchtitle?format=json'); // Check the URL
         expect(axios.get.mock.calls[0][1].data).toEqual(requestBody); // Check the request body
         expect(received).toEqual(expected);
     });
@@ -205,7 +205,7 @@ describe('Title Tests', () => {
             titlePart: 'fake'
         };
         await searchtitle(options); // Pass the requestBody as an argument
-        expect(axios.get.mock.calls[0][0]).toBe('https://localhost:9876/searchtitle?format=csv'); // Check the URL
+        expect(axios.get.mock.calls[0][0]).toBe('https://localhost:9876/ntuaflix_api/searchtitle?format=csv'); // Check the URL
         expect(axios.get.mock.calls[0][1].data).toEqual(requestBody);
         expect(consoleSpy).toHaveBeenCalledWith("CSV data");
     });
@@ -249,7 +249,7 @@ describe('Title Tests', () => {
         await bygenre(options); // Pass the requestBody as an argument
         const expected = [{ title: 'Fake Title 1' }, { title: 'Fake Title 2'}];
         const received = JSON.parse(consoleSpy.mock.calls[0][0]);
-        expect(axios.get.mock.calls[0][0]).toBe('https://localhost:9876/bygenre?format=json'); // Check the URL
+        expect(axios.get.mock.calls[0][0]).toBe('https://localhost:9876/ntuaflix_api/bygenre?format=json'); // Check the URL
         expect(axios.get.mock.calls[0][1].data).toEqual(requestBody); // Check the request body
         expect(received).toEqual(expected);
     });
@@ -268,7 +268,7 @@ describe('Title Tests', () => {
             minrating: 'x',
         };
         await bygenre(options); // Pass the requestBody as an argument
-        expect(axios.get.mock.calls[0][0]).toBe('https://localhost:9876/bygenre?format=csv'); // Check the URL
+        expect(axios.get.mock.calls[0][0]).toBe('https://localhost:9876/ntuaflix_api/bygenre?format=csv'); // Check the URL
         expect(axios.get.mock.calls[0][1].data).toEqual(requestBody);
         expect(consoleSpy).toHaveBeenCalledWith("CSV data");
     });

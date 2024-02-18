@@ -23,7 +23,7 @@ export default async function bygenre(options) {
             param.yrTo = yrTo;
         }
 
-        const response = await axios.get(`https://localhost:9876/bygenre?format=${format}`, {
+        const response = await axios.get(`https://localhost:9876/ntuaflix_api/bygenre?format=${format}`, {
             data: param,
             httpsAgent: httpsAgent
         });

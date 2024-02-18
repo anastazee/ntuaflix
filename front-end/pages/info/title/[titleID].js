@@ -18,7 +18,7 @@ const InfoTitle = () => {
   useEffect(() => {
     if (titleID) {
       // Fetch data from the API endpoint
-      fetch(`https://localhost:9876/title/${titleID}`, {
+      fetch(`https://localhost:9876/ntuaflix_api/title/${titleID}`, {
         method: 'GET',
       })
         .then((response) => response.json())
@@ -35,7 +35,7 @@ const InfoTitle = () => {
   useEffect(() => {
     if (titleID) {
       // Fetch data from the API endpoint
-      fetch(`https://localhost:9876/titleprincipals/${titleID}`, {
+      fetch(`https://localhost:9876/ntuaflix_api/titleprincipals/${titleID}`, {
         method: 'GET',
       })
         .then((response) => response.json())
@@ -52,7 +52,7 @@ const InfoTitle = () => {
   useEffect(() => {
     if (titleID) {
       // Fetch data from the API endpoint
-      fetch(`https://localhost:9876/director/${titleID}`, {
+      fetch(`https://localhost:9876/ntuaflix_api/director/${titleID}`, {
         method: 'GET',
       })
         .then((response) => response.json())
@@ -69,7 +69,7 @@ const InfoTitle = () => {
   useEffect(() => {
     if (titleID) {
       // Fetch data from the API endpoint
-      fetch(`https://localhost:9876/writers/${titleID}`, {
+      fetch(`https://localhost:9876/ntuaflix_api/writers/${titleID}`, {
         method: 'GET',
       })
         .then((response) => response.json())

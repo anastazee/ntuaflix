@@ -30,7 +30,7 @@ const InfoName = () => {
   useEffect(() => {
     if (nameID) {
       // Fetch data from the API endpoint
-      fetch(`https://localhost:9876/name/${nameID}`, {
+      fetch(`https://localhost:9876/ntuaflix_api/name/${nameID}`, {
         method: "GET",
       })
         .then((response) => response.json())
@@ -47,7 +47,7 @@ const InfoName = () => {
   useEffect(() => {
     if (nameID) {
       // Fetch data from the API endpoint
-      fetch(`https://localhost:9876/knownfor/${nameID}`, {
+      fetch(`https://localhost:9876/ntuaflix_api/knownfor/${nameID}`, {
         method: "GET",
       })
         .then((response) => response.json())
@@ -64,7 +64,7 @@ const InfoName = () => {
   useEffect(() => {
     if (nameID) {
       // Fetch data from the API endpoint
-      fetch(`https://localhost:9876/principalmovies/${nameID}`, {
+      fetch(`https://localhost:9876/ntuaflix_api/principalmovies/${nameID}`, {
         method: "GET",
       })
         .then((response) => response.json())

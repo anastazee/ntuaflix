@@ -5,7 +5,7 @@ import httpsAgent from '../httpsAgent.js';
 export default async function healthcheck() {
     try {
         // Make an HTTP request to your API
-        const response = await axios.get('https://localhost:9876/admin/healthcheck', {
+        const response = await axios.get('https://localhost:9876/ntuaflix_api/admin/healthcheck', {
             httpsAgent: httpsAgent});
             const output = response.data.dataconnection;
             console.log(output);

@@ -7,7 +7,7 @@ export default async function searchtitle(options) {
 try {
     const title = options.titlepart;
     const format = options.format || '';
-    const response = await axios.get(`https://localhost:9876/searchtitle?format=${format}`, {
+    const response = await axios.get(`https://localhost:9876/ntuaflix_api/searchtitle?format=${format}`, {
         data: {
             titlePart: title,
         },

@@ -11,7 +11,7 @@ export default async function name(options) {
     try {
         const nameID = options.nameid;
         const format = options.format || '';
-        const response = await axios.get(`https://localhost:9876/name/${nameID}?format=${format}`, {
+        const response = await axios.get(`https://localhost:9876/ntuaflix_api/name/${nameID}?format=${format}`, {
             httpsAgent: httpsAgent});
 
         const nameObject = response.data;

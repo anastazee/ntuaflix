@@ -24,7 +24,7 @@ function HomePage() {
   useEffect(() => {
 
     // Fetch data from the API endpoint
-    fetch(`https://localhost:9876/top10movies`, {
+    fetch(`https://localhost:9876/ntuaflix_api/top10movies`, {
       method: "GET",
     })
       .then((response) => response.json())
@@ -40,7 +40,7 @@ function HomePage() {
   useEffect(() => {
 
     // Fetch data from the API endpoint
-    fetch(`https://localhost:9876/votes10movies`, {
+    fetch(`https://localhost:9876/ntuaflix_api/votes10movies`, {
       method: "GET",
     })
       .then((response) => response.json())
